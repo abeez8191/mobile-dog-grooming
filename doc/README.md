@@ -37,3 +37,13 @@
     - A customer should be able to see open slots to schedule an appointment
 10. As an **anonymous user**, I want to **be able to view the public web pages** so I can **learn about services available**.
     - Public web pages are visible to any user
+
+# Mis-User Stories & Mitigation Criteria
+1. As a **script kiddie**, I want to **authenticate as different users** in order to **verify leaked username/passwords or find new ones**
+    - Ensure proper ratelimiting and failed login counts
+    - Ensure the app doesn't leak existing user accounts in error messages
+2. As a **script kiddie**, I want to **dump all database tables** in order to **view customer data**
+    - All database queries will use parameterized queries or Django ORM queries
+3. As a **dishonest groomer**, I want **to move scheduled appointments to myself** in order to **give myself more work and money**
+    - Only a user with the owner role can move existing appointments
+    - Accounts are protected via mis-user story #1
