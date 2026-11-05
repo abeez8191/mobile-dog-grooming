@@ -47,3 +47,7 @@
 3. As a **dishonest groomer**, I want **to move scheduled appointments to myself** in order to **give myself more work and money**
     - Only a user with the owner role can move existing appointments
     - Accounts are protected via mis-user story #1
+
+
+# C4
+![C4 Diagram](GroomingApplication.svg)
