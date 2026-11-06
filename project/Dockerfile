@@ -24,15 +24,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # to allow us to enable it further down.
 RUN mod_wsgi-express module-config >/etc/apache2/mods-available/wsgi.load
 
-# Copy the Django code
-COPY ./mobile_dog_grooming_app/ .
-
 # Copy Apache configuration and enable it
 COPY ./apache/apache.conf /etc/apache2/sites-available/apache.conf
 RUN a2dissite 000-default.conf && a2ensite apache.conf && a2enmod wsgi
 
+# Copy the Django code
+COPY ./mobile_dog_grooming_app/ .
+
 # Run collectstatic to prepare the static file path for Apache
-#RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 # Expose HTTP port
 EXPOSE 80
