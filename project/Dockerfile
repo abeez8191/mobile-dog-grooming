@@ -28,11 +28,13 @@ RUN mod_wsgi-express module-config >/etc/apache2/mods-available/wsgi.load
 COPY ./apache/apache.conf /etc/apache2/sites-available/apache.conf
 RUN a2dissite 000-default.conf && a2ensite apache.conf && a2enmod wsgi
 
+RUN mkdir /var/log/django && chown www-data /var/log/django && chmod 700 /var/log/django
+
 # Copy the Django code
 COPY ./mobile_dog_grooming_app/ .
 
-# Run collectstatic to prepare the static file path for Apache
-RUN python manage.py collectstatic --noinput
+# Run collectstatic to prepare the static file path for Apache and delete the log file since it'll be owned by root
+RUN python manage.py collectstatic --noinput && rm /var/log/django/*
 
 # Expose HTTP port
 EXPOSE 80
