@@ -10,8 +10,11 @@ class Service(models.Model):
     price = models.FloatField(validators=[MinValueValidator(0)])
     duration = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(240)])
 
+    def __str__(self):
+        return self.name
+
 class Appointment(models.Model):
-    customer_id = models.ForeignKey(Customer, on_delete=models.RESTRICT)
-    groomer_id = models.ForeignKey(Groomer, on_delete=models.RESTRICT)
+    customer = models.ForeignKey(Customer, on_delete=models.RESTRICT)
+    groomer = models.ForeignKey(Groomer, on_delete=models.RESTRICT)
     datetime = models.DateTimeField(validators=[MinValueValidator(timezone.now)])
-    services = models.ManyToManyField(Service, related_name="appointments")
+    services = models.ManyToManyField(Service, related_name="appointment")
