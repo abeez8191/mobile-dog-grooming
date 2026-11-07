@@ -18,11 +18,14 @@ from rest_framework.routers import DefaultRouter
 from django.contrib import admin
 from django.urls import path
 
+from appointment.views import ServiceViewSet, AppointmentViewSet
 from profile.views import CustomerViewSet, GroomerViewSet
 
 router = DefaultRouter()
 router.register(r'api/customer', CustomerViewSet)
 router.register(r'api/groomer', GroomerViewSet)
+router.register(r'api/service', ServiceViewSet)
+router.register(r'api/appointment', AppointmentViewSet)
 
 urlpatterns = router.urls
 urlpatterns += [
