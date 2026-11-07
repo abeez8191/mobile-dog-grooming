@@ -11,6 +11,9 @@ class Groomer(models.Model):
     biography = models.CharField(max_length=1_000)
     photo = models.BinaryField()
 
+    def __str__(self):
+        return f"{self.firstName} {self.lastName}"
+
 class Customer(models.Model):
     firstName = models.CharField()
     lastName = models.CharField()
@@ -21,4 +24,7 @@ class Customer(models.Model):
     zipCode = models.CharField(max_length=5)
     email = models.EmailField()
     phoneNumber = models.CharField(max_length=10, validators=[RegexValidator("[0-9]{10}")])
+
+    def __str__(self):
+        return f"{self.firstName} {self.lastName}"
     
