@@ -9,7 +9,7 @@ class Groomer(models.Model):
     phoneNumber = models.CharField(max_length=10, validators=[RegexValidator("[0-9]{10}")])
     availability = models.JSONField()
     biography = models.CharField(max_length=1_000)
-    photo = models.ImageField()
+    photo = models.BinaryField()
 
 class Customer(models.Model):
     firstName = models.CharField()

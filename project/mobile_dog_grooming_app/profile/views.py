@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
 from .models import Customer, Groomer
-from .serializers import CustomerSerializer, GroomerSerializer, PublicGroomerSerializer
+from .serializers import CustomerSerializer, GroomerSerializer
 
 # Create your views here.
 
