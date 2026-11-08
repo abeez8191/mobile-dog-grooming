@@ -18,10 +18,10 @@ class Customer(models.Model):
     firstName = models.CharField()
     lastName = models.CharField()
     street = models.CharField()
-    street2 = models.CharField()
+    street2 = models.CharField(null=True)
     city = models.CharField()
-    state = models.CharField(max_length=2)
-    zipCode = models.CharField(max_length=5)
+    state = models.CharField(max_length=2, validators=[RegexValidator("[a-zA-Z]{2}")])
+    zipCode = models.CharField(max_length=5, validators=[RegexValidator("[0-9]{5}")])
     email = models.EmailField()
     phoneNumber = models.CharField(max_length=10, validators=[RegexValidator("[0-9]{10}")])
 

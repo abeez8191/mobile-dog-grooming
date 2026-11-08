@@ -24,7 +24,7 @@ class Base64BinaryField(serializers.Field):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['firstName', 'lastName', 'street', 'street2', 'city', 'state', 'zipCode', 'email', 'phoneNumber']
+        fields = ['id', 'firstName', 'lastName', 'street', 'street2', 'city', 'state', 'zipCode', 'email', 'phoneNumber']
 
 class GroomerSerializer(serializers.ModelSerializer):
     photo = Base64BinaryField()

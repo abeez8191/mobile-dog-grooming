@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os, sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -157,16 +157,30 @@ LOGGING = {
             "filename": "/var/log/django/debug.log",
             "formatter": "verbose"
         },
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",  # Use 'verbose' for more detailed production logs
+        },
     },
     "root": {
-        "handlers": ["file"],
+        "handlers": ["console"],
         "level": "INFO",
     },
     "loggers": {
         "django": {
-            "handlers": ["file"],
+            "handlers": ["console"],
             "level": "DEBUG",
             "propagate": True,
         },
     },
 }
+
+
+# Override database for testing to use SQLite in-memory
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',  # Django defaults to this for SQLite testing anyway
+    }
+
+    LOGGING['handlers']['file']['filename'] = "debug.log"

@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Service, Appointment
-from profile.serializers import CustomerSerializer, GroomerSerializer
 from profile.models import Customer, Groomer
 
 import logging
@@ -10,7 +9,7 @@ logger = logging.getLogger(__name__)
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ['name', 'price', 'duration']
+        fields = ['id', 'name', 'price', 'duration']
 
 class AppointmentSerializer(serializers.ModelSerializer):
     customer = serializers.PrimaryKeyRelatedField(queryset=Customer.objects.all())
@@ -22,7 +21,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ['customer', 'groomer', 'datetime', 'services']
+        fields = ['id', 'customer', 'groomer', 'datetime', 'services']
 
     def create(self, validated_data):
         logger.info(f"Inside create(): {validated_data}")
