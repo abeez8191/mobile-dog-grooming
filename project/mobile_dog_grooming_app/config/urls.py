@@ -19,10 +19,11 @@ from django.contrib import admin
 from django.urls import path
 
 from appointment.views import ServiceViewSet, AppointmentViewSet
-from profile.views import CustomerViewSet, GroomerViewSet
+from profile.views import CustomerViewSet, GroomerViewSet, PublicGroomerViewSet, PublicGroomerAvailabilityView
 
 router = DefaultRouter()
 router.register(r'api/customer', CustomerViewSet)
+router.register(r'api/public/groomer', PublicGroomerViewSet, basename='public-groomer')
 router.register(r'api/groomer', GroomerViewSet)
 router.register(r'api/service', ServiceViewSet)
 router.register(r'api/appointment', AppointmentViewSet)
@@ -30,4 +31,5 @@ router.register(r'api/appointment', AppointmentViewSet)
 urlpatterns = router.urls
 urlpatterns += [
     path('admin/', admin.site.urls),
+    path('api/public/groomer/<int:pk>/availability', PublicGroomerAvailabilityView.as_view())
 ]
