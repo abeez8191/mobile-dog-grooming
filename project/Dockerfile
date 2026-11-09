@@ -34,7 +34,7 @@ RUN mkdir /var/log/django && chown www-data /var/log/django && chmod 700 /var/lo
 COPY ./mobile_dog_grooming_app/ .
 
 # Run collectstatic to prepare the static file path for Apache and delete the log file since it'll be owned by root
-RUN python manage.py collectstatic --noinput && rm /var/log/django/*
+RUN python manage.py collectstatic --noinput && chown www-data:www-data /var/log/django -R
 
 # Expose HTTP port
 EXPOSE 80
