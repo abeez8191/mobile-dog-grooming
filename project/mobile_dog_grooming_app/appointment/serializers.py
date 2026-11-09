@@ -44,4 +44,5 @@ class AppointmentSerializer(serializers.ModelSerializer):
         if service_data is not None:
             instance.services.set(service_data)
 
+        instance.save()
         return instance
