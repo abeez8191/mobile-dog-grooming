@@ -14,7 +14,7 @@ unzip mobile-dog-grooming-main.zip
 cd mobile-dog-grooming-main/project
 
 if command -v docker >/dev/null 2>&1; then
-    docker compose build
+    docker compose build --no-cache
     echo "You can start the application by typing 'sh run.sh'"
 else
     echo "Docker is not installed. Please install docker before continuing" >&2
