@@ -9,7 +9,6 @@ services:
       - POSTGRES_PASSWORD=postgres
   web:
     build: .
-    #command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./mobile_dog_grooming_app:/var/www/mobile_dog_grooming_app
       - ./apache:/etc/apache2/sites-available
