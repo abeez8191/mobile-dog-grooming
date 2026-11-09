@@ -9,9 +9,6 @@ services:
       - POSTGRES_PASSWORD=postgres
   web:
     build: .
-    volumes:
-      - ./mobile_dog_grooming_app:/var/www/mobile_dog_grooming_app
-      - ./apache:/etc/apache2/sites-available
     ports:
       - "8000:80"
     environment:
