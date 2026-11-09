@@ -6,7 +6,6 @@ from django.utils import timezone
 
 from functools import reduce
 
-import json
 import math
 
 from rest_framework import viewsets, status
@@ -17,8 +16,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from .models import Customer, Groomer
 from .serializers import CustomerSerializer, GroomerSerializer, PublicViewGroomerSerializer
 
-from appointment.models import Appointment, Service
-from appointment.serializers import AppointmentSerializer
+from appointment.models import Appointment
 import logging
 
 logger = logging.getLogger(__name__)
