@@ -26,6 +26,11 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = ['id', 'firstName', 'lastName', 'street', 'street2', 'city', 'state', 'zipCode', 'email', 'phoneNumber']
 
+class PublicViewGroomerSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = Groomer
+      fields = ['id', 'firstName', 'lastName', 'photo']
+
 class GroomerSerializer(serializers.ModelSerializer):
     photo = Base64BinaryField()
 
