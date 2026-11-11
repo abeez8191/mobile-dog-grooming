@@ -1,0 +1,9 @@
+<div class="preview-panel" [class.empty]="this.selectedFile() === undefined" (click)="fileInput.click();">
+    @if( this.selectedFile() === undefined ) {
+        <p>Click to upload photo</p>
+    }
+    @else {
+        <img id='image-preview' [src]="this.imagePreview()" alt="Image Preview" />
+    }
+</div>
+<input style="display: none;" type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput/>

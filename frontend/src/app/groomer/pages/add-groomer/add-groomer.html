@@ -1,0 +1,52 @@
+<form [formGroup]="groomerForm" (submit)="submitForm()">
+    <div class="row">
+        <div class="col">
+            <app-photo-selector (photoUpload)="updatePhoto($event);"></app-photo-selector>
+        </div>
+        <div class="col">
+            <div class="row">
+                <mat-form-field>
+                    <mat-label>First Name</mat-label>
+                    <input matInput placeholder="First Name" type="text" formControlName="firstName" autocomplete="off" data-dashlane-disabled-on-field="true" data-dashlane-disabled-on-field="true"/>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Last Name</mat-label>
+                    <input matInput placeholder="Last Name" type="text" formControlName="lastName" autocomplete="off" data-dashlane-disabled-on-field="true"/>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field>
+                    <mat-label>Email Address</mat-label>
+                    <input matInput placeholder="Email Address" type="text" formControlName="email" autocomplete="off" data-dashlane-disabled-on-field="true"/>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput placeholder="Phone Number" type="text" formControlName="phoneNumber" autocomplete="off" data-dashlane-disabled-on-field="true"/>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <h1>Availability</h1>
+        <div class="row">
+            <app-availability-day day="Sun" (choice)="this.groomerForm.get('availability.sun')?.setValue($event || 'N/A')"></app-availability-day>  
+            <app-availability-day day="Mon" (choice)="this.groomerForm.get('availability.mon')?.setValue($event || 'N/A')"></app-availability-day>
+            <app-availability-day day="Tue" (choice)="this.groomerForm.get('availability.tue')?.setValue($event || 'N/A')"></app-availability-day>
+            <app-availability-day day="Wed" (choice)="this.groomerForm.get('availability.wed')?.setValue($event || 'N/A')"></app-availability-day>
+            <app-availability-day day="Thu" (choice)="this.groomerForm.get('availability.thu')?.setValue($event || 'N/A')"></app-availability-day>
+            <app-availability-day day="Fri" (choice)="this.groomerForm.get('availability.fri')?.setValue($event || 'N/A')"></app-availability-day>
+            <app-availability-day day="Sat" (choice)="this.groomerForm.get('availability.sat')?.setValue($event || 'N/A')"></app-availability-day>
+        </div>
+    </div>
+    <div class="row">
+        <mat-form-field id="bio-field">
+            <mat-label>Public Bio</mat-label>
+            <textarea matInput formControlName="bio"></textarea>
+            <mat-hint>*Anything entered here will be available to the public.</mat-hint>
+        </mat-form-field>
+        <div id="submit-buttons">
+            <button matButton="outlined">Cancel</button>
+            <button matButton="filled">Add</button>
+        </div>
+    </div>
+</form>

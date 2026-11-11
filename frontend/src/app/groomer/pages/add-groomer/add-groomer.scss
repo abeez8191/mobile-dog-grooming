@@ -1,0 +1,54 @@
+:host {
+    margin: 0px auto;
+}
+
+form {
+    margin: 12px;
+    width: fit-content;
+}
+
+mat-form-field {
+    margin: 0px 4px;
+}
+
+#image-preview {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.availability-form-field {
+    width: 120px;
+}
+
+app-availability-day {
+    padding-right: 4px;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+}
+
+#bio-field {
+    width: 100%;
+}
+
+#submit-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}

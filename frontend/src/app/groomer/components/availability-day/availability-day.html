@@ -1,0 +1,15 @@
+<p>{{day()}}</p>
+<mat-form-field class="availability-form-field">
+    <select matNativeControl [formControl]="startTime">
+        @for(time of times; track time) {
+        <option value="{{time}}">{{time}}</option>
+        }
+    </select>
+</mat-form-field>
+<mat-form-field class="availability-form-field">
+    <select matNativeControl [formControl]="endTime">
+        @for(time of times; track time) {
+        <option value="{{time}}" [disabled]="$index <= startTimeIndex()">{{time}}</option>
+        }
+    </select>
+</mat-form-field>
