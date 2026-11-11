@@ -1,0 +1,73 @@
+#hero {
+    width: 100vw;
+    max-width: 1200px;
+    height: 400px;
+    border-bottom: 1px solid black;
+    // background-image: url("img/hero-image.jpeg");
+    background-size: cover;
+
+    .hero-message {
+        width: 50%;
+        text-wrap: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    
+        p {
+            color: var(--mat-sys-on-primary-container);
+            font-size: 48px;
+            text-align: center;
+            line-height: 1;
+        }
+    }
+
+    .hero-message button {
+        width: fit-content;
+        padding: 24px;
+        border: 0px;
+        //background-color: var(--primary);
+        //border: 1px solid var(--border-color);
+        border-radius: 0px;
+        //color: var(--primary-text);
+    }
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    color: var(--mat-sys-on-primary-container);
+    font-weight: lighter;
+}
+
+#services_carousel {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 40px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.service_item {
+    height: 250px;
+    width: 200px;
+    min-width: 130px;
+    margin: 0px 4px;
+    border: solid 1px var(--border-color);
+}
+
+.service_item img {
+    height: 200px;
+    width: 200px;
+}
+
+.service_item span {
+    font-size: 1.25rem;
+    text-align: center;
+    width: 100%;
+    display: block;
+    padding-top: 8px;
+}
