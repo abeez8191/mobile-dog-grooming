@@ -2,8 +2,8 @@ name: Run Python Tests
 
 on: 
   push:
-    # paths:
-    #   - 'backend/mobile_dog_grooming_app/**'
+     paths:
+       - 'backend/mobile_dog_grooming_app/**'
 
 jobs:
   test:
