@@ -27,10 +27,11 @@ jobs:
       - name: Run Test
         run: |
           curl --fail http://localhost:8000
+          curl --fail http://localhost:8000/static/rest_framework/css/bootstrap.min.css
+          curl --fail http://localhost:8000/static/rest_framework/css/bootstrap.min.scss
 
       - name: Clean Up Container
         if: always()
         run: |
           cd backend
-          docker compose logs backend-web-1
           docker compose down
