@@ -11,7 +11,7 @@ fi
 
 unzip mobile-dog-grooming-main.zip
 
-cd mobile-dog-grooming-main/project
+cd mobile-dog-grooming-main/backend
 
 if command -v docker >/dev/null 2>&1; then
     docker compose build --no-cache

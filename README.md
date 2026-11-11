@@ -9,9 +9,9 @@ curl -L https://github.com/abeez8191/mobile-dog-grooming/raw/refs/heads/main/ins
 ```
 
 ## Getting Started
-To run the application, switch to the mobile-dog-grooming-main/project folder and execute the run.sh script:
+To run the application, switch to the mobile-dog-grooming-main/backend folder and execute the run.sh script:
 ```bash
-cd mobile-dog-grooming-main/project/
+cd mobile-dog-grooming-main/backend/
 sh run.sh
 ```
 
