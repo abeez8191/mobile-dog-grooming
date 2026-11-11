@@ -15,7 +15,7 @@ cd mobile-dog-grooming-main/backend
 
 if command -v docker >/dev/null 2>&1; then
     docker compose build --no-cache
-    echo "You can start the application by typing 'sh run.sh'"
+    echo "You can start the application by typing 'cd mobile-dog-grooming-main/backend && sh run.sh'"
 else
     echo "Docker is not installed. Please install docker before continuing" >&2
     echo "https://docs.docker.com/engine/install/" >&2
