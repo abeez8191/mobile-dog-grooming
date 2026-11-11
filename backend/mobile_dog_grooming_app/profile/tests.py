@@ -16,7 +16,8 @@ class GroomerTestCase(APITestCase):
             'phoneNumber': '1234567890',
             'availability': '{"sun": {"start": "9:00 AM", "end": "5:00 PM"}}',
             'biography': 'Test Biography',
-            'photo': 'YmFzZTY0ZGF0YQo='
+            'photo': 'YmFzZTY0ZGF0YQo=',
+            'photoData': 'data:image/png;base64'
         }
 
     def test_inserting_new_groomer_should_save_to_database(self):
@@ -87,6 +88,11 @@ class GroomerTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
         self.data['photo'] = "this isn't base 64 encoded"
+        response = self.client.post(self.url, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_photoData_is_required(self):
+        self.data.pop('photoData', None)
         response = self.client.post(self.url, self.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
