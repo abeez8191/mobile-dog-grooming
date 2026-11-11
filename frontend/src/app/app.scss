@@ -1,0 +1,79 @@
+@use '@angular/material' as mat;
+
+:host {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    @include mat.sidenav-overrides((
+        container-shape: 0px
+    ));
+}
+
+mat-toolbar {
+    img {
+        width: 150px;
+        height: 50px;
+        margin-right: 12px;
+    }
+
+    #nav-icon {
+        color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-surface));
+    }
+
+    padding: 8px;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+    }
+
+    li {
+        list-style: none;
+    }
+}
+
+mat-nav-list {
+    display: flex;
+    flex-direction: column;
+}
+
+mat-sidenav-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+#main-content {
+    display: flex;
+}
+
+footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  width: 100vw;
+}
+
+.social_media {
+  display: flex;
+  flex-direction: row;
+}
+
+.social_media img {
+  height: 50px;
+  width: 50px;
+  border-radius:50px;
+  display: inline;
+}
+
+#copyright {
+  text-align: center;
+}

@@ -1,0 +1,53 @@
+<mat-toolbar>
+  <img id="logo" src="logo.png" />
+  <span class="title">Company Name</span>
+  <span class="flex-grow"></span>
+  @if(this.isMobile()) {
+    <button id='nav-icon' matIconButton (click)="toggleNavBar()"><mat-icon fontIcon="menu"></mat-icon></button>
+  }
+  @else {
+  <nav>
+    <ul>
+      <li><a mat-button href="#">Home</a></li>
+      <li><a mat-button href="#">Services</a></li>
+      <li><a mat-button href="#">FAQ</a></li>
+      <li><a mat-button href="#">Login</a></li>
+    </ul>
+  </nav>
+  }
+</mat-toolbar>
+
+<mat-sidenav-container class="flex-grow">
+  <mat-sidenav [opened]="this.isOpen()" mode="over" position="end">
+    <mat-nav-list>
+      <a mat-button href="#">Home</a>
+      <a mat-button href="#">Services</a>
+      <a mat-button href="#">FAQ</a>
+      <a mat-button href="#">Login</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div id='main-content' class="flex-grow">
+      <router-outlet />
+    </div>
+    <footer>
+      <div id="social_media">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+      </div>
+      <div id="copyright" class="flex-grow">
+          &copy; 2026
+      </div>
+      <div id="contact_us">
+          <p style="font-size: 1.15rem">Contact Us</p>
+          <div >
+              <a href="#" style="display: flex; text-decoration: none; color: inherit;">
+                  <svg style="fill: inherit; margin-right: 4px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24px" width="24px" fill="#e3e3e3"><path d="M4,20q-0.82,0-1.41-0.59T2,18V6Q2,5.18 2.59,4.59T4,4H20q0.83,0 1.41,0.59Q22,5.18 22,6V18q0,0.82-0.59,1.41T20,20H4Zm8-7L4,8V18H20V8l-8,5Zm0-2l8-5H4l8,5ZM4,8V6V8V18V8Z"/></svg>
+                  grooming@example.com
+              </a>
+          </div>
+          <div>WhatsApp</div>
+      </div>
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>
