@@ -1,9 +1,8 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AvailabilityDay } from '../../components/availability-day/availability-day';
-import { JsonPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { PhotoSelector } from '../../components/photo-selector/photo-selector';
 import { Groomer } from '../../model/groomer.model';
@@ -11,7 +10,7 @@ import { GroomerService } from '../../service/groomer-service';
 
 @Component({
   selector: 'app-add-groomer',
-  imports: [AvailabilityDay, PhotoSelector, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule, JsonPipe],
+  imports: [AvailabilityDay, PhotoSelector, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
   templateUrl: './add-groomer.html',
   styleUrl: './add-groomer.scss',
 })
