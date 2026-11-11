@@ -19,3 +19,16 @@ jobs:
           context: ./backend
           push: false
           load: true
+
+      - name: Start Container
+        run: |
+          cd backend && docker compose up -d
+
+      - name: Run Test
+        run: |
+          curl --fail http://localhost:8000
+
+      - name: Clean Up Container
+        if: always()
+        run: |
+          cd backend && docker compose down
