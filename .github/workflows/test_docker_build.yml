@@ -31,4 +31,6 @@ jobs:
       - name: Clean Up Container
         if: always()
         run: |
-          cd backend && docker compose down
+          cd backend
+          docker compose logs backend-web-1
+          docker compose down
