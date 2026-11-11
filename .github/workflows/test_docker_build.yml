@@ -1,0 +1,41 @@
+name: Docker Build on Push
+on: 
+  pull_request:
+    branches: [ github-actions ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v7
+        with:
+          context: ./backend
+          push: false
+          load: true
+
+      - name: Start Container
+        run: |
+          cd backend && docker compose up -d
+
+      - name: Run Test
+        run: |
+          # Ensure that the server is listening
+          curl --fail http://localhost:8000
+
+          # Ensure that the static files are mapped correctly
+          curl --fail http://localhost:8000/static/rest_framework/css/bootstrap.min.css
+
+      - name: Clean Up Container
+        if: always()
+        run: |
+          cd backend
+          docker compose down
