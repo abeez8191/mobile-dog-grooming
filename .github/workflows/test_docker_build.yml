@@ -1,7 +1,6 @@
 name: Docker Build on Push
 on: 
   pull_request:
-    branches: [ github-actions ]
     paths:
       - 'backend/**'
 
