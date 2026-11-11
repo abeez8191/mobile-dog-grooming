@@ -10,6 +10,7 @@ class Groomer(models.Model):
     availability = models.JSONField()
     biography = models.CharField(max_length=1_000)
     photo = models.BinaryField()
+    photoData = models.CharField(max_length=30)
 
     def __str__(self):
         return f"{self.firstName} {self.lastName}"

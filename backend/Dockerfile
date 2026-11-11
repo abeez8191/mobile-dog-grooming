@@ -26,7 +26,7 @@ RUN mod_wsgi-express module-config >/etc/apache2/mods-available/wsgi.load
 
 # Copy Apache configuration and enable it
 COPY ./apache/apache.conf /etc/apache2/sites-available/apache.conf
-RUN a2dissite 000-default.conf && a2ensite apache.conf && a2enmod wsgi
+RUN a2dissite 000-default.conf && a2ensite apache.conf && a2enmod wsgi && a2enmod headers && a2enmod rewrite
 
 RUN mkdir /var/log/django && chown www-data /var/log/django && chmod 700 /var/log/django
 
