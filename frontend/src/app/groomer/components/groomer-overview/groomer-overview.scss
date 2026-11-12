@@ -1,0 +1,47 @@
+@use '@angular/material' as mat;
+
+:host {
+    margin-bottom: 8px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    img {
+        height: 150px;
+        width: 150px;
+        margin-right: 8px;
+    }
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.identifier {
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+
+button {
+    @include mat.button-overrides((
+        filled-container-shape: 4px,
+        outlined-container-shape: 4px,
+    ));
+}
+
+.del {
+  @include mat.button-overrides((
+    outlined-outline-color: #d32f2f,
+    outlined-label-text-color: #d32f2f,
+    outlined-state-layer-color: #d32f2f,
+    outlined-ripple-color: rgba(211, 47, 47, 0.2),
+  ));
+}
