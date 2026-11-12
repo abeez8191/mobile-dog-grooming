@@ -1,5 +1,5 @@
-<div class="preview-panel" [class.empty]="this.selectedFile() === undefined" (click)="fileInput.click();">
-    @if( this.selectedFile() === undefined ) {
+<div class="preview-panel" [class.empty]="this.imagePreview() === null" (click)="fileInput.click();">
+    @if( this.imagePreview() === null ) {
         <p>Click to upload photo</p>
     }
     @else {
