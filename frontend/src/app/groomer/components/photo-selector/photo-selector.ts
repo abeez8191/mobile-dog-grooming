@@ -1,4 +1,4 @@
-import { Component, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
+import { Component, input, OnInit, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -7,18 +7,24 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './photo-selector.html',
   styleUrl: './photo-selector.scss',
 })
-export class PhotoSelector {
-  selectedFile: WritableSignal<File|undefined> = signal(undefined);
+export class PhotoSelector implements OnInit {
   imagePreview: WritableSignal<ArrayBuffer|string|null> = signal(null);
 
   photoUpload: OutputEmitterRef<string|ArrayBuffer> = output();
+  initialPhoto = input<string|undefined>(undefined);
   
+  ngOnInit(): void {
+    if( this.initialPhoto() ) {
+      console.log('Has an initial photo');
+      console.log(this.initialPhoto() );
+      this.imagePreview.set(this.initialPhoto()!);
+    }
+  }
+
   onFileSelected($event: Event): void {
     const input = $event.target as HTMLInputElement;
 
     if( input.files && input.files[0] ) {
-      this.selectedFile.set(input.files[0]);
-
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview.set(reader.result);

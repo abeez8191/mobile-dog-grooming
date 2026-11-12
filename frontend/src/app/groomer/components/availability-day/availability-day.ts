@@ -12,7 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class AvailabilityDay implements OnInit, OnDestroy{
   readonly day = input('day');
-  protected choice: OutputEmitterRef<string[]> = output();
+  form = input.required<FormControl>();
 
   readonly times: string[] = [
     "N/A",
@@ -33,8 +33,8 @@ export class AvailabilityDay implements OnInit, OnDestroy{
     "8:00 PM", "8:30 PM"
   ];
 
-  startTime: FormControl = new FormControl('N/A');
-  endTime: FormControl = new FormControl('N/A');
+  startTime!: FormControl;
+  endTime!: FormControl;
 
   startTimeIndex = signal(0);
   endTimeIndex = signal(0);
@@ -42,6 +42,9 @@ export class AvailabilityDay implements OnInit, OnDestroy{
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.startTime = new FormControl(this.form()?.value[0] || 'N/A');
+    this.endTime = new FormControl(this.form()?.value[1] || 'N/A');
+    
     this.startTime.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(value => {
@@ -51,11 +54,11 @@ export class AvailabilityDay implements OnInit, OnDestroy{
         if( this.endTimeIndex() <= this.startTimeIndex() ) {
           this.endTimeIndex.set(0);
           this.endTime.setValue('N/A');
-          this.choice.emit([]);
+          this.form()?.setValue([]);
         }
         
         if( this.endTimeIndex() > 0 && this.startTimeIndex() > 0 ) {
-          this.choice.emit([this.times[this.startTimeIndex()], this.times[this.endTimeIndex()]]);
+          this.form()?.setValue([this.times[this.startTimeIndex()], this.times[this.endTimeIndex()]]);
         }
       });
 
@@ -65,7 +68,7 @@ export class AvailabilityDay implements OnInit, OnDestroy{
         this.endTimeIndex.set(this.times.indexOf(value));
 
         if( this.endTimeIndex() > 0 && this.startTimeIndex() > 0 ) {
-          this.choice.emit([this.times[this.startTimeIndex()], this.times[this.endTimeIndex()]]);
+          this.form()?.setValue([this.times[this.startTimeIndex()], this.times[this.endTimeIndex()]]);
         }
       });
   }

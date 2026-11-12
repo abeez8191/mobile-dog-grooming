@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 #hero {
     width: 100vw;
     max-width: 1200px;
@@ -70,4 +72,12 @@ h1 {
     width: 100%;
     display: block;
     padding-top: 8px;
+}
+
+button.secondary {
+    @include mat.button-overrides((
+        filled-container-color: var(--mat-sys-tertiary),
+        filled-label-text-color: var(--mat-sys-on-tertiary),
+        filled-ripple-color: var(--mat-sys-on-tertiary-container),
+    ))
 }

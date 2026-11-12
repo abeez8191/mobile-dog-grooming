@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col">
+        <img src="{{g()!.photoData}},{{g()!.photo}}" alt="Groomer {{g()!.firstName}} {{g()!.lastName}}'s photo" />
+    </div>
+    <div class="col flex-grow">
+        <div><span class="identifier">Name:</span> {{g()!.firstName}} {{g()!.lastName}}</div>
+        <div><span class="identifier">Email:</span> {{g()!.email}}</div>
+        <div><span class="identifier">Phone:</span> {{g()!.phoneNumber}}</div>
+    </div>
+    <div class="col">
+        <button matButton="filled" type="button" (click)="editGroomer()">Edit</button>
+        <button matButton="outlined" class="del" type="button" (click)="deleteGroomer()">Delete</button>
+    </div>
+</div>

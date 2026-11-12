@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddGroomer } from './add-groomer';
+import { ListGroomers } from './list-groomers';
 
-describe('AddGroomer', () => {
-  let component: AddGroomer;
-  let fixture: ComponentFixture<AddGroomer>;
+describe('ListGroomers', () => {
+  let component: ListGroomers;
+  let fixture: ComponentFixture<ListGroomers>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddGroomer],
+      imports: [ListGroomers],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AddGroomer);
+    fixture = TestBed.createComponent(ListGroomers);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

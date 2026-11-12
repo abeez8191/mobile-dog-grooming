@@ -1,0 +1,7 @@
+@for(groomer of groomers(); track groomer.id) {
+    <app-groomer-overview (delete)="removeGroomer(groomer.id!)" [groomer]="groomer" />
+}
+
+<div class="row right-align">
+    <button matFab (click)="addGroomer()"><mat-icon>add</mat-icon></button>
+</div>
