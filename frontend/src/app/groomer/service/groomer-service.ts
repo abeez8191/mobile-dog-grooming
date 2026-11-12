@@ -14,4 +14,20 @@ export class GroomerService {
   addGroomer(data: Groomer): Observable<Groomer> {
     return this.httpClient.post<Groomer>(this.url, data);
   }
+
+  getGroomers(): Observable<Groomer[]> {
+    return this.httpClient.get<Groomer[]>(this.url);
+  }
+
+  deleteGroomer(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.url}${id}/`);
+  }
+
+  getGroomer(id: number): Observable<Groomer> {
+    return this.httpClient.get<Groomer>(`${this.url}${id}/`);
+  }
+
+  updateGroomer(data: Groomer): Observable<Groomer> {
+    return this.httpClient.put<Groomer>(`${this.url}${data.id}/`, data);
+  }
 }
