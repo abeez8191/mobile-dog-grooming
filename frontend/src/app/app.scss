@@ -19,7 +19,9 @@ mat-toolbar {
     }
 
     #nav-icon {
-        color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-surface));
+        @include mat.icon-overrides((
+            color: var(--mat-toolbar-container-text-color),
+        ));
     }
 
     padding: 8px;
@@ -31,6 +33,21 @@ mat-toolbar {
 
     li {
         list-style: none;
+    }
+
+    nav {
+        a:hover:not(.login-button) {
+            text-decoration: underline;
+        }
+
+        .login-button {
+            @include mat.button-overrides((
+                //container-color: var(--mat-sys-tertiary),
+                filled-container-shape: 4px,
+                filled-container-color: var(--mat-sys-on-primary-container),
+                filled-label-text-color: var(--mat-toolbar-container-text-color)
+            ));
+        }
     }
 }
 
