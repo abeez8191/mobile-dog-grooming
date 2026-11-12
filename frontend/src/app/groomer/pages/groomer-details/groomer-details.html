@@ -1,7 +1,8 @@
+@if(this.formReady()) {
 <form [formGroup]="groomerForm" (submit)="submitForm()">
     <div class="row">
         <div class="col">
-            <app-photo-selector (photoUpload)="updatePhoto($event);"></app-photo-selector>
+            <app-photo-selector [initialPhoto]="this.groomerForm.get('photo')?.value" (photoUpload)="updatePhoto($event);"></app-photo-selector>
         </div>
         <div class="col">
             <div class="row">
@@ -29,13 +30,13 @@
     <div class="col">
         <h1>Availability</h1>
         <div class="row">
-            <app-availability-day day="Sun" (choice)="this.groomerForm.get('availability.sun')?.setValue($event || 'N/A')"></app-availability-day>  
-            <app-availability-day day="Mon" (choice)="this.groomerForm.get('availability.mon')?.setValue($event || 'N/A')"></app-availability-day>
-            <app-availability-day day="Tue" (choice)="this.groomerForm.get('availability.tue')?.setValue($event || 'N/A')"></app-availability-day>
-            <app-availability-day day="Wed" (choice)="this.groomerForm.get('availability.wed')?.setValue($event || 'N/A')"></app-availability-day>
-            <app-availability-day day="Thu" (choice)="this.groomerForm.get('availability.thu')?.setValue($event || 'N/A')"></app-availability-day>
-            <app-availability-day day="Fri" (choice)="this.groomerForm.get('availability.fri')?.setValue($event || 'N/A')"></app-availability-day>
-            <app-availability-day day="Sat" (choice)="this.groomerForm.get('availability.sat')?.setValue($event || 'N/A')"></app-availability-day>
+            <app-availability-day day="Sun" [form]="getFormControl('availability.sun')"></app-availability-day>  
+            <app-availability-day day="Mon" [form]="getFormControl('availability.mon')"></app-availability-day>
+            <app-availability-day day="Tue" [form]="getFormControl('availability.tue')"></app-availability-day>
+            <app-availability-day day="Wed" [form]="getFormControl('availability.wed')"></app-availability-day>
+            <app-availability-day day="Thu" [form]="getFormControl('availability.thu')"></app-availability-day>
+            <app-availability-day day="Fri" [form]="getFormControl('availability.fri')"></app-availability-day>
+            <app-availability-day day="Sat" [form]="getFormControl('availability.sat')"></app-availability-day>
         </div>
     </div>
     <div class="row">
@@ -45,8 +46,9 @@
             <mat-hint>*Anything entered here will be available to the public.</mat-hint>
         </mat-form-field>
         <div id="submit-buttons">
-            <button matButton="outlined">Cancel</button>
-            <button matButton="filled">Add</button>
+            <button matButton="outlined" type="button" (click)="cancelAdd()">Cancel</button>
+            <button matButton="filled" type="submit">{{isEdit() ? 'Save' : 'Add'}}</button>
         </div>
     </div>
 </form>
+}
