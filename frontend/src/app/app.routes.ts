@@ -5,6 +5,7 @@ import { GroomerDetails } from './groomer/pages/groomer-details/groomer-details'
 import { ListService } from './grooming-service/page/list-service/list-service';
 import { SelectGroomer } from './booking/components/select-groomer/select-groomer';
 import { Booking } from './booking/pages/booking/booking';
+import { Login } from './authentication/page/login/login';
 
 export const routes: Routes = [
     { path: '', component: HomePage },
@@ -13,5 +14,6 @@ export const routes: Routes = [
     { path: 'groomer/list', component: ListGroomers},
     { path: 'service/list', component: ListService},
     { path: 'booking', component: Booking},
-    { path: 'booking/select-groomer', component: SelectGroomer }
+    { path: 'booking/select-groomer', component: SelectGroomer },
+    { path: 'auth', component: Login }
 ];

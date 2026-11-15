@@ -11,7 +11,12 @@
       <li><a mat-button href="#">Home</a></li>
       <li><a mat-button href="#">Services</a></li>
       <li><a mat-button href="#">FAQ</a></li>
-      <li><a class='login-button' matButton="filled" href="#">Login</a></li>
+      @if( dataStore.isLoggedIn() ) {
+        <li><a class='login-button' matButton="filled" (click)="logout()">Logout</a></li>
+      }
+      @else {
+        <li><a class='login-button' matButton="filled" (click)="openDialog()">Login</a></li>
+      }
     </ul>
   </nav>
   }
@@ -23,7 +28,7 @@
       <a mat-button href="#">Home</a>
       <a mat-button href="#">Services</a>
       <a mat-button href="#">FAQ</a>
-      <a mat-button href="#">Login</a>
+      <a mat-button (click)="openDialog()">Login</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
