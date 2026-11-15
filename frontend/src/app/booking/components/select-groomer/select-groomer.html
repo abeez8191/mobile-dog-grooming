@@ -1,0 +1,12 @@
+@for(groomer of groomers(); track groomer.id) {
+    <div class="row">
+        <div class="col">
+            <img src="{{groomer.photoData}},{{groomer.photo}}" />
+        </div>
+        <div class="col">
+            <div class="name">{{groomer.firstName}} {{groomer.lastName}}</div>
+            <div class="biography">{{groomer.biography}}</div>
+            <button matButton="outlined" (click)="selectGroomer(groomer.id)">Book</button>
+        </div>
+    </div>
+}

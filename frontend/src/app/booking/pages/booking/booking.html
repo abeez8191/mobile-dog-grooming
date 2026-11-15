@@ -1,0 +1,17 @@
+<h1>Booking</h1>
+@if( step() == 1 ) {
+    <app-select-groomer (select)="chooseGroomer($event)"></app-select-groomer>
+}
+@else if( step() === 2 ) {
+    <app-select-services (select)="selectServices($event)"></app-select-services>
+}
+@else if( step() === 3 ) {
+    <app-select-time [groomerId]="groomerId()" [duration]="getServicesDuration()" (select)="selectTime($event)"></app-select-time>
+}
+@else if( step() === 4 ) {
+    <app-create-customer (customerCreated)="getCustomerId($event)"></app-create-customer>
+}
+@else if( step() === 5 ) {
+    <h2>Booking Confirmed</h2>
+    <p>We will see you on {{getAppointmentDateTime()}}.</p>
+}

@@ -1,0 +1,25 @@
+:host {
+    max-width: 225px;
+    padding: 4px;
+}
+button {
+    padding: .8rem;
+    margin: 4px;
+}
+
+p {
+    white-space: nowrap;
+}
+
+.center {
+    justify-content: center;
+}
+
+h2 {
+    margin: 0px;
+}
+
+.date {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 4px;
+}

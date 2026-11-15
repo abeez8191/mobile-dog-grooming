@@ -1,0 +1,14 @@
+<div class="row center">
+    <h2>{{day().toUpperCase()}}</h2>
+</div>
+<div class="row center date">
+    {{getCalendarDay()}}
+</div>
+@if( availability().times.length > 0 ) {
+    @for( availableTime of availability().times; track availableTime) {
+        <button matButton="outlined" (click)="chooseTime(availability().date, availableTime)">{{formatTime(availableTime)}}</button>
+    }
+}
+@else {
+    <p>Not Availabile</p>
+}
