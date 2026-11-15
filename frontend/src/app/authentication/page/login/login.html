@@ -1,0 +1,21 @@
+<div class="row center">
+    <h1>Sign In</h1>
+</div>
+<form [formGroup]="this.loginForm">
+    <div class="row">
+        <mat-form-field>
+            <mat-label>Username or Email</mat-label>
+            <input matInput type="text" formControlName="username" />
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+    </div>
+
+    <div class="row end-content">
+        <button matButton="filled" (click)="submit()">Login</button>
+    </div>
+</form>
