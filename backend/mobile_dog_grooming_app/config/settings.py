@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'authentication',
     'appointment',
     'profile'
@@ -88,7 +90,11 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "authentication.ApplicationUser"
 
+REST_AUTH = {
+    'USER_DETAILS_SERIALIZER': 'authentication.serializers.ApplicationUserSerializer'
+}
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 

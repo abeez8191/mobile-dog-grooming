@@ -16,7 +16,7 @@ Including another URLconf
 """
 from rest_framework.routers import DefaultRouter
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 from appointment.views import ServiceViewSet, AppointmentViewSet
 from profile.views import CustomerViewSet, GroomerViewSet, PublicGroomerViewSet, PublicGroomerAvailabilityView
@@ -31,5 +31,6 @@ router.register(r'api/appointment', AppointmentViewSet)
 urlpatterns = router.urls
 urlpatterns += [
     path('admin/', admin.site.urls),
+    path(r'api/auth/', include('dj_rest_auth.urls')),
     path('api/public/groomer/<int:pk>/availability', PublicGroomerAvailabilityView.as_view())
 ]
