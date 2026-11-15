@@ -26,10 +26,13 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = ['id', 'firstName', 'lastName', 'street', 'street2', 'city', 'state', 'zipCode', 'email', 'phoneNumber']
 
+    def validate_street2(self, value):
+       return None if value == "" else value
+
 class PublicViewGroomerSerializer(serializers.ModelSerializer):
    class Meta:
       model = Groomer
-      fields = ['id', 'firstName', 'lastName', 'photo', 'photoData']
+      fields = ['id', 'firstName', 'lastName', 'biography', 'photo', 'photoData']
 
 class GroomerSerializer(serializers.ModelSerializer):
     photo = Base64BinaryField()
