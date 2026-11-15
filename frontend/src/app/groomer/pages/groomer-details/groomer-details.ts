@@ -12,7 +12,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-groomer-details',
-  imports: [AvailabilityDay, PhotoSelector, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    AvailabilityDay, 
+    PhotoSelector, 
+    ReactiveFormsModule, 
+    MatButtonModule, 
+    MatFormFieldModule, 
+    MatInputModule
+  ],
   templateUrl: './groomer-details.html',
   styleUrl: './groomer-details.scss',
 })

@@ -19,3 +19,26 @@ export interface Availability {
     fri?: {start: string, end: string},
     sat?: {start: string, end: string},
 }
+
+export interface PublicGroomer {
+    id: number;
+    firstName: string;
+    lastName: string;
+    biography: string;
+    photo: string;
+    photoData: string;
+}
+
+export interface PublicGroomerAvailabilityResponse {
+    available_slots: PublicGroomerAvailability;
+}
+
+export interface PublicGroomerAvailability {
+    sun?: {date: string, times: string[]};
+    mon?: {date: string, times: string[]};
+    tue?: {date: string, times: string[]};
+    wed?: {date: string, times: string[]};
+    thu?: {date: string, times: string[]};
+    fri?: {date: string, times: string[]};
+    sat?: {date: string, times: string[]};
+}

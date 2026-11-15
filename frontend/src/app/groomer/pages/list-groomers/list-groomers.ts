@@ -5,10 +5,16 @@ import { GroomerOverview } from '../../components/groomer-overview/groomer-overv
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-list-groomers',
-  imports: [GroomerOverview, MatButtonModule, MatIconModule],
+  imports: [
+    GroomerOverview, 
+    MatButtonModule, 
+    MatIconModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './list-groomers.html',
   styleUrl: './list-groomers.scss',
 })
@@ -18,11 +24,13 @@ export class ListGroomers implements OnInit{
   private activatedRoute = inject(ActivatedRoute);
 
   groomers: WritableSignal<Groomer[]> = signal([]);
+  isLoading = signal(true);
 
   ngOnInit(): void {
     this.groomerService.getGroomers().subscribe({
       next: (groomerList: Groomer[]) => {
         this.groomers.set(groomerList);
+        this.isLoading.set(false);
       },
       error: (error) => {
         console.error(error);
@@ -36,8 +44,10 @@ export class ListGroomers implements OnInit{
 
   removeGroomer(id: number): void {
     const index = this.groomers().findIndex((groomer: Groomer) => groomer.id === id );
-    const snapshot = this.groomers();
-    snapshot.splice(index, 1);
-    this.groomers.set(snapshot);
+    if( index >= 0 ) {
+      var snapshot = this.groomers();
+      snapshot = snapshot.toSpliced(index, 1);
+      this.groomers.set(snapshot);
+    }
   }
 }

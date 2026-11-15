@@ -3,11 +3,12 @@
         <img src="{{g()!.photoData}},{{g()!.photo}}" alt="Groomer {{g()!.firstName}} {{g()!.lastName}}'s photo" />
     </div>
     <div class="col flex-grow">
-        <div><span class="identifier">Name:</span> {{g()!.firstName}} {{g()!.lastName}}</div>
-        <div><span class="identifier">Email:</span> {{g()!.email}}</div>
-        <div><span class="identifier">Phone:</span> {{g()!.phoneNumber}}</div>
+        <div><p class="name">{{g()!.firstName}} {{g()!.lastName}}</p></div>
+        <div><a href="mailto:{{g()!.email}}">{{g()!.email}}</a></div>
+        <div><p class="phone">{{g()!.phoneNumber}}</p></div>
+        <div><p>{{g()!.biography}}</p></div>
     </div>
-    <div class="col">
+    <div class="col spaced">
         <button matButton="filled" type="button" (click)="editGroomer()">Edit</button>
         <button matButton="outlined" class="del" type="button" (click)="deleteGroomer()">Delete</button>
     </div>

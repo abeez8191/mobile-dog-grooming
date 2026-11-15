@@ -2,6 +2,13 @@
     padding: 8px;
 }
 
+mat-progress-spinner {
+    margin-top: 8px;
+}
+.center {
+    justify-content: center;
+}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -13,6 +20,7 @@
     }
     
 }
+
 div.name {
     width: 200px !important;
 }

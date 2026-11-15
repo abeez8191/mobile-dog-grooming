@@ -6,8 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
 import { Observable } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-list-service',
@@ -15,8 +15,8 @@ import { Observable } from 'rxjs';
     MatButtonModule, 
     MatFormFieldModule, 
     MatIconModule, 
-    MatInputModule, 
-    MatTableModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule
   ],
   templateUrl: './list-service.html',
@@ -27,6 +27,7 @@ export class ListService implements OnInit{
 
   services = signal<Service[]>([]);
   editingIndex = signal(-1);
+  isLoading = signal(true);
 
   serviceForm!: FormGroup;
 
@@ -40,6 +41,7 @@ export class ListService implements OnInit{
     this.servicesService.getServices().subscribe({
       next: (services: Service[]) => {
         this.services.set(services);
+        this.isLoading.set(false);
       }
     });
   }
