@@ -48,3 +48,22 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
+
+button {
+    width: 100px;
+
+    @include mat.button-overrides((
+      outlined-container-shape: 4px,
+      filled-container-shape: 4px,
+    ));
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
