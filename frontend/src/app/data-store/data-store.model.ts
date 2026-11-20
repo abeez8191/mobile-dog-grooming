@@ -1,7 +1,13 @@
 export interface AppState {
-    loginKey: string,
+    loginKey: string;
+    customerId: number | null;
+    groomerId: number | null;
+    email: string;
 }
 
 export const INITIAL_STATE: AppState = {
-    loginKey: ''
+    loginKey: '',
+    customerId: null,
+    groomerId: null,
+    email: ''
 }

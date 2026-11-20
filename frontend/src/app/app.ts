@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { LoginDialog } from './login-dialog/login-dialog';
 import { DataStore } from './data-store/data-store';
 import { AuthenticationService } from './authentication/service/authentication-service';
@@ -30,6 +30,7 @@ export class App implements OnDestroy {
   protected readonly isMobile = signal(false);
   protected readonly isOpen = signal(false);
 
+  readonly router = inject(Router);
   readonly dialog = inject(MatDialog);
   readonly dataStore = inject(DataStore);
   readonly authenticationService = inject(AuthenticationService);
@@ -58,15 +59,14 @@ export class App implements OnDestroy {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(LoginDialog);
-    dialogRef.afterClosed().subscribe(result => {
-      this.dataStore.setLoginKey(result.loginKey);
-    })
+    dialogRef.afterClosed().subscribe();
   }
 
   logout(): void {
     this.authenticationService.logout({key: this.dataStore.loginKey()}).subscribe({
       next: () => {
-        this.dataStore.setLoginKey('');
+        this.dataStore.resetStore();
+        this.router.navigate(['/']);
       },
       error: () => {
 

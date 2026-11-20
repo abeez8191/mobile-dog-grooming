@@ -29,6 +29,6 @@ export class GroomerOverview {
   }
 
   editGroomer(): void {
-    this.router.navigate(['../edit'], {state: {id: this.g()!.id!}, relativeTo: this.activatedRoute});
+    this.router.navigate(['./edit'], {state: {id: this.g()!.id!}, relativeTo: this.activatedRoute});
   }
 }

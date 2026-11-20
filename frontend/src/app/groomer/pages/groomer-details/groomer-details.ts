@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AvailabilityDay } from '../../components/availability-day/availability-day';
 import { MatButtonModule } from '@angular/material/button';
 import { PhotoSelector } from '../../components/photo-selector/photo-selector';
-import { Groomer } from '../../model/groomer.model';
+import { Availability, AvailabilityKey, Groomer, PublicGroomerAvailabilityKey } from '../../model/groomer.model';
 import { GroomerService } from '../../service/groomer-service';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -102,7 +102,7 @@ export class GroomerDetails implements OnInit{
       biography: this.groomerForm.get('bio')!.value,
       photo,
       photoData,
-      availability
+      availability: this.updateAvailabilityTimesTo24Hr(availability)
     };
 
     const observable = this.isEdit() ? 
@@ -112,12 +112,36 @@ export class GroomerDetails implements OnInit{
     observable.subscribe({
       next: (groomer: Groomer) => {
         console.log("Done!");
-        this.router.navigate(['../list'], {relativeTo: this.activatedRoute});
+        this.router.navigate(['..'], {relativeTo: this.activatedRoute});
       },
       error: (error) => {
         console.error("Error");
       }
     })
+  }
+
+  updateAvailabilityTimesTo24Hr(availability: Availability): Availability {
+    let newAvailability: Availability = {};
+    for( let day of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as AvailabilityKey[] ) {
+      if( availability[day]) {
+        newAvailability[day] = {
+          start: this.convert12HourTo24Hour(availability[day]['start']), 
+          end: this.convert12HourTo24Hour(availability[day]['end'])
+        };
+      }
+    }
+
+    return newAvailability;
+  }
+
+  convert12HourTo24Hour(time: string): string {
+    let [hour, min, amPm] = time.split(new RegExp("[: ]"));
+
+    if( amPm === "PM" ) {
+      hour = String(12 + +hour);
+    }
+
+    return `${hour}:${min}`;
   }
 
   updatePhoto($event: string|ArrayBuffer) {

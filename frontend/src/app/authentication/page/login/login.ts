@@ -4,7 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthenticationService } from '../../service/authentication-service';
-import { LoginRequest } from '../../model/authentication.model';
+import { LoginRequest, UserInformation } from '../../model/authentication.model';
+import { concatMap } from 'rxjs';
+import { DataStore } from 'src/app/data-store/data-store';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +20,10 @@ import { LoginRequest } from '../../model/authentication.model';
   styleUrl: './login.scss',
 })
 export class Login implements OnInit {
-  login: OutputEmitterRef<string> = output();
+  login: OutputEmitterRef<void> = output();
 
   authenticationService = inject(AuthenticationService);
+  dataStore = inject(DataStore);
 
   constructor(private fb: FormBuilder) {}
 
@@ -48,15 +51,19 @@ export class Login implements OnInit {
       data.username = this.loginForm.value.username;
     }
 
-    this.authenticationService.login(data as LoginRequest).subscribe({
-      next: (response) => {
-        this.login.emit(response.key);
+    this.authenticationService.login(data as LoginRequest).pipe(
+      concatMap((response) => {
+        this.dataStore.setLoginKey(response.key);
+        return this.authenticationService.getUserInformation()
+      })
+    ).subscribe({
+      next: (userInformation: UserInformation) => {
+        userInformation.customer && this.dataStore.setCustomerId(userInformation.customer);
+        userInformation.groomer && this.dataStore.setGroomerId(userInformation.groomer);
+        this.dataStore.setEmail(userInformation.email);
+        this.login.emit();
       },
-      error: (error) => {
-        if( error.status === 400 ) {
-          console.log("Invalid username/password combination");
-        }
-      }
-    })
+      error: () => {}
+    });
   }
 }

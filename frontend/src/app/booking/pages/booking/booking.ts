@@ -3,13 +3,17 @@ import { SelectGroomer } from 'src/app/booking/components/select-groomer/select-
 import { SelectServices } from 'src/app/booking/components/select-services/select-services';
 import { Service } from 'src/app/grooming-service/model/services.model';
 import { SelectTime } from 'src/app/booking/components/select-time/select-time';
-import { CreateCustomer } from 'src/app/booking/components/create-customer/create-customer';
+import { CustomerInformation } from 'src/app/booking/components/customer-information/customer-information';
 import { AppointmentService } from 'src/app/appointment/service/appointment-service';
+import { MatButtonModule } from '@angular/material/button';
+import { RegisterAccount } from '../../components/register-account/register-account';
+import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
 
 @Component({
   selector: 'app-booking',
   imports: [
-    CreateCustomer,
+    CustomerInformation,
+    RegisterAccount,
     SelectGroomer,
     SelectServices,
     SelectTime
@@ -19,12 +23,14 @@ import { AppointmentService } from 'src/app/appointment/service/appointment-serv
 })
 export class Booking {
   appointmentService = inject(AppointmentService);
+  authenticationService = inject(AuthenticationService);
   
   step = signal(1);
   groomerId = signal(-1);
   selectedServices: WritableSignal<Service[]> = signal([]);
   selectedTime: WritableSignal<Date|undefined> = signal(undefined);
   customerId: WritableSignal<number> = signal(-1);
+  showAccountCreation = signal(false);
 
   monthsShortName = ['empty', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   next(): void {
@@ -64,7 +70,7 @@ export class Booking {
       datetime: this.selectedTime()!,
       services: this.selectedServices().map(s => s.id!)
     }).subscribe({
-      next: (appointment) => {console.log(appointment);}
+      next: (appointment) => {this.next()}
     });
   }
 

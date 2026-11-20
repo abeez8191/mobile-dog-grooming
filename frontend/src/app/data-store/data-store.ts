@@ -13,7 +13,14 @@ export class DataStore {
   // 2. Public read-only selectors using computed()
   readonly isLoggedIn = computed(() => this._state().loginKey !== '');
   readonly loginKey = computed(() => this._state().loginKey);
+  
+  readonly isCustomer = computed(() => this.customerId() !== null);
+  readonly customerId = computed(() => this._state().customerId);
+  
+  readonly isGroomer = computed(() => this.groomerId() !== null);
+  readonly groomerId = computed(() => this._state().groomerId);
 
+  readonly email = computed(() => this._state().email);
   constructor() {
     // 3. Automatically sync state changes to localStorage
     effect(() => {
@@ -28,6 +35,18 @@ export class DataStore {
 
   setLoginKey(key: string): void {
     this._state.update(state => ({...state, loginKey: key}));
+  }
+
+  setGroomerId(id?: number): void {
+    this._state.update(state => ({...state, groomerId: id || null}));
+  }
+
+  setCustomerId(id?: number): void {
+    this._state.update(state => ({...state, customerId: id || null}));
+  }
+
+  setEmail(email: string): void {
+    this._state.update(state => ({...state, email}));
   }
 
   resetStore(): void {

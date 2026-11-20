@@ -7,17 +7,17 @@ import { CustomerService } from 'src/app/customer/service/customer-service';
 import { Customer } from 'src/app/customer/model/customer.model';
 
 @Component({
-  selector: 'app-create-customer',
+  selector: 'app-customer-information',
   imports: [
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule
   ],
-  templateUrl: './create-customer.html',
-  styleUrl: './create-customer.scss',
+  templateUrl: './customer-information.html',
+  styleUrl: './customer-information.scss',
 })
-export class CreateCustomer {
+export class CustomerInformation {
   customerCreated: OutputEmitterRef<number> = output();
   customerService = inject(CustomerService);
   

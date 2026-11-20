@@ -20,6 +20,8 @@ export interface Availability {
     sat?: {start: string, end: string},
 }
 
+export type AvailabilityKey = keyof Availability;
+
 export interface PublicGroomer {
     id: number;
     firstName: string;
@@ -42,3 +44,5 @@ export interface PublicGroomerAvailability {
     fri?: {date: string, times: string[]};
     sat?: {date: string, times: string[]};
 }
+
+export type PublicGroomerAvailabilityKey = keyof PublicGroomerAvailability;

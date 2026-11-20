@@ -39,7 +39,7 @@ export class ListGroomers implements OnInit{
   }
 
   addGroomer(): void {
-    this.router.navigate(['../add'], {relativeTo: this.activatedRoute})
+    this.router.navigate(['add'], {relativeTo: this.activatedRoute})
   }
 
   removeGroomer(id: number): void {

@@ -7,12 +7,19 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CustomerService {
-  baseUrl = 'http://localhost:8000/api';
-  url = `${this.baseUrl}/customer/`;
+  url = `/customer/`;
 
   constructor(private httpClient: HttpClient) {}
 
   createCustomer(customer: Customer): Observable<Customer> {
     return this.httpClient.post<Customer>(this.url, customer);
+  }
+
+  getCustomers(): Observable<Customer[]> {
+    return this.httpClient.get<Customer[]>(this.url);
+  }
+
+  getCustomer(id: number): Observable<Customer> {
+    return this.httpClient.get<Customer>(`${this.url}${id}/`);
   }
 }

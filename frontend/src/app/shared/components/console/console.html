@@ -1,0 +1,18 @@
+<div class="title">
+    <h1>{{title()}}</h1>
+</div>
+<div class="console">
+    <mat-nav-list class="side_bar">
+        @for(item of navItems(); track item.path) {
+            <a
+                mat-list-item
+                [routerLink]="item.path",
+                routerLinkActive="active-link",>
+                {{ item.label }}
+            </a>
+        }
+    </mat-nav-list>
+    <div class="display">
+        <router-outlet></router-outlet>
+    </div>
+</div>

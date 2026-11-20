@@ -1,0 +1,12 @@
+@if( this.customer(); as c ) {
+    <div class="col">
+        <div>{{c.firstName}} {{c.lastName}}</div>
+        <div>{{c.email}}</div>
+        <div>{{c.phoneNumber}}</div>
+        <div>{{c.street}}</div>
+        @if(c.street2) {
+        <div>{{c.street2}}</div>
+        }
+        <div>{{c.city}}, {{c.state}} {{c.zipCode}}</div>
+    </div>
+}

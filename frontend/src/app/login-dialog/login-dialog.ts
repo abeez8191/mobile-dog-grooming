@@ -21,7 +21,7 @@ import { Login } from "../authentication/page/login/login";
 export class LoginDialog {
   readonly dialogRef = inject(MatDialogRef<LoginDialog>);
 
-  loginSuccess(loginKey: string): void {
-    this.dialogRef.close({loginKey});
+  loginSuccess(): void {
+    this.dialogRef.close();
   }
 }

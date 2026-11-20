@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { GroomerService } from 'src/app/groomer/service/groomer-service';
-import { PublicGroomerAvailability } from 'src/app/groomer/model/groomer.model';
+import { PublicGroomerAvailability, PublicGroomerAvailabilityKey } from 'src/app/groomer/model/groomer.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { AvailabilityDay } from '../availability-day/availability-day';
 import { MatButtonModule } from '@angular/material/button';
@@ -73,5 +73,3 @@ export class SelectTime implements OnInit {
     });
   }
 }
-
-export type PublicGroomerAvailabilityKey = keyof PublicGroomerAvailability;

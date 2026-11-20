@@ -1,0 +1,27 @@
+<div>
+    @for(customer of customerList(); track customer.id) {
+        <div class="column customer">
+            <h2>{{customer.firstName}} {{customer.lastName}}</h2>
+            <div class="row" style="gap: 16px;">
+                <div class="column">
+                    <div><a href="mailto:{{customer.email}}">{{customer.email}}</a></div>
+                    <div style="font-style: italic">{{customer.phoneNumber}}</div>
+                    <div style="height: 16px"></div>
+                    <div>{{customer.street}}</div>
+                    @if( customer.street2 ) {
+                        <div>{{customer.street2}}</div>
+                    }
+                    <div>{{customer.city}}, {{customer.state}} {{customer.zipCode}}</div>
+                </div>
+                @for( dog of customer.dogs; track dog.name) {
+                    <div class="column">
+                        <div class="dog-name">{{dog.name}}</div>
+                        <div>{{dog.breed}}</div>
+                        <div>{{dog.age}} years old</div>
+                        <div>{{dog.weight}} lbs</div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

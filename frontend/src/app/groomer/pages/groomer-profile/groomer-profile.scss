@@ -1,0 +1,53 @@
+.gapped {
+    gap: 8px;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 1.45rem;
+}
+
+img {
+    margin-right: 8px;
+}
+
+.row {
+    margin-bottom: 16px;
+}
+
+.half-width {
+    width: 50%;
+}
+
+.phone {
+    font-style: italic;
+}
+
+.day {
+    border: 1px solid grey;
+    width: 75px;
+    height: 75px;
+}
+
+.day-name {
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid grey;
+}
+
+.avail-times {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    height: 100%;
+    padding-right: 4px;
+}
+
+.no-times {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
