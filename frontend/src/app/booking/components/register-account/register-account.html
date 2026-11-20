@@ -4,13 +4,22 @@
         <div class="row">
             <mat-form-field>
                 <mat-label>Email Address</mat-label>
-                <input matInput type="email" />
+                <input matInput type="email" formControlName="email" />
+                @if( accountCreationForm.get('email')?.hasError('email') ) {
+                    <mat-error>Please enter a valid email</mat-error>
+                }
+                @else if( accountCreationForm.get('email')?.hasError('required') ) {
+                    <mat-error>Email address is required</mat-error>
+                }
             </mat-form-field>
         </div>
         <div class="row">
             <mat-form-field>
                 <mat-label>Password</mat-label>
-                <input matInput type="password" />
+                <input matInput type="password" formControlName="password" />
+                @if( accountCreationForm.get('password')?.hasError('required') ) {
+                    <mat-error>Password is required</mat-error>
+                }
             </mat-form-field>
         </div>
         <div class="row justify-center">
