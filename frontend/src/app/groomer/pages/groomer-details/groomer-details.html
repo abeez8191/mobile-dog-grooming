@@ -25,6 +25,14 @@
                     <input matInput placeholder="Phone Number" type="text" formControlName="phoneNumber" autocomplete="off" data-dashlane-disabled-on-field="true"/>
                 </mat-form-field>
             </div>
+            @if( ! isEdit() ) {
+                <div class="row">
+                    <mat-form-field style="width: 100%">
+                        <mat-label>Password</mat-label>
+                        <input matInput placeholder="Password" type="password" formControlName="password" autocomplete="off" data-dashlane-disabled-on-field="true" />
+                    </mat-form-field>
+                </div>
+            }
         </div>
     </div>
     <div class="col">
