@@ -23,10 +23,10 @@ export class AuthenticationService {
   }
 
   createCustomer(request: CustomerAccountRequest): Observable<CustomerAccountResponse> {
-    return this.httpClient.post<CustomerAccountResponse>(`${this.url}/register`, request);
+    return this.httpClient.post<CustomerAccountResponse>(`${this.url}/create/customer/`, request);
   }
 
   createGroomer(request: GroomerAccountRequest): Observable<GroomerAccountResponse> {
-    return this.httpClient.post<GroomerAccountResponse>(`${this.url}/create/customer`, request);
+    return this.httpClient.post<GroomerAccountResponse>(`${this.url}/create/groomer/`, request);
   }
 }
