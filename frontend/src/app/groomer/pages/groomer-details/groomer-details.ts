@@ -9,6 +9,9 @@ import { Availability, AvailabilityKey, Groomer, PublicGroomerAvailabilityKey } 
 import { GroomerService } from '../../service/groomer-service';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { concatMap } from 'rxjs';
+import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
+import { BannerService } from 'src/app/shared/components/banner/banner.service';
 
 @Component({
   selector: 'app-groomer-details',
@@ -28,6 +31,8 @@ export class GroomerDetails implements OnInit{
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private groomerService = inject(GroomerService);
+  private authenticationService = inject(AuthenticationService);
+  private bannerService = inject(BannerService);
 
   groomerForm!: FormGroup;
   groomerId!: number;
@@ -73,7 +78,8 @@ export class GroomerDetails implements OnInit{
         sat: [(groomer?.availability.sat) ? [this.convert24HourTo12Hour(groomer.availability.sat.start), this.convert24HourTo12Hour(groomer.availability.sat.end)] : []],
       }),
       bio: [groomer?.biography || '', Validators.required],
-      photo: [(groomer) ? `${groomer.photoData},${groomer.photo}` : '', Validators.required]
+      photo: [(groomer) ? `${groomer.photoData},${groomer.photo}` : '', Validators.required],
+      password: ['']
     });
   }
 
@@ -84,11 +90,9 @@ export class GroomerDetails implements OnInit{
 
     let availability: Record<string, {start: string, end: string}> = {};
     for( let key of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri','sat']) {
-      console.log("Checking " + key)
       const formEntry = this.groomerForm.get(`availability.${key}`);
       if( formEntry && formEntry.value !== '' && formEntry.value.length > 0 ) {
         availability[key] = {start: formEntry.value[0], end: formEntry.value[1]}
-        console.log(`availability[${key}] = ${availability[key]}`)
       }
     }
 
@@ -105,19 +109,50 @@ export class GroomerDetails implements OnInit{
       availability: this.updateAvailabilityTimesTo24Hr(availability)
     };
 
-    const observable = this.isEdit() ? 
-        this.groomerService.updateGroomer({id: this.groomerId, ...formData}) : 
-        this.groomerService.addGroomer(formData);
-        
-    observable.subscribe({
-      next: (groomer: Groomer) => {
-        console.log("Done!");
-        this.router.navigate(['..'], {relativeTo: this.activatedRoute});
-      },
-      error: (error) => {
-        console.error("Error");
-      }
-    })
+    if( this.isEdit() ) {
+      this.groomerService.updateGroomer({id: this.groomerId, ...formData}).subscribe({
+        next: () => {
+          console.log("Done!");
+          this.router.navigate(['..'], {relativeTo: this.activatedRoute});
+        },
+        error: (error) => {
+          this.bannerService.open(
+            'Unable to update groomer',
+            {
+              icon: 'error_outline',
+              error: true,
+              timeout: 10000
+            }
+          );
+        }
+      });
+    }
+    else {
+      this.groomerService.addGroomer(formData).pipe(
+        concatMap((groomer) => {
+          return this.authenticationService.createGroomer({
+            email: groomer.email, 
+            groomer: groomer.id!, 
+            password: this.groomerForm.value.password
+          });
+        })
+      ).subscribe({
+        next: () => {
+          console.log("Done!");
+          this.router.navigate(['..'], {relativeTo: this.activatedRoute});
+        },
+        error: (error) => {
+          this.bannerService.open(
+            'Unable to create groomer account',
+            {
+              icon: 'error_outline',
+              error: true,
+              timeout: 10000
+            }
+          );
+        }
+      });
+    }
   }
 
   updateAvailabilityTimesTo24Hr(availability: Availability): Availability {
