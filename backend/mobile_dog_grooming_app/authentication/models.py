@@ -24,8 +24,8 @@ class CustomUserManager(BaseUserManager["ApplicationUser"]):
     
 class ApplicationUser(AbstractUser):
     username = None
-    customer = models.ForeignKey(Customer, on_delete=models.RESTRICT, null=True, blank=True)
-    groomer = models.ForeignKey(Groomer, on_delete=models.RESTRICT, null=True, blank=True)
+    customer = models.ForeignKey(Customer, on_delete=models.RESTRICT, null=True, blank=True, unique=True)
+    groomer = models.ForeignKey(Groomer, on_delete=models.RESTRICT, null=True, blank=True, unique=True)
     email = models.EmailField(unique=True)
 
     USERNAME_FIELD = "email"
