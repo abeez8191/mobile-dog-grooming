@@ -13,6 +13,8 @@ export class BannerService {
   /** Read-only signal consumed by the banner outlet/component. */
   readonly activeBanner = this.activeBannerSignal.asReadonly();
 
+  private readonly timeoutRef = signal<number | null>(null);
+
   /**
    * Opens a banner with the given message and optional configuration.
    * Replaces any currently open banner.
@@ -33,6 +35,11 @@ export class BannerService {
 
     const ref = new BannerRef(() => this.dismiss());
     this.activeBannerSignal.set({ config, ref });
+
+    if( config.timeout ) {
+      this.timeoutRef.set(setTimeout(() => this.dismiss(), config.timeout));
+    }
+
     return ref;
   }
 

@@ -3,14 +3,15 @@ import { Observable, Subject } from 'rxjs';
 export interface BannerConfig {
   message: string;
   icon?: string;
-  error?: boolean;
-  warning?: boolean;
   primaryActionLabel?: string;
   secondaryActionLabel?: string;
   elevated?: boolean;
   /** Whether clicking an action button closes the banner automatically. Defaults to true. */
   dismissOnAction?: boolean;
   ariaLabel?: string;
+  error?: boolean;
+  warning?: boolean;
+  timeout?: number;
 }
 
 export class BannerRef {
