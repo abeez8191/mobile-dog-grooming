@@ -1,0 +1,125 @@
+.app-mat-banner {
+    display: block;
+    width: 100%;
+}
+
+/* Smooth height animation using CSS Grid 0fr -> 1fr */
+.app-mat-banner__animator {
+    display: grid;
+    grid-template-rows: 1fr;
+    overflow: hidden;
+}
+
+.app-mat-banner--entering {
+    animation: app-banner-expand 240ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+.app-mat-banner--leaving {
+    animation: app-banner-collapse 200ms cubic-bezier(0.3, 0, 0.8, 0.15) forwards;
+}
+
+@keyframes app-banner-expand {
+    from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    }
+    to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    }
+}
+
+@keyframes app-banner-collapse {
+    from {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    }
+    to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    }
+}
+
+.app-mat-banner__surface {
+    min-height: 0;
+    background-color: var(--mat-sys-surface-container-low, #f7f2fa);
+    color: var(--mat-sys-on-surface, #1d1b20);
+    border-bottom: 1px solid var(--mat-sys-outline-variant, #cac4d0);
+    font-family: var(--mat-sys-body-medium-font, Roboto, sans-serif);
+    font-size: var(--mat-sys-body-medium-size, 0.875rem);
+    line-height: var(--mat-sys-body-medium-line-height, 1.25rem);
+    letter-spacing: var(--mat-sys-body-medium-tracking, 0.015625em);
+}
+
+.app-mat-banner__surface--elevated {
+    border-bottom: none;
+    box-shadow: var(--mat-sys-level1, 0 1px 3px 1px rgba(0, 0, 0, 0.15));
+}
+
+.app-mat-banner__container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 16px 12px 24px;
+    min-height: 52px;
+    box-sizing: border-box;
+}
+
+.app-mat-banner__content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1 1 320px;
+}
+
+.app-mat-banner__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    //background-color: var(--mat-sys-primary-container, #eaddff);
+    color: var(--mat-sys-on-primary-container, #21005d);
+}
+
+.app-mat-banner__text {
+    margin: 0;
+}
+
+.error {
+    color: var(--mat-sys-error);
+}
+
+.warning {
+    color: light-dark(#ff9800, #e65100)
+}
+
+.app-mat-banner__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-left: auto;
+}
+
+@media (max-width: 599px) {
+    .app-mat-banner__container {
+    padding: 16px 16px 8px 16px;
+    }
+
+    .app-mat-banner__actions {
+    width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-mat-banner--entering,
+    .app-mat-banner--leaving {
+    animation-duration: 1ms;
+    }
+}
