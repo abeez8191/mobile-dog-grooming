@@ -12,6 +12,7 @@
       <li><a mat-button href="#">Services</a></li>
       <li><a mat-button href="#">FAQ</a></li>
       @if( dataStore.isLoggedIn() ) {
+        <li><a mat-button (click)="goToConsole()">Console</a></li>
         <li><a class='login-button' matButton="filled" (click)="logout()">Logout</a></li>
       }
       @else {

@@ -73,4 +73,17 @@ export class App implements OnDestroy {
       }
     })
   }
+
+  goToConsole(): void {
+    if( ! this.dataStore.isLoggedIn() ) {
+      return;
+    }
+
+    if( this.dataStore.isCustomer() ) {
+      this.router.navigate(['/console/customer']);
+    }
+    else if( this.dataStore.isGroomer() ) {
+      this.router.navigate(['/console/groomer']);
+    }
+  }
 }
