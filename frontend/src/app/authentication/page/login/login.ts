@@ -69,9 +69,16 @@ export class Login implements OnInit {
         this.dataStore.setEmail(userInformation.email);
         this.login.emit();
       },
-      error: () => {
-        this.errorMessage.set("Invalid username/password combination.");
+      error: (error) => {
         this.isLoading.set(false);
+
+        if( error.status === 400 ) {
+          this.errorMessage.set("Invalid username/password combination.");
+        }
+        else {
+          console.error(error);
+          this.errorMessage.set("Unknown error. Please try again.");
+        }
       }
     });
   }
