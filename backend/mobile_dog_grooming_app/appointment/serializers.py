@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Service, Appointment
 from profile.models import Customer, Groomer
+from profile.serializers import CustomerSerializer, PublicViewGroomerSerializer
 
 import logging
 
@@ -12,16 +13,21 @@ class ServiceSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price', 'duration']
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    customer = serializers.PrimaryKeyRelatedField(queryset=Customer.objects.all())
-    groomer = serializers.PrimaryKeyRelatedField(queryset=Groomer.objects.all())
-    services = serializers.PrimaryKeyRelatedField(
+    customer_id = serializers.PrimaryKeyRelatedField(queryset=Customer.objects.all(), write_only=True, source='customer')
+    customer = CustomerSerializer(read_only=True)
+    groomer_id = serializers.PrimaryKeyRelatedField(queryset=Groomer.objects.all(), write_only=True, source='groomer')
+    groomer = PublicViewGroomerSerializer(read_only=True)
+    service_ids = serializers.PrimaryKeyRelatedField(
         many=True,
-        queryset=Service.objects.all()
+        queryset=Service.objects.all(),
+        write_only=True,
+        source='services'
     )
+    services = ServiceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Appointment
-        fields = ['id', 'customer', 'groomer', 'datetime', 'services']
+        fields = ['id', 'customer', 'customer_id', 'groomer', 'groomer_id', 'datetime', 'services', 'service_ids']
 
     def create(self, validated_data):
         logger.info(f"Inside create(): {validated_data}")
