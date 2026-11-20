@@ -1,0 +1,10 @@
+<button [matButton]="this.type()" [disabled]="isLoading()">
+    @if( isLoading() ) {
+        <div style="width: 40px">
+            <mat-progress-spinner mode="indeterminate" [diameter]="40"></mat-progress-spinner>
+        </div>
+    }
+    @else {
+        <ng-content />
+    }
+</button>
