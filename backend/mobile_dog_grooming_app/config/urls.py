@@ -20,6 +20,7 @@ from django.urls import include, path
 
 from appointment.views import ServiceViewSet, AppointmentViewSet
 from profile.views import CustomerViewSet, GroomerViewSet, PublicGroomerViewSet, PublicGroomerAvailabilityView
+from authentication.views import CustomerCreateAPIView, GroomerCreateAPIView
 
 router = DefaultRouter()
 router.register(r'api/customer', CustomerViewSet)
@@ -32,5 +33,7 @@ urlpatterns = router.urls
 urlpatterns += [
     path('admin/', admin.site.urls),
     path(r'api/auth/', include('dj_rest_auth.urls')),
-    path('api/public/groomer/<int:pk>/availability', PublicGroomerAvailabilityView.as_view())
+    path(r'api/public/groomer/<int:pk>/availability', PublicGroomerAvailabilityView.as_view()),
+    path(r'api/auth/create/customer/', CustomerCreateAPIView.as_view(), name="customer-create"),
+    path(r'api/auth/create/groomer/', GroomerCreateAPIView.as_view(), name="groomer-create")
 ]
