@@ -1,3 +1,4 @@
+@if( this.formLoaded() ) {
 <form [formGroup]="customerForm">
     <div class="row">
         <mat-form-field class="half-width">
@@ -52,6 +53,7 @@
         </mat-form-field>
     </div>
     <div class="row">
-        <app-loading-button [isLoading]="isSubmitting()" (click)="createCustomer()">Create</app-loading-button>
+        <app-loading-button [isLoading]="isSubmitting()" (click)="createCustomer()">Next</app-loading-button>
     </div>
 </form>
+}
