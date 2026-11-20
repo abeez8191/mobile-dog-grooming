@@ -64,13 +64,13 @@ export class GroomerDetails implements OnInit{
       email: [groomer?.email || '', [Validators.required]],
       phoneNumber: [groomer?.phoneNumber || '', [Validators.required]],
       availability: this.fb.group({
-        sun: [(groomer?.availability.sun) ? [groomer.availability.sun.start, groomer.availability.sun.end] : []],
-        mon: [(groomer?.availability.mon) ? [groomer.availability.mon.start, groomer.availability.mon.end] : []],
-        tue: [(groomer?.availability.tue) ? [groomer.availability.tue.start, groomer.availability.tue.end] : []],
-        wed: [(groomer?.availability.wed) ? [groomer.availability.wed.start, groomer.availability.wed.end] : []],
-        thu: [(groomer?.availability.thu) ? [groomer.availability.thu.start, groomer.availability.thu.end] : []],
-        fri: [(groomer?.availability.fri) ? [groomer.availability.fri.start, groomer.availability.fri.end] : []],
-        sat: [(groomer?.availability.sat) ? [groomer.availability.sat.start, groomer.availability.sat.end] : []],
+        sun: [(groomer?.availability.sun) ? [this.convert24HourTo12Hour(groomer.availability.sun.start), this.convert24HourTo12Hour(groomer.availability.sun.end)] : []],
+        mon: [(groomer?.availability.mon) ? [this.convert24HourTo12Hour(groomer.availability.mon.start), this.convert24HourTo12Hour(groomer.availability.mon.end)] : []],
+        tue: [(groomer?.availability.tue) ? [this.convert24HourTo12Hour(groomer.availability.tue.start), this.convert24HourTo12Hour(groomer.availability.tue.end)] : []],
+        wed: [(groomer?.availability.wed) ? [this.convert24HourTo12Hour(groomer.availability.wed.start), this.convert24HourTo12Hour(groomer.availability.wed.end)] : []],
+        thu: [(groomer?.availability.thu) ? [this.convert24HourTo12Hour(groomer.availability.thu.start), this.convert24HourTo12Hour(groomer.availability.thu.end)] : []],
+        fri: [(groomer?.availability.fri) ? [this.convert24HourTo12Hour(groomer.availability.fri.start), this.convert24HourTo12Hour(groomer.availability.fri.end)] : []],
+        sat: [(groomer?.availability.sat) ? [this.convert24HourTo12Hour(groomer.availability.sat.start), this.convert24HourTo12Hour(groomer.availability.sat.end)] : []],
       }),
       bio: [groomer?.biography || '', Validators.required],
       photo: [(groomer) ? `${groomer.photoData},${groomer.photo}` : '', Validators.required]
@@ -142,6 +142,26 @@ export class GroomerDetails implements OnInit{
     }
 
     return `${hour}:${min}`;
+  }
+
+  convert24HourTo12Hour(time: string): string {
+    let[ hourString, min ] = time.split(new RegExp(":"));
+    let isPM = false;
+
+    let hour = +hourString;
+    if( hour === 0 ) {
+      hour = 12;
+    }
+    else if( hour >= 12 ) {
+      isPM = true;
+      if( hour > 12 ) {
+        hour -= 12; 
+      }
+    }
+
+    const retVal = `${hour}:${min} ${isPM ? 'PM' : 'AM'}`;
+    console.log(`Converting ${time} to ${retVal}`);
+    return retVal;
   }
 
   updatePhoto($event: string|ArrayBuffer) {
