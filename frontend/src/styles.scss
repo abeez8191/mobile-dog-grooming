@@ -10,7 +10,11 @@
   @include mat.toolbar-overrides((
     container-background-color: var(--mat-sys-primary),
     container-text-color: var(--mat-sys-on-primary)
-  ))
+  ));
+
+  @include mat.dialog-overrides((
+    container-shape: 12px,
+  ));
 }
 
 *, *::before, *::after {
