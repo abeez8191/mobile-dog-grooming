@@ -7,8 +7,7 @@ import { Appointment } from '../model/appointment.model';
   providedIn: 'root',
 })
 export class AppointmentService {
-  baseUrl = "http://localhost:8000/api";
-  url = `${this.baseUrl}/appointment/`;
+  url = `/appointment/`;
 
   constructor(private httpClient: HttpClient) {}
 
