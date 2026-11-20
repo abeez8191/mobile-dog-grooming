@@ -1,15 +1,15 @@
-import { Component, inject, output, OutputEmitterRef } from '@angular/core';
+import { Component, inject, output, OutputEmitterRef, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CustomerService } from 'src/app/customer/service/customer-service';
 import { Customer } from 'src/app/customer/model/customer.model';
+import { LoadingButton } from 'src/app/shared/components/loading-button/loading-button';
 
 @Component({
   selector: 'app-customer-information',
   imports: [
-    MatButtonModule,
+    LoadingButton,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule
@@ -20,6 +20,8 @@ import { Customer } from 'src/app/customer/model/customer.model';
 export class CustomerInformation {
   customerCreated: OutputEmitterRef<number> = output();
   customerService = inject(CustomerService);
+
+  isSubmitting = signal(false);
   
   constructor(private fb: FormBuilder) {
     this.customerForm = this.fb.group({
@@ -42,9 +44,14 @@ export class CustomerInformation {
       return;
     }
 
+    this.isSubmitting.set(true);
+
     this.customerService.createCustomer(this.customerForm.value).subscribe({
       next: (customer: Customer) => {
         this.customerCreated.emit(customer.id!);
+      },
+      error: (error) => {
+        this.isSubmitting.set(false);
       }
     });
   }

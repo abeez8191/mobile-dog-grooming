@@ -5,7 +5,6 @@ import { Service } from 'src/app/grooming-service/model/services.model';
 import { SelectTime } from 'src/app/booking/components/select-time/select-time';
 import { CustomerInformation } from 'src/app/booking/components/customer-information/customer-information';
 import { AppointmentService } from 'src/app/appointment/service/appointment-service';
-import { MatButtonModule } from '@angular/material/button';
 import { RegisterAccount } from '../../components/register-account/register-account';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
 

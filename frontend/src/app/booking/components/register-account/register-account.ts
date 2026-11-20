@@ -5,10 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
 import { DataStore } from 'src/app/data-store/data-store';
+import { LoadingButton } from 'src/app/shared/components/loading-button/loading-button';
 
 @Component({
   selector: 'app-register-account',
   imports: [
+    LoadingButton,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -24,6 +26,7 @@ export class RegisterAccount implements OnInit {
   authenticationService = inject(AuthenticationService);
 
   showAccountCreation = signal(false);
+  isSubmitting = signal(false);
 
   constructor(private fb: FormBuilder) {}
 
@@ -37,9 +40,20 @@ export class RegisterAccount implements OnInit {
   }
 
   createAuthentication(): void {
+    if( ! this.accountCreationForm.valid ) {
+      return;
+    }
+
+    this.isSubmitting.set(true);
     this.authenticationService.createCustomer({customer: this.customerId(), ...this.accountCreationForm.value}).subscribe({
-      next: (response) => {console.log(response)},
-      error: (error) => console.log(error)
+      next: (response) => {
+        console.log(response);
+        this.isSubmitting.set(false);
+      },
+      error: (error) => {
+        console.log(error);
+        this.isSubmitting.set(false);
+      }
     })
   }
 }

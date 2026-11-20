@@ -16,6 +16,7 @@
     </div>
 
     <div class="row end-content">
-        <button matButton="filled" (click)="submit()">Login</button>
+        <app-loading-button [isLoading]="isLoading()" (click)="submit()">Login</app-loading-button>
+        <!-- <button matButton="filled" (click)="submit()">Login</button> -->
     </div>
 </form>

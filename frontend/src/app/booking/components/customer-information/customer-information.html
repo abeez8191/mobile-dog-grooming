@@ -52,6 +52,6 @@
         </mat-form-field>
     </div>
     <div class="row">
-        <button matButton="filled" (click)="createCustomer()">Create</button>
+        <app-loading-button [isLoading]="isSubmitting()" (click)="createCustomer()">Create</app-loading-button>
     </div>
 </form>

@@ -14,7 +14,7 @@
             </mat-form-field>
         </div>
         <div class="row justify-center">
-            <button matButton="filled">Create</button>
+            <app-loading-button [isLoading]="isSubmitting()" (click)="createAuthentication()">Create</app-loading-button>
         </div>
     </form>
 }

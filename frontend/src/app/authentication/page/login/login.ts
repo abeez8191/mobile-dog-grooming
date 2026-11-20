@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output, OutputEmitterRef } from '@angular/core';
+import { Component, inject, OnInit, output, OutputEmitterRef, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,11 +7,12 @@ import { AuthenticationService } from '../../service/authentication-service';
 import { LoginRequest, UserInformation } from '../../model/authentication.model';
 import { concatMap } from 'rxjs';
 import { DataStore } from 'src/app/data-store/data-store';
+import { LoadingButton } from 'src/app/shared/components/loading-button/loading-button';
 
 @Component({
   selector: 'app-login',
   imports: [
-    MatButtonModule,
+    LoadingButton,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule
@@ -24,6 +25,8 @@ export class Login implements OnInit {
 
   authenticationService = inject(AuthenticationService);
   dataStore = inject(DataStore);
+
+  isLoading = signal(false);
 
   constructor(private fb: FormBuilder) {}
 
@@ -40,6 +43,8 @@ export class Login implements OnInit {
     if( !this.loginForm.valid ) {
       return;
     }
+
+    this.isLoading.set(true);
 
     let data: any = {};
     data.password = this.loginForm.value.password;
@@ -63,7 +68,9 @@ export class Login implements OnInit {
         this.dataStore.setEmail(userInformation.email);
         this.login.emit();
       },
-      error: () => {}
+      error: () => {
+        this.isLoading.set(false);
+      }
     });
   }
 }
