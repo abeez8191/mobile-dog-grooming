@@ -56,6 +56,7 @@ button {
     @include mat.button-overrides((
       outlined-container-shape: 4px,
       filled-container-shape: 4px,
+      text-container-shape: 4px,
     ));
 }
 
