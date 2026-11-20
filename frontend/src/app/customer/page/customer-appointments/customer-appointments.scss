@@ -1,0 +1,33 @@
+@use '@angular/material' as mat;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.date-time {
+    border: 1px solid grey;
+    padding: 8px 12px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.service-info {
+    padding-left: 8px;
+}
+
+.del {
+  @include mat.button-overrides((
+    text-label-text-color: #d32f2f,
+    text-state-layer-color: #d32f2f,
+    text-ripple-color: rgba(211, 47, 47, 0.2),
+  ));
+}
+
+.label {
+    font-weight: bold;
+}

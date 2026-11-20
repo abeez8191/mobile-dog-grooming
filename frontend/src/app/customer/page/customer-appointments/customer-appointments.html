@@ -1,0 +1,19 @@
+@for(appointment of appointments(); track appointment.id) {
+    <div class="row">
+        <div class="date-time col">
+            <div>{{parseDateTime(`${appointment.datetime}`)}}</div>
+            <div>{{parseTime(`${appointment.datetime}`)}}</div>
+        </div>
+        <div class="col service-info">
+            <div><span class="label">Groomer:</span> {{appointment.groomer?.firstName}} {{appointment.groomer?.lastName}}</div>
+            <div><span class="label">Services:</span> {{appointment.services?.map(service => service?.name)?.join(", ")}}</div>
+            <div><span class="label">Estimated Duration:</span> {{getDuration(appointment.services)}}</div>
+            <div><span class="label">Estimated Cost:</span> ${{getPrice(appointment.services)}}</div>
+        </div>
+        <div style="flex-grow: 1"></div>
+        <div class="col" style="gap: 4px">
+            <button matButton="outlined">Edit</button>
+            <button class="del" matButton="text">Delete</button>
+        </div>
+    </div>
+}
