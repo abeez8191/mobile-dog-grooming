@@ -11,7 +11,7 @@ export class AuthenticationService {
   constructor(private httpClient: HttpClient) {}
 
   login(request: LoginRequest): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(`${this.url}/login`, request);
+    return this.httpClient.post<LoginResponse>(`${this.url}/login`, request, {withCredentials: true});
   }
 
   logout(request: LogoutRequest): Observable<LogoutResponse> {
