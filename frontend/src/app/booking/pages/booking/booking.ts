@@ -8,6 +8,7 @@ import { AppointmentService } from 'src/app/appointment/service/appointment-serv
 import { RegisterAccount } from '../../components/register-account/register-account';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
 import { Customer } from 'src/app/customer/model/customer.model';
+import { DataStore } from 'src/app/data-store/data-store';
 
 @Component({
   selector: 'app-booking',
@@ -24,13 +25,14 @@ import { Customer } from 'src/app/customer/model/customer.model';
 export class Booking {
   appointmentService = inject(AppointmentService);
   authenticationService = inject(AuthenticationService);
+  dataStore = inject(DataStore);
   
   step = signal(1);
   groomerId = signal(-1);
   selectedServices: WritableSignal<Service[]> = signal([]);
   selectedTime: WritableSignal<Date|undefined> = signal(undefined);
   customer: WritableSignal<Customer | undefined> = signal(undefined);
-  showAccountCreation = signal(true);
+  showAccountCreation = signal(! this.dataStore.isLoggedIn() );
 
   monthsShortName = ['empty', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   next(): void {
@@ -65,10 +67,10 @@ export class Booking {
 
   createAppointment(): void {
     this.appointmentService.createAppointment({
-      customer: this.customer()!.id!,
-      groomer: this.groomerId(),
+      customer_id: this.customer()!.id!,
+      groomer_id: this.groomerId(),
       datetime: this.selectedTime()!,
-      services: this.selectedServices().map(s => s.id!)
+      service_ids: this.selectedServices().map(s => s.id!)
     }).subscribe({
       next: (appointment) => {this.next()}
     });
