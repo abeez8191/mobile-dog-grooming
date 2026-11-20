@@ -10,10 +10,12 @@ import { Router, RouterOutlet } from '@angular/router';
 import { LoginDialog } from './login-dialog/login-dialog';
 import { DataStore } from './data-store/data-store';
 import { AuthenticationService } from './authentication/service/authentication-service';
+import { Banner } from './shared/component/banner/banner';
 
 @Component({
   selector: 'app-root',
   imports: [
+    Banner,
     RouterOutlet, 
     MatIconModule, 
     MatListModule,
