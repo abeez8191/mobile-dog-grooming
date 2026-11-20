@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
@@ -9,4 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })
-export class HomePage {}
+export class HomePage {
+  router = inject(Router);
+
+  goToBooking(): void {
+    this.router.navigate(['/booking']);
+  }
+}
