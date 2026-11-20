@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output, OutputEmitterRef, signal } from '@angular/core';
+import { Component, inject, OnInit, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,6 +27,7 @@ export class Login implements OnInit {
   dataStore = inject(DataStore);
 
   isLoading = signal(false);
+  errorMessage: WritableSignal<string | null> = signal(null);
 
   constructor(private fb: FormBuilder) {}
 
@@ -69,6 +70,7 @@ export class Login implements OnInit {
         this.login.emit();
       },
       error: () => {
+        this.errorMessage.set("Invalid username/password combination.");
         this.isLoading.set(false);
       }
     });

@@ -1,6 +1,11 @@
 <div class="row center">
     <h1>Sign In</h1>
 </div>
+@if( this.errorMessage() ) {
+    <div class="row center error">
+        {{this.errorMessage()}}
+    </div>
+}
 <form [formGroup]="this.loginForm">
     <div class="row">
         <mat-form-field>
