@@ -7,6 +7,7 @@ import { CustomerInformation } from 'src/app/booking/components/customer-informa
 import { AppointmentService } from 'src/app/appointment/service/appointment-service';
 import { RegisterAccount } from '../../components/register-account/register-account';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
+import { Customer } from 'src/app/customer/model/customer.model';
 
 @Component({
   selector: 'app-booking',
@@ -28,8 +29,8 @@ export class Booking {
   groomerId = signal(-1);
   selectedServices: WritableSignal<Service[]> = signal([]);
   selectedTime: WritableSignal<Date|undefined> = signal(undefined);
-  customerId: WritableSignal<number> = signal(-1);
-  showAccountCreation = signal(false);
+  customer: WritableSignal<Customer | undefined> = signal(undefined);
+  showAccountCreation = signal(true);
 
   monthsShortName = ['empty', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   next(): void {
@@ -45,8 +46,8 @@ export class Booking {
     this.next();
   }
 
-  getCustomerId(id: number): void {
-    this.customerId.set(id);
+  getCustomerInformation(customer: Customer): void {
+    this.customer.set(customer);
     this.createAppointment();
   }
 
@@ -64,7 +65,7 @@ export class Booking {
 
   createAppointment(): void {
     this.appointmentService.createAppointment({
-      customer: this.customerId(),
+      customer: this.customer()!.id!,
       groomer: this.groomerId(),
       datetime: this.selectedTime()!,
       services: this.selectedServices().map(s => s.id!)
@@ -81,5 +82,9 @@ export class Booking {
     const minutes = String(d.getMinutes()).padStart(2, '0');
 
     return `${this.monthsShortName[month]}/${day} at ${hours}:${minutes}`;
+  }
+
+  complete(): void {
+    this.showAccountCreation.set(false);
   }
 }

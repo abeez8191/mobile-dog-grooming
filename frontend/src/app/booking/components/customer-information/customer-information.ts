@@ -19,7 +19,7 @@ import { BannerService } from 'src/app/shared/components/banner/banner.service';
   styleUrl: './customer-information.scss',
 })
 export class CustomerInformation {
-  customerCreated: OutputEmitterRef<number> = output();
+  customerCreated: OutputEmitterRef<Customer> = output();
   customerService = inject(CustomerService);
   bannerService = inject(BannerService);
 
@@ -50,7 +50,7 @@ export class CustomerInformation {
 
     this.customerService.createCustomer(this.customerForm.value).subscribe({
       next: (customer: Customer) => {
-        this.customerCreated.emit(customer.id!);
+        this.customerCreated.emit(customer);
       },
       error: (error) => {
         if( error.status === 400 ) {

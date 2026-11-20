@@ -9,10 +9,12 @@
     <app-select-time [groomerId]="groomerId()" [duration]="getServicesDuration()" (select)="selectTime($event)"></app-select-time>
 }
 @else if( step() === 4 ) {
-    <app-customer-information (customerCreated)="getCustomerId($event)"></app-customer-information>
+    <app-customer-information (customerCreated)="getCustomerInformation($event)"></app-customer-information>
 }
 @else if( step() === 5 ) {
     <h2>Booking Confirmed</h2>
     <p>We will see you on November 12 at 3:00 PM.</p>
-    <app-register-account [customerId]="customerId()"></app-register-account>
+    @if( showAccountCreation() ) {
+        <app-register-account [customer]="customer()!" (created)="complete()"></app-register-account>
+    }
 }

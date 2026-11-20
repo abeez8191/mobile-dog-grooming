@@ -1,9 +1,10 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
+import { Customer } from 'src/app/customer/model/customer.model';
 import { DataStore } from 'src/app/data-store/data-store';
 import { BannerService } from 'src/app/shared/components/banner/banner.service';
 import { LoadingButton } from 'src/app/shared/components/loading-button/loading-button';
@@ -21,7 +22,8 @@ import { LoadingButton } from 'src/app/shared/components/loading-button/loading-
   styleUrl: './register-account.scss',
 })
 export class RegisterAccount implements OnInit {
-  customerId = input.required<number>();
+  customer = input.required<Customer>();
+  created = output<void>();
 
   readonly dataStore = inject(DataStore);
   readonly authenticationService = inject(AuthenticationService);
@@ -36,7 +38,7 @@ export class RegisterAccount implements OnInit {
 
   ngOnInit(): void {
     this.accountCreationForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [this.customer().email, [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
   }
@@ -47,10 +49,17 @@ export class RegisterAccount implements OnInit {
     }
 
     this.isSubmitting.set(true);
-    this.authenticationService.createCustomer({customer: 1, ...this.accountCreationForm.value}).subscribe({
+    this.authenticationService.createCustomer({customer: this.customer().id!, ...this.accountCreationForm.value}).subscribe({
       next: (response) => {
-        console.log(response);
-        this.isSubmitting.set(false);
+        this.bannerService.open(
+          'Account created successfully.',
+          {
+            icon: 'check_circle',
+            timeout: 10000
+          }
+        )
+        
+        this.created.emit();
       },
       error: (error) => {
         if( error.status === 400 ) {
