@@ -40,7 +40,7 @@ export class AvailabilityDay implements OnInit {
     var dateParts = date.split("-").map(i => +i);
     var timeParts = time.split(":").map(i => +i);
 
-    this.select.emit(new Date(dateParts[0], dateParts[1], dateParts[2], timeParts[0], timeParts[1], timeParts[2]));
+    this.select.emit(new Date(dateParts[0], dateParts[1] - 1, dateParts[2], timeParts[0], timeParts[1], timeParts[2]));
   }
 
   getCalendarDay(): string {
