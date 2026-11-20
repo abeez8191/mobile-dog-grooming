@@ -1,14 +1,16 @@
 <div class="day-viewer-container">
-      <div class="header">
-        <h2>{{ viewDate() | date: 'fullDate' }}</h2>
-      </div>
+  <div class="header row">
+    <div><button matIconButton><mat-icon (click)="previousDay()">keyboard_arrow_left</mat-icon></button></div>
+    <h2 class="grow">{{ date() | date: 'fullDate' }}</h2>
+    <div><button matIconButton><mat-icon (click)="nextDay()">keyboard_arrow_right</mat-icon></button></div>
+  </div>
 
-      <mwl-calendar-day-view
-        [viewDate]="viewDate()"
-        [events]="events()"
-        [dayStartHour]="7"
-        [dayEndHour]="20"
-        [hourSegments]="2"
-        (eventClicked)="onEventClick($event.event)">
-      </mwl-calendar-day-view>
-    </div>
+  <mwl-calendar-day-view
+    [viewDate]="date()"
+    [events]="events()"
+    [dayStartHour]="7"
+    [dayEndHour]="20"
+    [hourSegments]="2"
+    (eventClicked)="onEventClick($event.event)">
+  </mwl-calendar-day-view>
+</div>
