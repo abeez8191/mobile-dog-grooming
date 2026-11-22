@@ -27,7 +27,7 @@ router.register(r'api/customer', CustomerViewSet)
 router.register(r'api/public/groomer', PublicGroomerViewSet, basename='public-groomer')
 router.register(r'api/groomer', GroomerViewSet)
 router.register(r'api/service', ServiceViewSet)
-router.register(r'api/appointment', AppointmentViewSet)
+router.register(r'api/appointment', AppointmentViewSet, basename='appointment')
 
 urlpatterns = router.urls
 urlpatterns += [
