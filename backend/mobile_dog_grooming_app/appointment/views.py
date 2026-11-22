@@ -19,7 +19,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     def get_queryset(self): # type: ignore[override]
         if self.request.user.is_authenticated:
 
-            today = self.request.GET.get("date", f"{timezone.localdate()}")
+            requested_date = self.request.GET.get("date", f"{timezone.localdate()}")
             if isinstance(self.request.user, ApplicationUser):
                 if self.request.user.customer is not None:
                     return Appointment.objects.select_related("groomer", "customer")\
@@ -28,7 +28,11 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                 elif self.request.user.groomer is not None:
                     return Appointment.objects.select_related("groomer", "customer")\
                         .prefetch_related("services")\
-                        .filter(groomer=self.request.user.groomer, datetime__date=today)
+                        .filter(groomer=self.request.user.groomer, datetime__date=requested_date)
+                elif self.request.user.is_superuser:
+                    return Appointment.objects.select_related('groomer', 'customer')\
+                        .prefetch_related('services')\
+                        .filter(datetime__date=requested_date)
 
         return []
 
