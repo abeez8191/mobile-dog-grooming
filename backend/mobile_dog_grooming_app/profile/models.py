@@ -28,4 +28,15 @@ class Customer(models.Model):
 
     def __str__(self):
         return f"{self.firstName} {self.lastName}"
-    
+
+class Dog(models.Model):
+    name = models.CharField(max_length=50)
+    owner = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="dogs")
+    breed = models.CharField(max_length=50)
+
+class Note(models.Model):
+    dog = models.ForeignKey(Dog, on_delete=models.CASCADE, related_name="notes")
+    message = models.CharField()
+    groomer = models.ForeignKey(Groomer, on_delete=models.CASCADE)
+    created_on = models.DateTimeField()
+    updated_on = models.DateTimeField()
