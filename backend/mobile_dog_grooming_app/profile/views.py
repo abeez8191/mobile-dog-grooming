@@ -3,8 +3,10 @@ import logging
 import math
 from datetime import date, datetime, time, timedelta
 from functools import reduce
+from zoneinfo import ZoneInfo
 
 from appointment.models import Appointment
+from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -44,15 +46,19 @@ class PublicGroomerAvailabilityView(APIView):
         groomer_schedule = self.getSchedule(groomer.availability)
         self.enrichGroomerSchedule(groomer_schedule, start_date)
 
-        queryset = self.getAppointmentQuerySet(pk, start_date)
+        queryset = self.getAppointmentQuerySet(pk, start_date, groomer_schedule['timezone'])
         for appointment in queryset:
-            appointmentTime = appointment.datetime.time()
             duration = reduce(lambda total, service: total + service.duration, appointment.services.all(), 30)
-
             appointment_day = appointment.datetime.strftime("%a").lower()
-            index = groomer_schedule[appointment_day]['times'].index(appointmentTime)
+            
+            appointment_localized = timezone.localtime(appointment.datetime, timezone=ZoneInfo(groomer_schedule['timezone']))
+            
+            index = next((i for i, row in enumerate(groomer_schedule[appointment_day]['times']) if row[0] == appointment_localized.time()), None)
             number_of_chunks_to_remove = math.ceil(duration / 30 )
-            del groomer_schedule[appointment_day]['times'][index:index + number_of_chunks_to_remove]
+            
+            if index is not None:
+                for time_index in range(index, index + number_of_chunks_to_remove):
+                    groomer_schedule[appointment_day]['times'][time_index][1] = 'X'
 
         return Response({"available_slots": groomer_schedule}, status=status.HTTP_200_OK)
 
@@ -89,6 +95,7 @@ class PublicGroomerAvailabilityView(APIView):
                 retVal[day] = self.getTimeSlots(groomer_availability[day]);
             else:
                 retVal[day] = [];
+        retVal['timezone'] = groomer_availability['timezone']
         return retVal
 
     def getTimeSlots(self, availability):
@@ -103,24 +110,28 @@ class PublicGroomerAvailabilityView(APIView):
         end_date_time = datetime.combine(date.today(), end_time)
 
         while date_time < end_date_time:
-            retVal.append(date_time.time())
+            retVal.append([date_time.time(),''])
             date_time += timedelta(minutes=30)
 
-        retVal.append(date_time.time())
+        retVal.append([date_time.time(), ''])
         return retVal
 
     """ Gets all the appointments for the current week for the groomer specified"""
-    def getAppointmentQuerySet(self, pk, start_date):
+    def getAppointmentQuerySet(self, pk, start_date, time_zone_string):
         end_of_week = start_date + timedelta(days=6)
-
+        time_zone = ZoneInfo(time_zone_string)
+        
         sow_midnight = datetime.combine(
             start_date,
             time.min
         )
+        
+        sow_tzaware = timezone.make_aware(sow_midnight, timezone=time_zone)
 
         eow_midnight = datetime.combine(
             end_of_week,
             time.max
         )
+        eow_tzaware = timezone.make_aware(eow_midnight, timezone=time_zone)
 
-        return Appointment.objects.filter(datetime__range=(sow_midnight, eow_midnight), groomer=pk).prefetch_related('services')
+        return Appointment.objects.filter(datetime__range=(sow_tzaware, eow_tzaware), groomer=pk).prefetch_related('services')
