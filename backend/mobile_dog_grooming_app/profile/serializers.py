@@ -75,12 +75,17 @@ class DogSerializer(serializers.ModelSerializer):
         source="notes",
         required=False
     )
+    owner_id = serializers.PrimaryKeyRelatedField(
+        queryset=Customer.objects.all(),
+        source="customers",
+        required=False
+    )
+    id = serializers.IntegerField(required=False)
 
     class Meta:
         model = Dog
-        fields = ["id", "name", "breed", "notes", "note_ids"]
-
-
+        fields = ["id", "name", "breed", "notes", "note_ids", "owner_id"]
+        
 class CustomerSerializer(serializers.ModelSerializer):
     dogs = DogSerializer(many=True)
 
