@@ -46,8 +46,8 @@ export class SelectTime implements OnInit {
     return ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as PublicGroomerAvailabilityKey[];
   }
 
-  getAvailabilityForDay(day: PublicGroomerAvailabilityKey): {date: string, times: string[]} {
-    return this.availability()[day] || {date: '', times: []};
+  getAvailabilityForDay(day: PublicGroomerAvailabilityKey): {date: string, times: string[][]} {
+    return this.availability()[day] || {date: '', times: [[]]};
   }
 
   getNextWeek() {

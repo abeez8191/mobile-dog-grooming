@@ -4,11 +4,13 @@
 <div class="row center date">
     {{getCalendarDay()}}
 </div>
-@if( availability().times.length > 0 ) {
-    @for( availableTime of availability().times; track availableTime) {
-        <button matButton="outlined" (click)="chooseTime(availability().date, availableTime)">{{formatTime(availableTime)}}</button>
+@if( filteredAvailability(); as avail ) {
+    @if( avail.times.length > 0 ) {
+        @for( availableTime of avail.times; track availableTime) {
+            <button matButton="outlined" (click)="chooseTime(avail.date, availableTime)">{{formatTime(availableTime)}}</button>
+        }
     }
-}
-@else {
-    <p>Not Availabile</p>
+    @else {
+        <p>Not Availabile</p>
+    }
 }
