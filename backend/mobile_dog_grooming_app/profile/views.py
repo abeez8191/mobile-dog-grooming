@@ -1,23 +1,21 @@
-import copy
 
-from datetime import datetime, timedelta, time, date
-
-from django.utils import timezone
-
+import logging
+import math
+from datetime import date, datetime, time, timedelta
 from functools import reduce
 
-import math
-
-from rest_framework import viewsets, status
+from appointment.models import Appointment
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from .models import Customer, Groomer
-from .serializers import CustomerSerializer, GroomerSerializer, PublicViewGroomerSerializer
-
-from appointment.models import Appointment
-import logging
+from .serializers import (
+    CustomerSerializer,
+    GroomerSerializer,
+    PublicViewGroomerSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
