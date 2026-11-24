@@ -74,5 +74,17 @@ export class CustomerAppointments implements OnInit{
     return `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
   }
 
+  deleteAppointment(id?: number): void {
+    this.appointmentService.deleteAppointment(id!).subscribe({
+      next: () => {
+        console.log("removing appointment");
+        this.appointments.update(snapshot => snapshot.filter(val => val.id !== id));
+      },
+      error: () => {
+        this.bannerService.open("Unable to delete appointment.", {icon: 'warning_outline', warning: true, timeout: 10000});
+      }
+    });
+  }
+
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 }

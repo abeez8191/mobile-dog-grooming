@@ -11,3 +11,33 @@
     flex-grow: 1;
     text-align: center;
 }
+
+.detail-view {
+    font-size: 1.15rem;
+    font-weight:lighter;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 200px 1fr; /* Creates 2 equal columns */
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.right-side {
+    justify-content: end;
+}
+
+.appointment-details {
+    width: fit-content;
+    font-size: 1.15rem;
+    font-weight: lighter;
+}
+
+.space-between {
+    justify-content: space-between;
+}

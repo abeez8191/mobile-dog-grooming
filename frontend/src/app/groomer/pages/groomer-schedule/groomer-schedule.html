@@ -1,16 +1,61 @@
-<div class="day-viewer-container">
-  <div class="header row">
-    <div><button matIconButton><mat-icon (click)="previousDay()">keyboard_arrow_left</mat-icon></button></div>
-    <h2 class="grow">{{ date() | date: 'fullDate' }}</h2>
-    <div><button matIconButton><mat-icon (click)="nextDay()">keyboard_arrow_right</mat-icon></button></div>
+@if( detailView(); as appt ) {
+  <div class="appointment-details">
+    <div class="grid">
+      <div class="label">Name:</div>
+      <div>{{appt.customer!.firstName}} {{appt.customer!.lastName}}</div>
+      <div class="label">Phone:</div>
+      <div>{{appt.customer!.phoneNumber}}</div>
+      <div class="label">Address:</div>
+      <div class="col">
+        <div>{{appt.customer!.street}}</div>
+          @if( appt.customer!.street2 ) {
+            <div>{{appt.customer!.street2}}</div>
+          }
+          <div>{{appt.customer!.city}}, {{appt.customer!.state}} {{appt.customer!.zipCode}}</div>
+      </div>
+      <div class="label">Dog:</div>
+      <div class="col">
+        <div>{{appt.dog!.name}}</div>
+        <div>({{appt.dog!.breed}})</div>
+      </div>
+      <div class="label">Services:</div>
+      <div class="col">
+        @for(service of appt.services; track service.name) {
+          <div>{{service.name}}</div>
+        }
+      </div>
+      <div class="label">Estimated Duration:</div>
+      <div>{{getEstimatedDuration(appt.services)}}</div>
+      <div class="label">Estimated Cost:</div>
+      <div>${{getEstimatedCost(appt.services)}}</div>
+      @if(appt.completed_on) {
+        <div class="label">Status:</div>
+        <div style="color: green">Completed</div>
+      }
+    </div>
+    <hr />
+    <app-note-view [notes]="appt.dog?.notes ?? []" [dogId]="appt.dog?.id"/>
+    <div class="row space-between">
+      <button matButton="outlined" (click)="this.detailView.set(undefined)" type="button">Back</button>
+      <button matButton="outlined" (click)="completeAppointment(appt)" type="button">Complete</button>
+    </div>
   </div>
+}
+@else {
+  <div class="day-viewer-container">
+    <div class="header row">
+      <div><button matIconButton><mat-icon (click)="previousDay()">keyboard_arrow_left</mat-icon></button></div>
+      <h2 class="grow">{{ date() | date: 'fullDate' }}</h2>
+      <div><button matIconButton><mat-icon (click)="nextDay()">keyboard_arrow_right</mat-icon></button></div>
+    </div>
 
-  <mwl-calendar-day-view
-    [viewDate]="date()"
-    [events]="events()"
-    [dayStartHour]="7"
-    [dayEndHour]="20"
-    [hourSegments]="2"
-    (eventClicked)="onEventClick($event.event)">
-  </mwl-calendar-day-view>
-</div>
+    <mwl-calendar-day-view
+      [viewDate]="date()"
+      [events]="events()"
+      [dayStartHour]="7"
+      [dayEndHour]="20"
+      [hourSegments]="2"
+      (eventClicked)="onEventClick($event.event)">
+    </mwl-calendar-day-view>
+  </div>
+}

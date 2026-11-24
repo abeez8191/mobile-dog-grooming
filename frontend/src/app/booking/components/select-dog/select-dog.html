@@ -1,0 +1,12 @@
+<div class="row gap">
+@for( dog of this.dogs(); track dog ) {
+    <div class="select-dog" (click)="selectDog(dog)">
+        <div class="name">
+            {{dog.name}}
+        </div>
+        <div class="breed">
+            {{dog.breed}}
+        </div>
+    </div>
+}
+</div>

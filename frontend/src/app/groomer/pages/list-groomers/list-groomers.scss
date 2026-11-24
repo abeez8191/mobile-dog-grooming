@@ -7,14 +7,6 @@
     padding: 8px;
 }
 
-button {
-    @include mat.fab-overrides((
-        container-color: var(--mat-sys-tertiary),
-        foreground-color: var(--mat-sys-on-tertiary),
-        container-shape: var(--mat-sys-corner-large),
-    ));
-}
-
 .row {
     display: flex;
     flex-direction: row;

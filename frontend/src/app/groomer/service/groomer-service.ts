@@ -7,8 +7,7 @@ import { Groomer, PublicGroomer, PublicGroomerAvailability, PublicGroomerAvailab
   providedIn: 'root',
 })
 export class GroomerService {
-  baseUrl = "http://localhost:8000/api";
-  url = `${this.baseUrl}/groomer/`;
+  url = `/groomer/`;
   
   constructor(private httpClient: HttpClient) {}
 
@@ -33,7 +32,7 @@ export class GroomerService {
   }
 
   getPublicGroomers(): Observable<PublicGroomer[]> {
-    return this.httpClient.get<PublicGroomer[]>(`${this.baseUrl}/public/groomer/`);
+    return this.httpClient.get<PublicGroomer[]>(`/public/groomer/`);
   }
 
   getPublicGroomerAvailability(id: number, date?: Date): Observable<PublicGroomerAvailability> {
@@ -43,7 +42,7 @@ export class GroomerService {
       params = params.set('start_date', this.formatDate(date));
     }
 
-    return this.httpClient.get<PublicGroomerAvailabilityResponse>(`${this.baseUrl}/public/groomer/${id}/availability`, {params})
+    return this.httpClient.get<PublicGroomerAvailabilityResponse>(`/public/groomer/${id}/availability`, {params})
       .pipe(
         map(response => response.available_slots)
       );

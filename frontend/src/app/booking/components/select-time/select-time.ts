@@ -22,6 +22,7 @@ export class SelectTime implements OnInit {
   duration = input.required<number>();
 
   select: OutputEmitterRef<Date> = output();
+  back: OutputEmitterRef<void> = output();
 
   groomerService = inject(GroomerService);
   
@@ -42,8 +43,15 @@ export class SelectTime implements OnInit {
     this.select.emit(date);
   }
 
-  getAvailableDays(): PublicGroomerAvailabilityKey[] {
-    return ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as PublicGroomerAvailabilityKey[];
+  getAvailableDays(): {date: string, key: PublicGroomerAvailabilityKey}[] {
+    let retVal = [];
+    for(let key of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as PublicGroomerAvailabilityKey[]) {
+      if( this.availability()[key] ) {
+        retVal.push({date: this.availability()[key]!.date, key});
+      }
+    }
+
+    return retVal;
   }
 
   getAvailabilityForDay(day: PublicGroomerAvailabilityKey): {date: string, times: string[][]} {

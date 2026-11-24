@@ -14,13 +14,15 @@ export class DataStore {
   readonly isLoggedIn = computed(() => this._state().loginKey !== '');
   readonly loginKey = computed(() => this._state().loginKey);
   
-  readonly isCustomer = computed(() => this.customerId() !== null);
+  readonly isCustomer = computed(() => this.isLoggedIn() && this.customerId() !== null);
   readonly customerId = computed(() => this._state().customerId);
   
-  readonly isGroomer = computed(() => this.groomerId() !== null);
+  readonly isGroomer = computed(() => this.isLoggedIn() && this.groomerId() !== null);
   readonly groomerId = computed(() => this._state().groomerId);
 
+  readonly isAdmin = computed(() => this.isLoggedIn() && this._state().isAdmin);
   readonly email = computed(() => this._state().email);
+
   constructor() {
     // 3. Automatically sync state changes to localStorage
     effect(() => {
@@ -43,6 +45,10 @@ export class DataStore {
 
   setCustomerId(id?: number): void {
     this._state.update(state => ({...state, customerId: id || null}));
+  }
+
+  setIsAdmin(isAdmin?: boolean): void {
+    this._state.update(state => ({...state, isAdmin: isAdmin || false}));
   }
 
   setEmail(email: string): void {

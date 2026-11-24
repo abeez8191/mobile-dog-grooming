@@ -1,5 +1,4 @@
 <mat-toolbar>
-  <img id="logo" src="logo.png" />
   <span class="title">Company Name</span>
   <span class="flex-grow"></span>
   @if(this.isMobile()) {
@@ -35,7 +34,9 @@
   <mat-sidenav-content>
     <app-mat-banner useService />
     <div id='main-content' class="flex-grow">
-      <router-outlet />
+      <div class="width-containment">
+        <router-outlet />
+      </div>
     </div>
     <footer>
       <div id="social_media">

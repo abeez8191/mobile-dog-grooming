@@ -20,14 +20,6 @@
     padding-left: 8px;
 }
 
-.del {
-  @include mat.button-overrides((
-    text-label-text-color: #d32f2f,
-    text-state-layer-color: #d32f2f,
-    text-ripple-color: rgba(211, 47, 47, 0.2),
-  ));
-}
-
 .label {
     font-weight: bold;
 }

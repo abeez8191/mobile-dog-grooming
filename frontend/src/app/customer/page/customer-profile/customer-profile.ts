@@ -3,10 +3,14 @@ import { AuthenticationService } from 'src/app/authentication/service/authentica
 import { DataStore } from 'src/app/data-store/data-store';
 import { CustomerService } from '../../service/customer-service';
 import { Customer } from '../../model/customer.model';
+import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-profile',
-  imports: [],
+  imports: [
+    MatButtonModule
+  ],
   templateUrl: './customer-profile.html',
   styleUrl: './customer-profile.scss',
 })
@@ -14,6 +18,8 @@ export class CustomerProfile implements OnInit {
   dataStore = inject(DataStore);
   authService = inject(AuthenticationService);
   customerService = inject(CustomerService);
+  router = inject(Router);
+  activeRoute = inject(ActivatedRoute);
 
   customer: WritableSignal<Customer|undefined> = signal(undefined);
 
@@ -23,8 +29,15 @@ export class CustomerProfile implements OnInit {
     }
 
     this.customerService.getCustomer(this.dataStore.customerId()!).subscribe({
-      next: (customer) => this.customer.set(customer),
+      next: (customer) => {
+        this.customer.set(customer);
+        console.log(customer);
+      },
       error: (error) => console.log(error)
     });
+  }
+
+  edit(): void {
+    this.router.navigate(['edit'], {relativeTo: this.activeRoute})
   }
 }

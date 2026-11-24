@@ -13,6 +13,7 @@ import { LoadingButton } from 'src/app/shared/components/loading-button/loading-
   selector: 'app-login',
   imports: [
     LoadingButton,
+    //MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule
@@ -66,6 +67,8 @@ export class Login implements OnInit {
       next: (userInformation: UserInformation) => {
         userInformation.customer && this.dataStore.setCustomerId(userInformation.customer);
         userInformation.groomer && this.dataStore.setGroomerId(userInformation.groomer);
+        userInformation.is_superuser && this.dataStore.setIsAdmin(true);
+
         this.dataStore.setEmail(userInformation.email);
         this.login.emit();
       },

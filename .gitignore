@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+clean_docker_images.sh
+.vscode/
+.angular/
+staticfiles/
+backend/apache/apache.conf
+backend/apache/apache.conf.bak

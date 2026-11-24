@@ -55,7 +55,7 @@
         </mat-form-field>
         <div id="submit-buttons">
             <button matButton="outlined" type="button" (click)="cancelAdd()">Cancel</button>
-            <button matButton="filled" type="submit">{{isEdit() ? 'Save' : 'Add'}}</button>
+            <app-loading-button [isLoading]="isLoading()">{{isEdit() ? 'Save' : 'Add'}}</app-loading-button>
         </div>
     </div>
 </form>

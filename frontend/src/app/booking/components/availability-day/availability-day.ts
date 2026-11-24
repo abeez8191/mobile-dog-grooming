@@ -21,7 +21,27 @@ export class AvailabilityDay implements OnInit {
 
   ngOnInit(): void {
     const timeSlotsRequired = Math.ceil(this.duration() / 30) + 1;
-    this.filteredAvailability.set(this.filterAvailability(timeSlotsRequired));
+
+    if( this.isPastDate() ) {
+      this.filteredAvailability.set({date: this.availability().date, times: []});
+    }
+    else {
+      this.filteredAvailability.set(this.filterAvailability(timeSlotsRequired));
+    }
+  }
+
+  isPastDate(): boolean {
+    const [year, month, day] = this.availability().date.split("-").map(val => +val);
+    const date = new Date(year, month - 1, day, 0, 0, 0);
+
+    const now = new Date();
+    now.setHours( 23, 59, 59);
+
+    if( date < now ) {
+      return true;
+    }
+    
+    return false;
   }
 
   filterAvailability(numberOfSlotsRequired: number): {date: string, times: string[]} {
@@ -34,16 +54,13 @@ export class AvailabilityDay implements OnInit {
     const times = this.availability().times;
 
     while( index < times.length ) {
-      // get first window (either because this is index == 0 or we ran into a non-available timeslot)
-      let windowIndex = 0;
-      while( windowIndex < numberOfSlotsRequired ) {
-        windowIndex++;
-        if( times[index++][1] === 'X' ) {
-          // If we find an unavailable time, reset our window
-          console.log(`[window] ${times[index][0]} is not available`);
-          windowIndex = 0;
-        }
+      let potentialIndex = this.getNextAvailableWindow(times, index, numberOfSlotsRequired);
+      if( ! potentialIndex ) {
+        break;
       }
+
+      index = potentialIndex;
+
       // We found our first timeslot, add it to retVal
       retVal.times.push(times[index - numberOfSlotsRequired][0]);
 
@@ -51,15 +68,32 @@ export class AvailabilityDay implements OnInit {
       while(index < times.length && times[index++][1] !== 'X') {
         retVal.times.push(times[index - numberOfSlotsRequired][0]);
       }
-      
-      if( index < times.length ) {
-        console.log(`[non-window] ${times[index][0]} is not available`);
-      }
+
       // Found a not-available slot, throw away all the intermediate slots and start again
     }
 
-    console.log(retVal);
     return retVal;
+  }
+
+  getNextAvailableWindow(times: string[][], startingIndex: number, numberOfSlotsRequired: number): number|undefined {
+    let windowIndex = 0;
+    while( windowIndex < numberOfSlotsRequired && (startingIndex + windowIndex) < times.length) {
+      if( times[startingIndex + windowIndex][1] === 'X' ) {
+        // Start the search all over
+        startingIndex += windowIndex;
+        windowIndex = 1;
+      }
+      else {
+        windowIndex++;
+      }
+    }
+
+    if( (startingIndex + windowIndex) >= times.length ) {
+      return undefined;
+    }
+    else {
+      return startingIndex + windowIndex;
+    }
   }
 
   formatTime(time: string) {
@@ -85,7 +119,7 @@ export class AvailabilityDay implements OnInit {
   }
 
   getCalendarDay(): string {
-    const [year, month, day] = this.availability().date.split("-");
+    const [_, month, day] = this.availability().date.split("-");
     const formattedDay = String(day).padStart(2, '0');
     return `${this.monthsShortName[+month]} ${formattedDay}`;
   }

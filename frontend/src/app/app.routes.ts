@@ -15,14 +15,12 @@ import { GroomerProfile } from './groomer/pages/groomer-profile/groomer-profile'
 import { GroomerSchedule } from './groomer/pages/groomer-schedule/groomer-schedule';
 import { inject } from '@angular/core';
 import { DataStore } from './data-store/data-store';
+import { CustomerAppointments } from './customer/page/customer-appointments/customer-appointments';
+import { EditCustomer } from './customer/page/edit-customer/edit-customer';
 
 export const isGroomerAuthGuard: CanActivateFn = (route, state) => {
   const dataStore = inject(DataStore);
   const router = inject(Router);
-  
-  if( !dataStore.isLoggedIn() ) {
-    return router.createUrlTree(['/']);
-  }
 
   if( dataStore.isGroomer() ) {
     console.log("User is Groomer!");
@@ -39,16 +37,23 @@ export const isGroomerAuthGuard: CanActivateFn = (route, state) => {
 export const isCustomerAuthGuard: CanActivateFn = (route, state) => {
   const dataStore = inject(DataStore);
   const router = inject(Router);
-  
-  if( !dataStore.isLoggedIn() ) {
-    return router.createUrlTree(['/']);
+
+  if( dataStore.isCustomer() ) {
+    return true;
   }
 
   if( dataStore.isGroomer() ) {
     return router.createUrlTree(['/console/groomer']);
   }
 
-  if( dataStore.isCustomer() ) {
+  return router.createUrlTree(['/']);
+}
+
+export const isAdminAuthGuard: CanActivateFn = (route, state) => {
+  const dataStore = inject(DataStore);
+  const router = inject(Router);
+
+  if( dataStore.isAdmin() ) {
     return true;
   }
 
@@ -66,13 +71,14 @@ export const routes: Routes = [
     { path: 'auth', component: Login },
     { path: 'console/admin',
       component: AdminConsole,
+      canActivate: [isAdminAuthGuard],
       children: [
         { path: 'services', component: ListService },
         { path: 'groomers', component: ListGroomers },
         { path: 'groomers/add', component: GroomerDetails },
         { path: 'groomers/edit', component: GroomerDetails },
         { path: 'clients', component: ListCustomers },
-        // { path: 'schedule', component: ListSchedule }
+        { path: 'schedule', component: GroomerSchedule }
       ]
     },
     { path: 'console/groomer',
@@ -80,6 +86,7 @@ export const routes: Routes = [
       children: [
         { path: 'profile', component: GroomerProfile },
         { path: 'schedule', component: GroomerSchedule },
+        { path: 'profile/edit', component: GroomerDetails}
       ],
       canActivate: [isGroomerAuthGuard]
     },
@@ -87,7 +94,8 @@ export const routes: Routes = [
       component: CustomerConsole,
       children: [
         { path: 'profile', component: CustomerProfile },
-        // { path: 'appointments', component: CustomerAppointments },
+        { path: 'appointments', component: CustomerAppointments },
+        { path: 'profile/edit', component: EditCustomer }
       ]
     }
 ];

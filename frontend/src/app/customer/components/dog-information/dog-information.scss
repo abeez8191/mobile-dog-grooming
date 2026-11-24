@@ -1,0 +1,28 @@
+:host {
+    width: fit-content;
+    display: inline-block;
+}
+.dog-list {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.dog-list > div {
+    border: 1px solid grey;
+    padding: 8px;
+}
+
+.right {
+    justify-content: right;
+}
+
+.add-button-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 230px;
+    height: 209px;
+    font-weight: bold;
+    font-size: 1.15rem;
+}

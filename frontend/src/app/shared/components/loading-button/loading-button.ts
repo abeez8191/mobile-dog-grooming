@@ -11,11 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './loading-button.html',
   styleUrl: './loading-button.scss',
 })
-export class LoadingButton implements OnInit {
+export class LoadingButton {
   isLoading = input(false);
   type: InputSignal<MatButtonAppearance> = input('filled' as MatButtonAppearance);
-
-  ngOnInit(): void {
-    console.log(this.isLoading());
-  }
 }

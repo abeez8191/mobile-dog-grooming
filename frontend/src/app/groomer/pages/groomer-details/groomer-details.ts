@@ -5,18 +5,20 @@ import { MatInputModule } from '@angular/material/input';
 import { AvailabilityDay } from '../../components/availability-day/availability-day';
 import { MatButtonModule } from '@angular/material/button';
 import { PhotoSelector } from '../../components/photo-selector/photo-selector';
-import { Availability, AvailabilityKey, Groomer, PublicGroomerAvailabilityKey } from '../../model/groomer.model';
+import { Availability, AvailabilityKey, AvailabilityWithTimezone, Groomer } from '../../model/groomer.model';
 import { GroomerService } from '../../service/groomer-service';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { concatMap } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
 import { BannerService } from 'src/app/shared/components/banner/banner.service';
+import { LoadingButton } from 'src/app/shared/components/loading-button/loading-button';
 
 @Component({
   selector: 'app-groomer-details',
   imports: [
     AvailabilityDay, 
+    LoadingButton,
     PhotoSelector, 
     ReactiveFormsModule, 
     MatButtonModule, 
@@ -38,6 +40,7 @@ export class GroomerDetails implements OnInit{
   groomerId!: number;
   formReady: WritableSignal<boolean> = signal(false);
   isEdit = signal(false);
+  isLoading = signal(false);
 
   constructor(private fb: FormBuilder) {
     if( this.router.currentNavigation()?.extras.state ) {
@@ -88,6 +91,8 @@ export class GroomerDetails implements OnInit{
       return;
     }
 
+    this.isLoading.set(true);
+
     let availability: Record<string, {start: string, end: string}> = {};
     for( let key of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri','sat']) {
       const formEntry = this.groomerForm.get(`availability.${key}`);
@@ -112,10 +117,10 @@ export class GroomerDetails implements OnInit{
     if( this.isEdit() ) {
       this.groomerService.updateGroomer({id: this.groomerId, ...formData}).subscribe({
         next: () => {
-          console.log("Done!");
           this.router.navigate(['..'], {relativeTo: this.activatedRoute});
         },
         error: (error) => {
+          this.isLoading.set(false);
           this.bannerService.open(
             'Unable to update groomer',
             {
@@ -155,8 +160,8 @@ export class GroomerDetails implements OnInit{
     }
   }
 
-  updateAvailabilityTimesTo24Hr(availability: Availability): Availability {
-    let newAvailability: Availability = {};
+  updateAvailabilityTimesTo24Hr(availability: Availability): AvailabilityWithTimezone {
+    let newAvailability: AvailabilityWithTimezone = {timezone:  Intl.DateTimeFormat().resolvedOptions().timeZone};
     for( let day of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as AvailabilityKey[] ) {
       if( availability[day]) {
         newAvailability[day] = {
@@ -172,7 +177,7 @@ export class GroomerDetails implements OnInit{
   convert12HourTo24Hour(time: string): string {
     let [hour, min, amPm] = time.split(new RegExp("[: ]"));
 
-    if( amPm === "PM" ) {
+    if( amPm === "PM" && hour !== "12") {
       hour = String(12 + +hour);
     }
 

@@ -14,8 +14,8 @@
                     <div class="day-name">{{day.toUpperCase()}}</div>
                     @if( g.availability[day] ) {
                         <div class="avail-times">
-                            <div>{{g.availability[`${day}`]?.start}}</div>
-                            <div>{{g.availability[`${day}`]?.end}}</div>
+                            <div>{{convert24HourTo12Hour(g.availability[`${day}`]?.start!)}}</div>
+                            <div>{{convert24HourTo12Hour(g.availability[`${day}`]?.end!)}}</div>
                         </div>
                     }
                     @else {
@@ -29,7 +29,7 @@
         </div>
         <div class="row">
             <div class="half-width">{{g.biography}}</div>
-            <div class="half-width"><button matButton="filled">Edit</button></div>
+            <div class="half-width"><button matButton="filled" (click)="editGroomer()">Edit</button></div>
         </div>
     </div>
 }

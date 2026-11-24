@@ -3,18 +3,19 @@
     <app-select-groomer (select)="chooseGroomer($event)"></app-select-groomer>
 }
 @else if( step() === 2 ) {
-    <app-select-services (select)="selectServices($event)"></app-select-services>
+    <app-select-services (select)="selectServices($event)" (back)="this.previous()"></app-select-services>
 }
 @else if( step() === 3 ) {
-    <app-select-time [groomerId]="groomerId()" [duration]="getServicesDuration()" (select)="selectTime($event)"></app-select-time>
+    <app-select-time [groomerId]="groomerId()" [duration]="getServicesDuration()" (select)="selectTime($event)" (back)="this.previous()"></app-select-time>
 }
 @else if( step() === 4 ) {
-    <app-customer-information (customerCreated)="getCustomerInformation($event)"></app-customer-information>
+    <app-customer-details [updateCustomer]="this.dataStore.customerId() ?? undefined" (back)="this.previous()" (customer)="this.saveCustomer($event)"/>
 }
 @else if( step() === 5 ) {
+    <app-select-dog [dogs]="this.customer()?.dogs || []" (dog)="selectDog($event)" (back)="this.previous()" />
+}
+@else if( step() === 6 ) {
     <h2>Booking Confirmed</h2>
-    <p>We will see you on November 12 at 3:00 PM.</p>
-    @if( showAccountCreation() ) {
-        <app-register-account [customer]="customer()!" (created)="complete()"></app-register-account>
-    }
+    <p>We will see you on {{getAppointmentDateTime()}}.</p>
+    <button matButton="filled" (click)="goHome()" >Home</button>
 }

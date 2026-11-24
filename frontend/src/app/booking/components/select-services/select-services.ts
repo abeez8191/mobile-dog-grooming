@@ -4,6 +4,7 @@ import { Service } from 'src/app/grooming-service/model/services.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { BannerService } from 'src/app/shared/components/banner/banner.service';
 
 @Component({
   selector: 'app-select-services',
@@ -18,6 +19,9 @@ import { MatIconModule } from '@angular/material/icon';
 export class SelectServices implements OnInit{
   servicesService = inject(ServicesService);
   select: OutputEmitterRef<Service[]> = output();
+  back: OutputEmitterRef<void> = output();
+  
+  bannerService = inject(BannerService);
 
   isLoading = signal(true);
   services: WritableSignal<Service[]> = signal([]);
@@ -45,6 +49,19 @@ export class SelectServices implements OnInit{
   }
 
   next(): void {
-    this.select.emit(this.selectedServices());
+    if( this.selectedServices().length > 0 ) {
+      this.select.emit(this.selectedServices());
+    }
+    else {
+      this.bannerService.open("Please select a service before continuing.", {
+        icon: 'warning_outlined',
+        warning: true,
+        timeout: 10000
+      });
+    }
+  }
+
+  previous(): void {
+    this.back.emit();
   }
 }

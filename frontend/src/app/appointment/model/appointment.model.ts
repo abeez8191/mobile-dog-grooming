@@ -1,4 +1,4 @@
-import { Customer } from "src/app/customer/model/customer.model";
+import { Customer, Dog } from "src/app/customer/model/customer.model";
 import { Groomer } from "src/app/groomer/model/groomer.model";
 import { Service } from "src/app/grooming-service/model/services.model";
 
@@ -8,7 +8,10 @@ export interface Appointment {
     groomer?: Groomer;
     customer_id?: number;
     customer?: Customer;
+    dog_id?: number;
+    dog?: Dog;
     datetime: Date;
     service_ids?: number[];
     services?: Service[];
+    completed_on?: Date;
 }

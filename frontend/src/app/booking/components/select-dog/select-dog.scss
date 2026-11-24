@@ -1,0 +1,24 @@
+.select-dog {
+    height: 200px;
+    width: 200px;
+    cursor: pointer;
+    border: 1px solid;
+    padding: 24px;
+    font-size: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.breed {
+    font-weight: lighter;
+}
+
+.gap {
+    gap: 8px;
+}

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CustomerAccountRequest, CustomerAccountResponse, GroomerAccountRequest, GroomerAccountResponse, LoginRequest, LoginResponse, LogoutRequest, LogoutResponse, UserInformation } from '../model/authentication.model';
@@ -15,7 +15,7 @@ export class AuthenticationService {
   }
 
   logout(request: LogoutRequest): Observable<LogoutResponse> {
-    return this.httpClient.post<LogoutResponse>(`${this.url}/logout`, request);
+    return this.httpClient.post<LogoutResponse>(`${this.url}/logout`, request, {withCredentials: true, headers: this.getCsrfHeader()});
   }
 
   getUserInformation(): Observable<UserInformation> {
@@ -28,5 +28,19 @@ export class AuthenticationService {
 
   createGroomer(request: GroomerAccountRequest): Observable<GroomerAccountResponse> {
     return this.httpClient.post<GroomerAccountResponse>(`${this.url}/create/groomer/`, request);
+  }
+  
+  getCsrfHeader(): HttpHeaders {
+    let headers = new HttpHeaders();
+    return headers.set('X-CSRFToken', this.getCookie('csrftoken'));
+  }
+
+  getCookie(headerName: string): string {
+    let options = document.cookie.split('; ').map(c => c.split('=')).find(arr => arr[0] === 'csrftoken');
+    if( options ) {
+      return options[1];
+    }
+
+    return '';
   }
 }

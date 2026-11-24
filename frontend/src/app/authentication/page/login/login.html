@@ -6,6 +6,7 @@
         {{this.errorMessage()}}
     </div>
 }
+
 <form [formGroup]="this.loginForm">
     <div class="row">
         <mat-form-field>
@@ -13,7 +14,7 @@
             <input matInput type="text" formControlName="username" />
         </mat-form-field>
     </div>
-    <div class="row">
+     <div class="row">
         <mat-form-field>
             <mat-label>Password</mat-label>
             <input matInput type="password" formControlName="password" />
@@ -22,6 +23,5 @@
 
     <div class="row end-content">
         <app-loading-button [isLoading]="isLoading()" (click)="submit()">Login</app-loading-button>
-        <!-- <button matButton="filled" (click)="submit()">Login</button> -->
     </div>
 </form>

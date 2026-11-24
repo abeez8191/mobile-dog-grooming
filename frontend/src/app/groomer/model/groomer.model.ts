@@ -4,7 +4,7 @@ export interface Groomer {
     lastName: string;
     email: string;
     phoneNumber: string;
-    availability: Availability;
+    availability: AvailabilityWithTimezone;
     biography: string;
     photo: string;
     photoData: string;
@@ -18,6 +18,10 @@ export interface Availability {
     thu?: {start: string, end: string},
     fri?: {start: string, end: string},
     sat?: {start: string, end: string},
+}
+
+export interface AvailabilityWithTimezone extends Availability {
+    timezone: string;
 }
 
 export type AvailabilityKey = keyof Availability;
@@ -36,13 +40,13 @@ export interface PublicGroomerAvailabilityResponse {
 }
 
 export interface PublicGroomerAvailability {
-    sun?: {date: string, times: string[]};
-    mon?: {date: string, times: string[]};
-    tue?: {date: string, times: string[]};
-    wed?: {date: string, times: string[]};
-    thu?: {date: string, times: string[]};
-    fri?: {date: string, times: string[]};
-    sat?: {date: string, times: string[]};
+    sun?: {date: string, times: string[][]};
+    mon?: {date: string, times: string[][]};
+    tue?: {date: string, times: string[][]};
+    wed?: {date: string, times: string[][]};
+    thu?: {date: string, times: string[][]};
+    fri?: {date: string, times: string[][]};
+    sat?: {date: string, times: string[][]};
 }
 
 export type PublicGroomerAvailabilityKey = keyof PublicGroomerAvailability;

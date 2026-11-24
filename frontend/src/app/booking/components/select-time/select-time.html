@@ -2,19 +2,24 @@
     <mat-spinner></mat-spinner>
 }
 @else {
-    <div class="row">
-        <div>
-            <button matIconButton (click)="getLastWeek()">
-                <mat-icon>keyboard_arrow_left</mat-icon>
-            </button>
+    <div class="col">
+        <div class="row">
+            <div>
+                <button matIconButton (click)="getLastWeek()">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+            </div>
+        @for( day of getAvailableDays(); track day.date) {
+            <app-availability-day day="{{day.key}}" [availability]="getAvailabilityForDay(day.key)" [duration]="duration()" (select)="selectDate($event)"></app-availability-day>
+        }
+            <div>
+                <button matIconButton (click)="getNextWeek()">
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
         </div>
-    @for( day of getAvailableDays(); track day) {
-        <app-availability-day day="{{day}}" [availability]="getAvailabilityForDay(day)" [duration]="duration()" (select)="selectDate($event)"></app-availability-day>
-    }
-        <div>
-            <button matIconButton (click)="getNextWeek()">
-                <mat-icon>keyboard_arrow_right</mat-icon>
-            </button>
+        <div class="row" style="margin-top: 24px">
+            <button matButton="outlined" (click)="this.back.emit()">Back</button>
         </div>
     </div>
 }

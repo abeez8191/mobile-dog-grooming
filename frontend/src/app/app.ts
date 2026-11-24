@@ -10,7 +10,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { LoginDialog } from './login-dialog/login-dialog';
 import { DataStore } from './data-store/data-store';
 import { AuthenticationService } from './authentication/service/authentication-service';
-import { Banner } from './shared/component/banner/banner';
+import { Banner } from './shared/components/banner/banner';
 
 @Component({
   selector: 'app-root',
@@ -67,6 +67,7 @@ export class App implements OnDestroy {
   logout(): void {
     this.authenticationService.logout({key: this.dataStore.loginKey()}).subscribe({
       next: () => {
+        document.cookie = "csrftoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         this.dataStore.resetStore();
         this.router.navigate(['/']);
       },
@@ -82,10 +83,13 @@ export class App implements OnDestroy {
     }
 
     if( this.dataStore.isCustomer() ) {
-      this.router.navigate(['/console/customer']);
+      this.router.navigate(['/console/customer/profile']);
     }
     else if( this.dataStore.isGroomer() ) {
-      this.router.navigate(['/console/groomer']);
+      this.router.navigate(['/console/groomer/profile']);
+    }
+    else if( this.dataStore.isAdmin() ) {
+      this.router.navigate(['/console/admin/groomers'])
     }
   }
 }

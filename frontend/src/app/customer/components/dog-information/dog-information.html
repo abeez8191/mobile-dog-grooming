@@ -1,0 +1,29 @@
+@if( formIsReady() ) {
+    <form [formGroup]="dogForm">
+        <div class="row dog-list">
+            @for( dog of dogListControls; track dog ) {
+                <div [formGroup]="dog" class="col">
+                    <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Breed</mat-label>
+                        <input matInput formControlName="breed" />
+                    </mat-form-field>
+                    <div class="row right">
+                        <button matButton="outlined" (click)="deleteDog($index)">Delete</button>
+                    </div>
+                </div>
+            }
+            <div class="add-button-slot">
+                <div>Add Dog</div>
+                <button matButton="filled" (click)="addDog()">+</button>
+            </div>
+        </div>
+        <div class="row" style="justify-content: space-between; margin-top: 12px;">
+            <button matButton="outlined" (click)="goBack()">Back</button>
+            <button matButton="filled" (click)="save()">Next</button>
+        </div>
+    </form>
+}

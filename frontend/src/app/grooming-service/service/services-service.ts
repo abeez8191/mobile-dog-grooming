@@ -7,7 +7,7 @@ import { Service } from '../model/services.model';
   providedIn: 'root',
 })
 export class ServicesService {
-  url = "http://localhost:8000/api/service/";
+  url = "/service/";
 
   constructor(private httpClient: HttpClient){}
 

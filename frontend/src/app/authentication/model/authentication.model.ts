@@ -20,6 +20,7 @@ export interface UserInformation {
     email: string;
     groomer?: number;
     customer?: number;
+    is_superuser?: boolean;
 }
 
 export interface CustomerAccountRequest {

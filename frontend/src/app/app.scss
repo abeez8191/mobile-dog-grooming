@@ -11,6 +11,13 @@
     ));
 }
 
+.width-containment {
+    max-width: 1200px;
+    width: 100%;
+    background-color: var(--mat-sys-background);
+    padding: 0px 24px;
+}
+
 mat-toolbar {
     img {
         width: 150px;
@@ -67,6 +74,9 @@ mat-sidenav-content {
 
 #main-content {
     display: flex;
+    justify-content: center;
+    background-image: url('/img/background.jpeg');
+
 }
 
 footer {
