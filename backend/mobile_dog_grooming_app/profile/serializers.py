@@ -52,7 +52,7 @@ class GroomerSerializer(serializers.ModelSerializer):
 class GroomerNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Groomer
-        fields = ["firstName", "lastName"]
+        fields = ["id", "firstName", "lastName"]
 
 
 class NoteSerializer(serializers.ModelSerializer):
@@ -60,10 +60,13 @@ class NoteSerializer(serializers.ModelSerializer):
     groomer_id = serializers.PrimaryKeyRelatedField(
         queryset=Groomer.objects.all(), write_only=True, source="groomer"
     )
+    dog_id = serializers.PrimaryKeyRelatedField(
+        queryset=Dog.objects.all(), source="dog", required=False
+    )
 
     class Meta:
         model = Note
-        fields = ["id", "message", "groomer", "groomer_id", "created_on", "updated_on"]
+        fields = ["id", "message", "groomer", "groomer_id", "dog_id", "created_on", "updated_on"]
 
 
 class DogSerializer(serializers.ModelSerializer):
@@ -80,7 +83,7 @@ class DogSerializer(serializers.ModelSerializer):
         source="customers",
         required=False
     )
-    id = serializers.IntegerField(required=False)
+    id = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = Dog
@@ -89,7 +92,6 @@ class DogSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     dogs = DogSerializer(many=True)
 
-    # dog_ids = serializers.PrimaryKeyRelatedField(queryset=Dog.objects.all(), write_only=True, source='dogs', many=True)
     class Meta:
         model = Customer
         fields = [
@@ -115,6 +117,8 @@ class CustomerSerializer(serializers.ModelSerializer):
         customer = Customer.objects.create(**validated_data)
 
         for dog_data in dogs_data:
+            # Shouldn't be passing in an ID for create
+            dog_data.pop('id', None)
             Dog.objects.create(owner=customer, **dog_data)
 
         return customer
