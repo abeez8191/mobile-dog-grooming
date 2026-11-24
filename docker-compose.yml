@@ -10,8 +10,8 @@ services:
   web:
     build: .
     volumes:
-      - ./apache/apache.conf:/etc/apache2/sites-enabled/apache.conf
-      - ./mobile_dog_grooming_app:/var/www/mobile_dog_grooming_app
+      - ./backend/apache/apache.conf:/etc/apache2/sites-enabled/apache.conf
+      - ./backend/mobile_dog_grooming_app:/var/www/mobile_dog_grooming_app
     ports:
       - "8000:80"
     environment:

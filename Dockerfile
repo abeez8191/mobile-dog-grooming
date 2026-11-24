@@ -1,3 +1,5 @@
+
+
 FROM python:3.15-slim
 
 # Prevent Python from writing pyc files and buffering stdout/stderr
@@ -8,14 +10,13 @@ ENV PYTHONDONTWRITEBYTECODE=1
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apache2 \
     apache2-dev \
-    #libapache2-mod-wsgi-py3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory inside the container
 WORKDIR /var/www/mobile_dog_grooming_app
 
 # Install Python requirements
-COPY requirements.txt .
+COPY ./backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # couldn't install libapache2-mod-wsgi-py3 using the package manager since python
@@ -25,16 +26,20 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN mod_wsgi-express module-config >/etc/apache2/mods-available/wsgi.load
 
 # Copy Apache configuration and enable it
-COPY ./apache/apache.conf /etc/apache2/sites-available/apache.conf
-RUN a2dissite 000-default.conf && a2ensite apache.conf && a2enmod wsgi && a2enmod headers && a2enmod rewrite
+COPY ./backend/apache/apache.conf /etc/apache2/sites-available/apache.conf
+RUN a2dissite 000-default.conf && a2ensite apache.conf && a2enmod wsgi && a2enmod headers rewrite proxy proxy_http
 
 RUN mkdir /var/log/django && chown www-data /var/log/django && chmod 700 /var/log/django
 
 # Copy the Django code
-COPY ./mobile_dog_grooming_app/ .
+COPY ./backend/mobile_dog_grooming_app/ .
 
 # Run collectstatic to prepare the static file path for Apache and delete the log file since it'll be owned by root
 RUN python manage.py collectstatic --noinput && chown www-data:www-data /var/log/django -R
+
+WORKDIR /var/www/mobile_dog_grooming_frontend
+COPY ./frontend/dist/mobile_dog_grooming_frontend/browser ./dist/browser
+RUN chown www-data:www-data -R /var/www/mobile_dog_grooming_frontend
 
 # Expose HTTP port
 EXPOSE 80
