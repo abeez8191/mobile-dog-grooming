@@ -20,3 +20,4 @@ class Appointment(models.Model):
     groomer = models.ForeignKey(Groomer, on_delete=models.RESTRICT)
     datetime = models.DateTimeField(validators=[MinValueValidator(timezone.now)])
     services = models.ManyToManyField(Service, related_name="appointment")
+    completed_on = models.DateTimeField(null=True)
