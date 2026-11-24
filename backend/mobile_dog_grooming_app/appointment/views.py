@@ -16,22 +16,28 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self): # type: ignore[override]
         if self.request.user.is_authenticated:
-
             requested_date = self.request.GET.get("date", f"{timezone.localdate()}")
+
             if isinstance(self.request.user, ApplicationUser):
                 if self.request.user.customer is not None:
                     return Appointment.objects.select_related("groomer", "customer", "dog")\
                         .prefetch_related("services")\
                         .filter(customer=self.request.user.customer)
                 elif self.request.user.groomer is not None:
-                    return Appointment.objects.select_related("groomer", "customer", "dog")\
-                        .prefetch_related("services")\
-                        .filter(groomer=self.request.user.groomer, datetime__date=requested_date)
+                    query = Appointment.objects.select_related("groomer", "customer", "dog")\
+                        .prefetch_related("services")
+                    if self.kwargs.get('pk') is None:
+                        return query.filter(groomer=self.request.user.groomer, datetime__date=requested_date)
+                    else:
+                        return query.filter(groomer=self.request.user.groomer, id=self.kwargs.get('pk'))
                 elif self.request.user.is_superuser:
-                    return Appointment.objects.select_related('groomer', 'customer', 'dog')\
-                        .prefetch_related('services')\
-                        .filter(datetime__date=requested_date)
-
+                    query = Appointment.objects.select_related('groomer', 'customer', 'dog')\
+                        .prefetch_related('services')
+                    
+                    if self.kwargs.get('pk') is None:
+                        return query.filter(datetime__date=requested_date)
+                    else:
+                        return query.filter(id=self.kwargs.get('pk'))
         return []
 
     def perform_create(self, serializer):
