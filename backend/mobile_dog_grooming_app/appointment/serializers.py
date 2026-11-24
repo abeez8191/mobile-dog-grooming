@@ -30,7 +30,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ['id', 'dog', 'dog_id', 'customer', 'customer_id', 'groomer', 'groomer_id', 'datetime', 'services', 'service_ids']
+        fields = ['id', 'dog', 'dog_id', 'customer', 'customer_id', 'groomer', 'groomer_id', 'datetime', 'services', 'service_ids', 'completed_on']
 
     def create(self, validated_data):
         logger.info(f"Inside create(): {validated_data}")
@@ -49,6 +49,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
         instance.dog = validated_data.get('dog', instance.dog)
         instance.groomer = validated_data.get('groomer', instance.groomer)
         instance.datetime = validated_data.get('datetime', instance.datetime)
+        instance.completed_on = validated_data.get('completed_on', instance.completed_on)
 
         if service_data is not None:
             instance.services.set(service_data)
