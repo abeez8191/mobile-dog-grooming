@@ -38,5 +38,5 @@ class Note(models.Model):
     dog = models.ForeignKey(Dog, on_delete=models.CASCADE, related_name="notes")
     message = models.CharField()
     groomer = models.ForeignKey(Groomer, on_delete=models.CASCADE)
-    created_on = models.DateTimeField()
-    updated_on = models.DateTimeField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
