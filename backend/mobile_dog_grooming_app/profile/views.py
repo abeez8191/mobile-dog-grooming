@@ -6,16 +6,19 @@ from functools import reduce
 from zoneinfo import ZoneInfo
 
 from appointment.models import Appointment
+from authentication.models import ApplicationUser
 from django.utils import timezone
 from rest_framework import status, viewsets
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from .models import Customer, Groomer
+from .models import Customer, Groomer, Note
 from .serializers import (
     CustomerSerializer,
     GroomerSerializer,
+    NoteSerializer,
     PublicViewGroomerSerializer,
 )
 
@@ -55,7 +58,7 @@ class PublicGroomerAvailabilityView(APIView):
             
             index = next((i for i, row in enumerate(groomer_schedule[appointment_day]['times']) if row[0] == appointment_localized.time()), None)
             number_of_chunks_to_remove = math.ceil(duration / 30 )
-            
+
             if index is not None:
                 for time_index in range(index, index + number_of_chunks_to_remove):
                     groomer_schedule[appointment_day]['times'][time_index][1] = 'X'
@@ -135,3 +138,26 @@ class PublicGroomerAvailabilityView(APIView):
         eow_tzaware = timezone.make_aware(eow_midnight, timezone=time_zone)
 
         return Appointment.objects.filter(datetime__range=(sow_tzaware, eow_tzaware), groomer=pk).prefetch_related('services')
+    
+class NoteViewSet(viewsets.ModelViewSet):
+    serializer_class = NoteSerializer
+    #permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self): # type: ignore[override]
+        dog_id = self.kwargs['dog']
+        if isinstance(self.request.user, ApplicationUser):
+            return Note.objects.filter(groomer=self.request.user.groomer, dog_id=dog_id)
+
+        return []
+        
+    def perform_create(self, serializer):
+        dog_id = self.kwargs['dog']
+        if isinstance(self.request.user, ApplicationUser):
+            serializer.save(groomer=self.request.user.groomer, dog_id=dog_id)
+            
+    def perform_update(self, serializer):
+        if isinstance(self.request.user, ApplicationUser):
+            if serializer.instance.groomer != self.request.user.groomer:
+                raise PermissionDenied("You can't update a note you didn't write.")
+            else:
+                serializer.save()
