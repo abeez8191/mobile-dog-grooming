@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { GroomerService } from 'src/app/groomer/service/groomer-service';
-import { PublicGroomerAvailability, PublicGroomerAvailabilityKey } from 'src/app/groomer/model/groomer.model';
+import { AvailabilitySlots, AvailabilitySlotsKey } from 'src/app/groomer/model/groomer.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { AvailabilityDay } from '../availability-day/availability-day';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +27,7 @@ export class SelectTime implements OnInit {
   groomerService = inject(GroomerService);
   
   isLoading = signal(true);
-  availability: WritableSignal<PublicGroomerAvailability> = signal({});
+  availability: WritableSignal<AvailabilitySlots> = signal({});
   date = signal(new Date());
 
   ngOnInit(): void {
@@ -43,9 +43,9 @@ export class SelectTime implements OnInit {
     this.select.emit(date);
   }
 
-  getAvailableDays(): {date: string, key: PublicGroomerAvailabilityKey}[] {
+  getAvailableDays(): {date: string, key: AvailabilitySlotsKey}[] {
     let retVal = [];
-    for(let key of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as PublicGroomerAvailabilityKey[]) {
+    for(let key of ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as AvailabilitySlotsKey[]) {
       if( this.availability()[key] ) {
         retVal.push({date: this.availability()[key]!.date, key});
       }
@@ -54,7 +54,7 @@ export class SelectTime implements OnInit {
     return retVal;
   }
 
-  getAvailabilityForDay(day: PublicGroomerAvailabilityKey): {date: string, times: string[][]} {
+  getAvailabilityForDay(day: AvailabilitySlotsKey): {date: string, times: string[][]} {
     return this.availability()[day] || {date: '', times: [[]]};
   }
 

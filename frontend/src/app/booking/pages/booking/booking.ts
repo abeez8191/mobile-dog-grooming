@@ -5,7 +5,7 @@ import { Service } from 'src/app/grooming-service/model/services.model';
 import { SelectTime } from 'src/app/booking/components/select-time/select-time';
 import { AppointmentService } from 'src/app/appointment/service/appointment-service';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
-import { Customer, Dog } from 'src/app/customer/model/customer.model';
+import { Customer, Dog, NewCustomer } from 'src/app/customer/model/customer.model';
 import { DataStore } from 'src/app/data-store/data-store';
 import { CustomerService } from 'src/app/customer/service/customer-service';
 import { BannerService } from 'src/app/shared/components/banner/banner.service';
@@ -80,38 +80,38 @@ export class Booking {
     this.next();
   }
 
-  createOrUpdateCustomer(): void {
-    let observable;
-    if( this.dataStore.isLoggedIn() && this.dataStore.customerId() ) {
-      observable = this.customerService.updateCustomer(this.customer()!);
-    }
-    else {
-      observable = this.customerService.createCustomer(this.customer()!);
-    }
+  // createOrUpdateCustomer(): void {
+  //   let observable;
+  //   if( this.dataStore.isLoggedIn() && this.dataStore.customerId() ) {
+  //     observable = this.customerService.updateCustomer(this.customer() as Customer);
+  //   }
+  //   else {
+  //     observable = this.customerService.createCustomer(this.customer() as NewCustomer);
+  //   }
     
-    observable.subscribe({
-      next: (customer) => {
-        this.customer.set(customer);
-        this.next();
-      },
-      error: (error) => {
-        this.bannerService.open(
-          'Unable to create customer profile at this time.',
-          {
-            icon: 'warning_outline',
-            warning: true,
-            timeout: 10000
-          }
-        );
-      }
-    });
-  }
+  //   observable.subscribe({
+  //     next: (customer) => {
+  //       this.customer.set(customer);
+  //       this.next();
+  //     },
+  //     error: (error) => {
+  //       this.bannerService.open(
+  //         'Unable to create customer profile at this time.',
+  //         {
+  //           icon: 'warning_outline',
+  //           warning: true,
+  //           timeout: 10000
+  //         }
+  //       );
+  //     }
+  //   });
+  // }
 
   selectDog(dog: Dog): void {
     this.createAppointment({
       dog_id: dog.id,
       groomer_id: this.groomerId(),
-      customer_id: this.customer()!.id!,
+      customer_id: this.customer()!.id,
       datetime: this.selectedTime()!,
       service_ids: this.selectedServices().map(s => s.id!)
     });
