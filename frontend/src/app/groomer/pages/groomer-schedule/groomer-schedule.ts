@@ -6,12 +6,13 @@ import {
   CalendarEvent,
   CalendarModule,
 } from 'angular-calendar';
-import { Appointment } from 'src/app/appointment/model/appointment.model';
+import { AppointmentResponse, convertAppointmentResponseToUpdateAppointmentRequest } from 'src/app/appointment/model/appointment.model';
 import { AppointmentService } from 'src/app/appointment/service/appointment-service';
 import { DataStore } from 'src/app/data-store/data-store';
 import { Service } from 'src/app/grooming-service/model/services.model';
 import { BannerService } from 'src/app/shared/components/banner/banner.service';
 import { NoteView } from '../../components/note-view/note-view';
+import { Note } from 'src/app/customer/model/customer.model';
 
 @Component({
   selector: 'app-groomer-schedule',
@@ -24,10 +25,10 @@ export class GroomerSchedule implements OnInit{
   bannerService = inject(BannerService);
   dataStore = inject(DataStore);
 
-  appointments = signal<Appointment[]>([])
+  appointments = signal<AppointmentResponse[]>([])
   date = signal<Date>(new Date());
 
-  detailView = signal<Appointment|undefined>(undefined);
+  detailView = signal<AppointmentResponse|undefined>(undefined);
 
   updateAppointments = effect(() => {
     this.getAppointments(this.date());
@@ -64,7 +65,7 @@ export class GroomerSchedule implements OnInit{
     return services.reduce((prev, next) => prev + next.duration, 0);
   }
 
-  convertAppointmentToCalendarEvent(appointment: Appointment): CalendarEvent {
+  convertAppointmentToCalendarEvent(appointment: AppointmentResponse): CalendarEvent {
     let startDate = new Date(appointment.datetime);
     
     const minutes = this.getServiceDuration(appointment.services!);
@@ -139,8 +140,10 @@ export class GroomerSchedule implements OnInit{
     return retVal;
   }
 
-  completeAppointment(appointment: Appointment): void {
-    this.appointmenService.completeAppointment(appointment).subscribe({
+  completeAppointment(appointment: AppointmentResponse): void {
+    const updateAppointmentRequest = convertAppointmentResponseToUpdateAppointmentRequest(appointment);
+
+    this.appointmenService.completeAppointment(updateAppointmentRequest).subscribe({
       next: (completed_appointment) => {
         let appointments = this.appointments();
         const updateIndex = appointments.findIndex(elem => elem.id === completed_appointment.id!);
@@ -150,5 +153,31 @@ export class GroomerSchedule implements OnInit{
         this.detailView.set(undefined);
       }
     })
+  }
+
+  // We want to keep the notes "in sync" without having to do another fetch
+  // So either append the new note or replace the old note with the edited note
+  appendNewNote(note: Note): void {
+    if( this.detailView() ) {
+      const appointmentIndex = this.appointments().findIndex(item => item.id === this.detailView()?.id );
+      console.log(`Found appointment index: ${appointmentIndex}`);
+      if( appointmentIndex >= 0 ) {
+        let snapshot = this.appointments();
+        let notes = snapshot[appointmentIndex].dog.notes;
+
+        const noteIndex = notes.findIndex(item => note.id === item.id);
+        console.log(`Found note index: ${noteIndex}`)
+        if( noteIndex >= 0 ) {
+          notes[noteIndex] = note;
+        }
+        else {
+          notes.push(note);
+        }
+        
+        console.log("Updating snapshot");
+        snapshot[appointmentIndex].dog.notes = notes;
+        this.appointments.set(snapshot);
+      }
+    }
   }
 }

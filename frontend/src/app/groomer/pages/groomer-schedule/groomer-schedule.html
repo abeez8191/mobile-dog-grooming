@@ -2,21 +2,21 @@
   <div class="appointment-details">
     <div class="grid">
       <div class="label">Name:</div>
-      <div>{{appt.customer!.firstName}} {{appt.customer!.lastName}}</div>
+      <div>{{appt.customer.firstName}} {{appt.customer.lastName}}</div>
       <div class="label">Phone:</div>
-      <div>{{appt.customer!.phoneNumber}}</div>
+      <div>{{appt.customer.phoneNumber}}</div>
       <div class="label">Address:</div>
       <div class="col">
-        <div>{{appt.customer!.street}}</div>
-          @if( appt.customer!.street2 ) {
-            <div>{{appt.customer!.street2}}</div>
+        <div>{{appt.customer.street}}</div>
+          @if( appt.customer.street2 ) {
+            <div>{{appt.customer.street2}}</div>
           }
-          <div>{{appt.customer!.city}}, {{appt.customer!.state}} {{appt.customer!.zipCode}}</div>
+          <div>{{appt.customer.city}}, {{appt.customer.state}} {{appt.customer.zipCode}}</div>
       </div>
       <div class="label">Dog:</div>
       <div class="col">
-        <div>{{appt.dog!.name}}</div>
-        <div>({{appt.dog!.breed}})</div>
+        <div>{{appt.dog.name}}</div>
+        <div>({{appt.dog.breed}})</div>
       </div>
       <div class="label">Services:</div>
       <div class="col">
@@ -34,7 +34,7 @@
       }
     </div>
     <hr />
-    <app-note-view [notes]="appt.dog?.notes ?? []" [dogId]="appt.dog?.id"/>
+    <app-note-view [notes]="appt.dog.notes" [dogId]="appt.dog.id" (noteAdded)="appendNewNote($event)"/>
     <div class="row space-between">
       <button matButton="outlined" (click)="this.detailView.set(undefined)" type="button">Back</button>
       <button matButton="outlined" (click)="completeAppointment(appt)" type="button">Complete</button>

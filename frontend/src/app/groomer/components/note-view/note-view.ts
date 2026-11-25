@@ -1,11 +1,11 @@
-import { Component, inject, input, InputSignal, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, input, InputSignal, OnInit, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Observable } from 'rxjs';
-import { Note, NoteRequest } from 'src/app/customer/model/customer.model';
+import { Note } from 'src/app/customer/model/customer.model';
 import { DataStore } from 'src/app/data-store/data-store';
 import { NoteService } from 'src/app/note/service/note-service';
 
@@ -24,6 +24,7 @@ import { NoteService } from 'src/app/note/service/note-service';
 export class NoteView implements OnInit {
   notesInput: InputSignal<Note[]> = input.required({alias: 'notes'});
   dogId: InputSignal<number|undefined> = input();
+  noteAdded: OutputEmitterRef<Note> = output();
 
   dataStore = inject(DataStore);
   noteService = inject(NoteService);
@@ -84,6 +85,7 @@ export class NoteView implements OnInit {
         next: (note: Note) => {
           this.notes.update(snapshot => snapshot.with(this.editingIndex(), note));
           this.editingIndex.set(-1);
+          this.noteAdded.emit(note);
         },
         error: () => {
           console.log("Error while adding/updating")
