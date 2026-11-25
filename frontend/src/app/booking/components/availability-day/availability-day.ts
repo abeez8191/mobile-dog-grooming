@@ -54,19 +54,22 @@ export class AvailabilityDay implements OnInit {
     const times = this.availability().times;
 
     while( index < times.length ) {
-      let potentialIndex = this.getNextAvailableWindow(times, index, numberOfSlotsRequired);
-      if( ! potentialIndex ) {
+      let lastIndexInFreeWindow = this.getNextAvailableWindow(times, index, numberOfSlotsRequired);
+      if( ! lastIndexInFreeWindow ) {
+        // We didn't find a free window. Return
         break;
       }
 
-      index = potentialIndex;
+      index = lastIndexInFreeWindow;
 
       // We found our first timeslot, add it to retVal
-      retVal.times.push(times[index - numberOfSlotsRequired][0]);
+      retVal.times.push(times[index - (numberOfSlotsRequired - 1)][0]);
+      index ++; // We have already verified that this one is free in the getNextAvailableWindow method...
 
-      // Keep adding timeslots from index - numberOfSlotsRequired as long as slots at index are free
-      while(index < times.length && times[index++][1] !== 'X') {
-        retVal.times.push(times[index - numberOfSlotsRequired][0]);
+      // Keep adding timeslots from index - (numberOfSlotsRequired - 1 [remember the fence post problem]) as long as slots at index are free
+      while(index < times.length && times[index][1] !== 'X') {
+        retVal.times.push(times[index - (numberOfSlotsRequired - 1)][0]);
+        index++;
       }
 
       // Found a not-available slot, throw away all the intermediate slots and start again
@@ -75,13 +78,20 @@ export class AvailabilityDay implements OnInit {
     return retVal;
   }
 
+  // Returns the index of the last timeslot in an open window:
+  // so if we return a 3 with numberOfSlots == 2, then indexes
+  // 2 and 3 (two slots) are open and we should continue searching
+  // from 3, ie 4, 5, etc.
   getNextAvailableWindow(times: string[][], startingIndex: number, numberOfSlotsRequired: number): number|undefined {
     let windowIndex = 0;
-    while( windowIndex < numberOfSlotsRequired && (startingIndex + windowIndex) < times.length) {
+    while( (startingIndex + windowIndex) < times.length ) {
       if( times[startingIndex + windowIndex][1] === 'X' ) {
         // Start the search all over
-        startingIndex += windowIndex;
-        windowIndex = 1;
+        startingIndex += windowIndex + 1;
+        windowIndex = 0;
+      }
+      else if( windowIndex + 1 === numberOfSlotsRequired ) {
+        break;
       }
       else {
         windowIndex++;
