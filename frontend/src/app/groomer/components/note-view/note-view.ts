@@ -23,7 +23,7 @@ import { NoteService } from 'src/app/note/service/note-service';
 })
 export class NoteView implements OnInit {
   notesInput: InputSignal<Note[]> = input.required({alias: 'notes'});
-  dogId: InputSignal<number|undefined> = input();
+  dogId: InputSignal<number> = input.required();
   noteAdded: OutputEmitterRef<Note> = output();
 
   dataStore = inject(DataStore);
@@ -49,7 +49,7 @@ export class NoteView implements OnInit {
   
   addNote(): void {
     this.noteForm = this.resetForm();
-    this.notes.update(snapshot => (snapshot ?? []).concat({message: '', groomer: {id: -1, firstName: 'none', lastName: 'other'}, updated_on: new Date()}));
+    this.notes.update(snapshot => (snapshot ?? []).concat({message: '', groomer: {id: -1, firstName: 'none', lastName: 'other'}, dog_id: this.dogId()}));
     this.editingIndex.set(this.notes().length - 1);
   }
 
