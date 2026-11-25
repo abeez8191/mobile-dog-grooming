@@ -24,7 +24,6 @@ from profile.views import (
 
 from appointment.views import AppointmentViewSet, ServiceViewSet
 from authentication.views import CustomerCreateAPIView, GroomerCreateAPIView
-from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
@@ -38,7 +37,6 @@ router.register(r'api/dog/(?P<dog>\d+)/note', NoteViewSet, basename='note')
 
 urlpatterns = router.urls
 urlpatterns += [
-    path('admin/', admin.site.urls),
     path(r'api/auth/', include('dj_rest_auth.urls')),
     path(r'api/public/groomer/<int:pk>/availability', PublicGroomerAvailabilityView.as_view()),
     path(r'api/auth/create/customer/', CustomerCreateAPIView.as_view(), name="customer-create"),
