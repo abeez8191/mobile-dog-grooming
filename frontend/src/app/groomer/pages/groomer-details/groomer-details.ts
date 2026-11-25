@@ -68,9 +68,9 @@ export class GroomerDetails implements OnInit{
   createForm(groomer?: Groomer): void {
     this.groomerForm = this.fb.group({
       firstName: [groomer?.firstName || '', [Validators.required]],
-      lastName: [groomer?.lastName || ''],
+      lastName: [groomer?.lastName || '', [Validators.required]],
       email: [groomer?.email || '', [Validators.required, Validators.email]],
-      phoneNumber: [groomer?.phoneNumber || '', [Validators.required, Validators.pattern(new RegExp("^\d{10}$"))]],
+      phoneNumber: [groomer?.phoneNumber || '', [Validators.required, Validators.pattern(new RegExp("^\\d{10}$"))]],
       availability: this.fb.group({
         sun: [(groomer?.availability.sun) ? [this.convert24HourTo12Hour(groomer.availability.sun.start), this.convert24HourTo12Hour(groomer.availability.sun.end)] : []],
         mon: [(groomer?.availability.mon) ? [this.convert24HourTo12Hour(groomer.availability.mon.start), this.convert24HourTo12Hour(groomer.availability.mon.end)] : []],
@@ -201,7 +201,6 @@ export class GroomerDetails implements OnInit{
     }
 
     const retVal = `${hour}:${min} ${isPM ? 'PM' : 'AM'}`;
-    console.log(`Converting ${time} to ${retVal}`);
     return retVal;
   }
 
