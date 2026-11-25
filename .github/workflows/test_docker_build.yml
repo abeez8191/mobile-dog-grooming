@@ -17,13 +17,12 @@ jobs:
       - name: Build Docker Image
         uses: docker/build-push-action@v7
         with:
-          context: ./backend
           push: false
           load: true
 
       - name: Start Container
         run: |
-          cd backend && docker compose up -d
+          docker compose up -d
 
       - name: Run Test
         run: |
@@ -31,10 +30,8 @@ jobs:
           curl --fail http://localhost:8000
 
           # Ensure that the static files are mapped correctly
-          curl --fail http://localhost:8000/static/rest_framework/css/bootstrap.min.css
+          curl --fail http://localhost:8000/img/hero-image.jpeg
 
       - name: Clean Up Container
         if: always()
-        run: |
-          cd backend
-          docker compose down
+        run: docker compose down
