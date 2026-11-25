@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Customer } from '../../model/customer.model';
+import { Customer, NewCustomer } from '../../model/customer.model';
 import { CustomerService } from '../../service/customer-service';
 import { BannerService } from 'src/app/shared/components/banner/banner.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,13 +23,13 @@ export class EditCustomer {
   activeRoute = inject(ActivatedRoute);
   location = inject(Location);
   
-  saveCustomer(customer: Customer): void {
+  saveCustomer(customer: Customer | NewCustomer): void {
     let observable;
-    if( customer?.id ) {
-      observable = this.customerService.updateCustomer(customer!);
+    if( customer.hasOwnProperty('id') ) {
+      observable = this.customerService.updateCustomer(customer as Customer);
     }
     else {
-      observable = this.customerService.createCustomer(customer!);
+      observable = this.customerService.createCustomer(customer as NewCustomer);
     }
 
     observable.subscribe({

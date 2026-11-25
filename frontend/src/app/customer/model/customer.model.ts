@@ -1,5 +1,4 @@
-export interface Customer {
-    id?: number;
+export interface CustomerBase {
     firstName: string;
     lastName: string;
     street: string;
@@ -9,10 +8,14 @@ export interface Customer {
     zipCode: string;
     email: string;
     phoneNumber: string;
-    dogs?: Dog[];
+    dogs: Dog[];
 }
 
-export interface NewCustomer extends Customer {
+export interface Customer extends CustomerBase {
+    id: number;
+}
+
+export interface NewCustomer extends CustomerBase {
     password: string;
 }
 
@@ -27,7 +30,7 @@ export interface Dog {
 export interface Note {
     id?: number;
     message: string;
-    dog_id?: number;
+    dog_id: number;
     groomer: {id: number, firstName: string, lastName: string};
     created_on?: Date;
     updated_on?: Date;

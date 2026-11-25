@@ -1,6 +1,6 @@
 @if( step() === 1 ) {
     @if( this.customerLoaded() ) {
-        <app-customer-information (customerUpdated)="modifyCustomer($event)" [customer]="this.customerSignal()" (back)="goBack()"/>
+        <app-customer-information (customerUpdated)="modifyCustomer($event)" [customer]="customerOrUndefined()" (back)="goBack()"/>
     }
 }
 @else if( step() === 2 ) {

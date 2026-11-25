@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Customer } from '../model/customer.model';
+import { Customer, NewCustomer } from '../model/customer.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class CustomerService {
 
   constructor(private httpClient: HttpClient) {}
 
-  createCustomer(customer: Customer): Observable<Customer> {
+  createCustomer(customer: NewCustomer): Observable<Customer> {
     return this.httpClient.post<Customer>(this.url, customer);
   }
 

@@ -4,9 +4,7 @@ import { CustomerService } from '../../service/customer-service';
 import { BannerService } from 'src/app/shared/components/banner/banner.service';
 import { CustomerInformation } from '../customer-information/customer-information';
 import { DogInformation } from '../dog-information/dog-information';
-import { concatMap } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
-import { CustomerAccountRequest } from 'src/app/authentication/model/authentication.model';
 
 @Component({
   selector: 'app-customer-details',
@@ -26,9 +24,10 @@ export class CustomerDetails implements OnInit {
   isNewCustomer = computed(() => this.updateCustomer() === undefined);
 
   customerLoaded = signal(false);
-  customerSignal = signal<Customer | undefined>(undefined);
+  customerSignal = signal<Customer | NewCustomer | undefined>(undefined);
   dogsSignal = signal<Dog[]>([]);
 
+  customerOrUndefined = computed(() => this.customerSignal() === undefined ? undefined : this.customerSignal() as Customer );
   step = signal(1);
 
   ngOnInit(): void {
@@ -66,7 +65,7 @@ export class CustomerDetails implements OnInit {
 
       let observable;
       if( this.updateCustomer() === undefined ) {
-        observable = this.customerService.createCustomer(customerValue).subscribe({
+        observable = this.customerService.createCustomer(customerValue as NewCustomer).subscribe({
           next: (customer) => {
             this.authenticationService.createCustomer({
               email: customer.email,
@@ -99,7 +98,7 @@ export class CustomerDetails implements OnInit {
         })
       }
       else {
-        observable = this.customerService.updateCustomer(customerValue).subscribe({
+        observable = this.customerService.updateCustomer(customerValue as Customer).subscribe({
           next: (customer) => {
             this.customer.emit(customer);
           },
@@ -119,7 +118,6 @@ export class CustomerDetails implements OnInit {
   }
 
   modifyCustomer(customer: Customer): void {
-    console.log("Modifying customer to ", customer)
     this.customerSignal.set(customer);
     this.step.update(val => val + 1);
   }

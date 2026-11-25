@@ -68,12 +68,10 @@ export class CustomerInformation implements OnInit {
       return;
     }
 
-    let customerData = { ...this.customerForm.value, dogs: this.customer()?.dogs ?? [] }
+    let customerData: Customer = { ...this.customerForm.value, dogs: this.customer()?.dogs ?? [] }
     if( this.customer()?.id ) {
       customerData.id = this.customer()!.id;
     }
-
-    console.log(customerData);
 
     this.customerUpdated.emit(customerData);
   }
