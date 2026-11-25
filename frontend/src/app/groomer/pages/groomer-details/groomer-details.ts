@@ -69,8 +69,8 @@ export class GroomerDetails implements OnInit{
     this.groomerForm = this.fb.group({
       firstName: [groomer?.firstName || '', [Validators.required]],
       lastName: [groomer?.lastName || ''],
-      email: [groomer?.email || '', [Validators.required]],
-      phoneNumber: [groomer?.phoneNumber || '', [Validators.required]],
+      email: [groomer?.email || '', [Validators.required, Validators.email]],
+      phoneNumber: [groomer?.phoneNumber || '', [Validators.required, Validators.pattern(new RegExp("^\d{10}$"))]],
       availability: this.fb.group({
         sun: [(groomer?.availability.sun) ? [this.convert24HourTo12Hour(groomer.availability.sun.start), this.convert24HourTo12Hour(groomer.availability.sun.end)] : []],
         mon: [(groomer?.availability.mon) ? [this.convert24HourTo12Hour(groomer.availability.mon.start), this.convert24HourTo12Hour(groomer.availability.mon.end)] : []],
@@ -147,6 +147,7 @@ export class GroomerDetails implements OnInit{
           this.router.navigate(['..'], {relativeTo: this.activatedRoute});
         },
         error: (error) => {
+          this.isLoading.set(false);
           this.bannerService.open(
             'Unable to create groomer account',
             {

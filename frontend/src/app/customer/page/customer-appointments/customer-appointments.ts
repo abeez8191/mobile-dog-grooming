@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Appointment } from 'src/app/appointment/model/appointment.model';
+import { AppointmentResponse } from 'src/app/appointment/model/appointment.model';
 import { AppointmentService } from 'src/app/appointment/service/appointment-service';
 import { Service } from 'src/app/grooming-service/model/services.model';
 import { BannerService } from 'src/app/shared/components/banner/banner.service';
@@ -17,7 +17,7 @@ export class CustomerAppointments implements OnInit{
   appointmentService = inject(AppointmentService);
   bannerService = inject(BannerService);
 
-  appointments: WritableSignal<Appointment[]> = signal([]);
+  appointments: WritableSignal<AppointmentResponse[]> = signal([]);
   
   ngOnInit(): void {
     this.appointmentService.getAppointments().subscribe({

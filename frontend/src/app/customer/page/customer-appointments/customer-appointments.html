@@ -5,9 +5,9 @@
             <div>{{parseTime(`${appointment.datetime}`)}}</div>
         </div>
         <div class="col service-info">
-            <div><span class="label">Groomer:</span> {{appointment.groomer?.firstName}} {{appointment.groomer?.lastName}}</div>
-            <div><span class="label">Dog:</span> {{appointment.dog?.name}}</div>
-            <div><span class="label">Services:</span> {{appointment.services?.map(service => service.name)?.join(", ")}}</div>
+            <div><span class="label">Groomer:</span> {{appointment.groomer.firstName}} {{appointment.groomer.lastName}}</div>
+            <div><span class="label">Dog:</span> {{appointment.dog.name}}</div>
+            <div><span class="label">Services:</span> {{appointment.services.map(service => service.name).join(", ")}}</div>
             <div><span class="label">Estimated Duration:</span> {{getDuration(appointment.services)}}</div>
             <div><span class="label">Estimated Cost:</span> ${{getPrice(appointment.services)}}</div>
         </div>

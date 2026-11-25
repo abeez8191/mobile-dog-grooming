@@ -11,7 +11,7 @@ import { CustomerService } from 'src/app/customer/service/customer-service';
 import { BannerService } from 'src/app/shared/components/banner/banner.service';
 import { CustomerDetails } from 'src/app/customer/components/customer-details/customer-details';
 import { SelectDog } from '../../components/select-dog/select-dog';
-import { Appointment } from 'src/app/appointment/model/appointment.model';
+import { NewAppointmentRequest } from 'src/app/appointment/model/appointment.model';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -117,7 +117,7 @@ export class Booking {
     });
   }
 
-  createAppointment(appointment: Appointment): void {
+  createAppointment(appointment: NewAppointmentRequest): void {
     this.appointmentService.createAppointment(appointment).subscribe({
       next: (appointment) => {this.next()},
       error: (error) => {
