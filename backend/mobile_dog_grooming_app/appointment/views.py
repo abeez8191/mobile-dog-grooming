@@ -22,7 +22,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                 if self.request.user.customer is not None:
                     return Appointment.objects.select_related("groomer", "customer", "dog")\
                         .prefetch_related("services")\
-                        .filter(customer=self.request.user.customer)
+                        .filter(customer=self.request.user.customer, completed_on=None)
                 elif self.request.user.groomer is not None:
                     query = Appointment.objects.select_related("groomer", "customer", "dog")\
                         .prefetch_related("services")
