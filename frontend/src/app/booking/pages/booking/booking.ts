@@ -80,33 +80,6 @@ export class Booking {
     this.next();
   }
 
-  // createOrUpdateCustomer(): void {
-  //   let observable;
-  //   if( this.dataStore.isLoggedIn() && this.dataStore.customerId() ) {
-  //     observable = this.customerService.updateCustomer(this.customer() as Customer);
-  //   }
-  //   else {
-  //     observable = this.customerService.createCustomer(this.customer() as NewCustomer);
-  //   }
-    
-  //   observable.subscribe({
-  //     next: (customer) => {
-  //       this.customer.set(customer);
-  //       this.next();
-  //     },
-  //     error: (error) => {
-  //       this.bannerService.open(
-  //         'Unable to create customer profile at this time.',
-  //         {
-  //           icon: 'warning_outline',
-  //           warning: true,
-  //           timeout: 10000
-  //         }
-  //       );
-  //     }
-  //   });
-  // }
-
   selectDog(dog: Dog): void {
     this.createAppointment({
       dog_id: dog.id,
