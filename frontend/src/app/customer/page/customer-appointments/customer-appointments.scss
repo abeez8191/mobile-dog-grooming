@@ -6,20 +6,35 @@
     gap: 12px;
 }
 
-.date-time {
-    border: 1px solid grey;
-    padding: 8px 12px;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 1.25rem;
-}
-
 .service-info {
     padding-left: 8px;
 }
 
 .label {
     font-weight: bold;
+}
+
+.cal-month {
+    background: light-dark(red, darkred);
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cal-day {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cal {
+    border: 1px solid grey;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    width: 100px;
 }
