@@ -36,10 +36,10 @@ export interface PublicGroomer {
 }
 
 export interface PublicGroomerAvailabilityResponse {
-    available_slots: PublicGroomerAvailability;
+    available_slots: AvailabilitySlots;
 }
 
-export interface PublicGroomerAvailability {
+export interface AvailabilitySlots {
     sun?: {date: string, times: string[][]};
     mon?: {date: string, times: string[][]};
     tue?: {date: string, times: string[][]};
@@ -49,4 +49,4 @@ export interface PublicGroomerAvailability {
     sat?: {date: string, times: string[][]};
 }
 
-export type PublicGroomerAvailabilityKey = keyof PublicGroomerAvailability;
+export type AvailabilitySlotsKey = keyof AvailabilitySlots;

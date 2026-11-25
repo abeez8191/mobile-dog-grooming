@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Groomer, PublicGroomer, PublicGroomerAvailability, PublicGroomerAvailabilityResponse } from '../model/groomer.model';
+import { Groomer, PublicGroomer, AvailabilitySlots, PublicGroomerAvailabilityResponse } from '../model/groomer.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,7 @@ export class GroomerService {
     return this.httpClient.get<PublicGroomer[]>(`/public/groomer/`);
   }
 
-  getPublicGroomerAvailability(id: number, date?: Date): Observable<PublicGroomerAvailability> {
+  getPublicGroomerAvailability(id: number, date?: Date): Observable<AvailabilitySlots> {
     let params = new HttpParams();
     console.log(date);
     if( date ) {

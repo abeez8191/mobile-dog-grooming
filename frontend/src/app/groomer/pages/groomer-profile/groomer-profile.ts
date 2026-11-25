@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { GroomerService } from '../../service/groomer-service';
-import { Groomer, PublicGroomerAvailabilityKey } from '../../model/groomer.model';
+import { Groomer, AvailabilitySlotsKey } from '../../model/groomer.model';
 import { AuthenticationService } from 'src/app/authentication/service/authentication-service';
 import { DataStore } from 'src/app/data-store/data-store';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,8 +34,8 @@ export class GroomerProfile implements OnInit{
     });
   }
 
-  getAvailableDays(): PublicGroomerAvailabilityKey[] {
-    return ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as PublicGroomerAvailabilityKey[];
+  getAvailableDays(): AvailabilitySlotsKey[] {
+    return ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as AvailabilitySlotsKey[];
   }
 
   editGroomer(): void {
