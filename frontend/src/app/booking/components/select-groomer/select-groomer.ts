@@ -2,6 +2,7 @@ import { Component, inject, OnInit, output, OutputEmitterRef, signal, WritableSi
 import { GroomerService } from 'src/app/groomer/service/groomer-service';
 import { PublicGroomer } from 'src/app/groomer/model/groomer.model';
 import { MatButtonModule } from '@angular/material/button';
+import { BannerService } from 'src/app/shared/components/banner/banner.service';
 
 @Component({
   selector: 'app-select-groomer',
@@ -13,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class SelectGroomer implements OnInit {
   private readonly groomerService = inject(GroomerService);
+  private readonly bannerService = inject(BannerService);
+  
   select: OutputEmitterRef<number> = output();
 
   groomers: WritableSignal<PublicGroomer[]> = signal([]);
@@ -21,6 +24,16 @@ export class SelectGroomer implements OnInit {
     this.groomerService.getPublicGroomers().subscribe({
       next: (groomers) => {
         this.groomers.set(groomers);
+      },
+      error: (error) => {
+        this.bannerService.open(
+          'Unable to retrieve available groomers. Please try again later.',
+          {
+            icon: 'warning_outline',
+            warning: true,
+            timeout: 10000
+          }
+        )
       }
     });
   }
