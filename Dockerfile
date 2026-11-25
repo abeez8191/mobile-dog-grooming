@@ -1,4 +1,12 @@
+FROM node:22-alpine AS build
+WORKDIR /app
 
+COPY ./frontend/package.json ./frontend/package-lock.json ./
+RUN npm ci
+
+COPY ./frontend .
+
+RUN npm run build -- --configuration=production
 
 FROM python:3.15-slim
 
@@ -11,6 +19,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apache2 \
     apache2-dev \
     && rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /app/dist/mobile_dog_grooming_frontend/browser /var/www/mobile_dog_grooming_frontend/dist/browser
 
 # Set working directory inside the container
 WORKDIR /var/www/mobile_dog_grooming_app
@@ -27,19 +37,14 @@ RUN mod_wsgi-express module-config >/etc/apache2/mods-available/wsgi.load
 
 # Copy Apache configuration and enable it
 COPY ./backend/apache/apache.conf /etc/apache2/sites-available/apache.conf
-RUN a2dissite 000-default.conf && a2ensite apache.conf && a2enmod wsgi && a2enmod headers rewrite proxy proxy_http
-
-RUN mkdir /var/log/django && chown www-data /var/log/django && chmod 700 /var/log/django
+RUN a2dissite 000-default.conf && a2ensite apache.conf && a2enmod wsgi headers rewrite
 
 # Copy the Django code
 COPY ./backend/mobile_dog_grooming_app/ .
 
-# Run collectstatic to prepare the static file path for Apache and delete the log file since it'll be owned by root
-RUN python manage.py collectstatic --noinput && chown www-data:www-data /var/log/django -R
-
-WORKDIR /var/www/mobile_dog_grooming_frontend
-COPY ./frontend/dist/mobile_dog_grooming_frontend/browser ./dist/browser
-RUN chown www-data:www-data -R /var/www/mobile_dog_grooming_frontend
+RUN chown -R www-data:www-data /var/www/mobile_dog_grooming_frontend
+RUN mkdir /var/log/django && chown www-data:www-data /var/log/django
+RUN chown -R www-data:www-data /var/log/django
 
 # Expose HTTP port
 EXPOSE 80
