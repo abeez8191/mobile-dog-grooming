@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CustomerConsole } from './customer-console';
+import { Console } from 'src/app/shared/components/console/console';
 
 describe('CustomerConsole', () => {
   let component: CustomerConsole;
@@ -8,7 +9,7 @@ describe('CustomerConsole', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CustomerConsole],
+      imports: [CustomerConsole, Console],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CustomerConsole);
