@@ -41,3 +41,9 @@
 .space-between {
     justify-content: space-between;
 }
+
+.canceled {
+    background-color: light-dark(red, darkred);
+    border-color: light-dark(red, darkred);
+    color: light-dark(black, white);
+}

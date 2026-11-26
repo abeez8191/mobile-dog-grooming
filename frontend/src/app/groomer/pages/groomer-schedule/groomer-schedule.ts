@@ -6,6 +6,7 @@ import {
   CalendarEvent,
   CalendarModule,
 } from 'angular-calendar';
+import {EventColor} from 'calendar-utils';
 import { AppointmentResponse, convertAppointmentResponseToUpdateAppointmentRequest } from 'src/app/appointment/model/appointment.model';
 import { AppointmentService } from 'src/app/appointment/service/appointment-service';
 import { DataStore } from 'src/app/data-store/data-store';
@@ -75,9 +76,14 @@ export class GroomerSchedule implements OnInit{
       prefix = `[${appointment.groomer!.firstName} ${appointment.groomer!.lastName}]`
     }
 
+    let color: EventColor = { primary: 'var(--mat-sys-primary)', secondary: 'var(--mat-sys-secondary-container)', secondaryText: 'var(--mat-sys-on-secondary-container)' };
+    
     let suffix = "";
     if( appointment.completed_on ) {
       suffix = '(COMPLETED)';
+    }
+    else if( appointment.deleted_on ) {
+      suffix = '(CANCELED)';
     }
 
     const retVal = {
@@ -85,7 +91,8 @@ export class GroomerSchedule implements OnInit{
       start: startDate,
       end: new Date(startDate.getTime() + ((30 + minutes) * 60000)),
       title: `${prefix} ${appointment.customer!.firstName} ${appointment.customer!.lastName} ${suffix}`,
-      color: { primary: 'var(--mat-sys-primary)', secondary: 'var(--mat-sys-secondary-container)', secondaryText: 'var(--mat-sys-on-secondary-container)' }
+      color,
+      cssClass: (appointment.deleted_on) ? 'canceled' : ''
     }
 
     return retVal;

@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 from appointment.models import Appointment
 from authentication.models import ApplicationUser
 from django.utils import timezone
-from rest_framework import status, viewsets
+from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -27,12 +27,26 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    
+    def get_queryset(self): # type: ignore[override]
+        if self.request.user.is_superuser:
+            return Customer.objects.all()
+        elif isinstance(self.request.user, ApplicationUser) and self.request.user.customer:
+            return Customer.objects.filter(id=self.request.user.customer.id) #type: ignore
+        
+        raise PermissionDenied("Not Authorized")
 
 class GroomerViewSet(viewsets.ModelViewSet):
-    queryset = Groomer.objects.all()
     serializer_class = GroomerSerializer
+    
+    def get_queryset(self): # type: ignore[override]
+        if self.request.user.is_superuser:
+            return Groomer.objects.all()
+        elif isinstance(self.request.user, ApplicationUser) and self.request.user.groomer:
+            return Groomer.objects.filter(id=self.request.user.groomer.id) #type: ignore
+        
+        raise PermissionDenied("Not Authorized")
 
 """ Gets all or one groomer's *public* information """
 class PublicGroomerViewSet(ReadOnlyModelViewSet):
@@ -141,23 +155,30 @@ class PublicGroomerAvailabilityView(APIView):
     
 class NoteViewSet(viewsets.ModelViewSet):
     serializer_class = NoteSerializer
-    #permission_classes = [permissions.IsAuthenticated]
     
     def get_queryset(self): # type: ignore[override]
-        dog_id = self.kwargs['dog']
-        if isinstance(self.request.user, ApplicationUser):
-            return Note.objects.filter(groomer=self.request.user.groomer, dog_id=dog_id)
+        if self.request.user.is_authenticated:
+            dog_id = self.kwargs['dog']
+            if isinstance(self.request.user, ApplicationUser):
+                return Note.objects.filter(groomer=self.request.user.groomer, dog_id=dog_id)
 
-        return []
+        raise PermissionDenied("Not Authorized")
         
     def perform_create(self, serializer):
-        dog_id = self.kwargs['dog']
-        if isinstance(self.request.user, ApplicationUser):
-            serializer.save(groomer=self.request.user.groomer, dog_id=dog_id)
+        if self.request.user.is_authenticated:
+            dog_id = self.kwargs['dog']
+            if isinstance(self.request.user, ApplicationUser):
+                serializer.save(groomer=self.request.user.groomer, dog_id=dog_id)
+                return
+            
+        raise PermissionDenied("Not Authorized")
             
     def perform_update(self, serializer):
-        if isinstance(self.request.user, ApplicationUser):
-            if serializer.instance.groomer != self.request.user.groomer:
-                raise PermissionDenied("You can't update a note you didn't write.")
-            else:
-                serializer.save()
+        if self.request.user.is_authenticated:
+            if isinstance(self.request.user, ApplicationUser):
+                if serializer.instance.groomer != self.request.user.groomer:
+                    raise PermissionDenied("You can't update a note you didn't write.")
+                else:
+                    serializer.save()
+                return
+        raise PermissionDenied("Not Authorized")

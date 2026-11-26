@@ -72,7 +72,21 @@ export class CustomerDetails implements OnInit {
               password: (customerValue as NewCustomer).password!,
               customer: customer.id!
             }).subscribe({
-              next: (response) => this.customer.emit(customer),
+              next: (response) => {
+                this.authenticationService.login({email: customer.email, password: (customerValue as NewCustomer).password}).subscribe({
+                  next: (response) => this.customer.emit(customer),
+                  error: () => { 
+                    this.bannerService.open(
+                      'Customer account created, but unable to login',
+                      {
+                        icon: 'error_icon',
+                        error: true,
+                        timeout: 10000
+                      }
+                    );
+                  }
+                })
+              },
               error: (error) => {
                 this.bannerService.open(
                   'Unable to create customer at this time.',

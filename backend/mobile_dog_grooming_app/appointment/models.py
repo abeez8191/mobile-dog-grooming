@@ -21,3 +21,5 @@ class Appointment(models.Model):
     datetime = models.DateTimeField(validators=[MinValueValidator(timezone.now)])
     services = models.ManyToManyField(Service, related_name="appointment")
     completed_on = models.DateTimeField(null=True)
+    deleted_on = models.DateTimeField(null=True)
+    deleted_by = models.CharField(max_length=8, null=True)

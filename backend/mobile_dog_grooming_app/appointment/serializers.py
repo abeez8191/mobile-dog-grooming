@@ -30,7 +30,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ['id', 'dog', 'dog_id', 'customer', 'customer_id', 'groomer', 'groomer_id', 'datetime', 'services', 'service_ids', 'completed_on']
+        fields = ['id', 'dog', 'dog_id', 'customer', 'customer_id', 'groomer', 'groomer_id', 'datetime', 'services', 'service_ids', 'completed_on', 'deleted_on']
 
     def create(self, validated_data):
         logger.info(f"Inside create(): {validated_data}")

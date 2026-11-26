@@ -28,10 +28,10 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r'api/customer', CustomerViewSet)
+router.register(r'api/customer', CustomerViewSet, basename='customer')
 router.register(r'api/public/groomer', PublicGroomerViewSet, basename='public-groomer')
-router.register(r'api/groomer', GroomerViewSet)
-router.register(r'api/service', ServiceViewSet)
+router.register(r'api/groomer', GroomerViewSet, basename='groomer')
+router.register(r'api/service', ServiceViewSet, basename='service')
 router.register(r'api/appointment', AppointmentViewSet, basename='appointment')
 router.register(r'api/dog/(?P<dog>\d+)/note', NoteViewSet, basename='note')
 

@@ -23,6 +23,7 @@ export interface AppointmentResponse {
     datetime: Date;
     services: Service[];
     completed_on?: Date;
+    deleted_on?: Date;
 }
 
 export function convertAppointmentResponseToUpdateAppointmentRequest(request: AppointmentResponse): UpdateAppointmentRequest {
