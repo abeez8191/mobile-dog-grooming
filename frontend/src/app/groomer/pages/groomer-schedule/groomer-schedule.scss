@@ -1,0 +1,49 @@
+.day-viewer-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.header {
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.grow {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.detail-view {
+    font-size: 1.15rem;
+    font-weight:lighter;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 200px 1fr; /* Creates 2 equal columns */
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.right-side {
+    justify-content: end;
+}
+
+.appointment-details {
+    width: fit-content;
+    font-size: 1.15rem;
+    font-weight: lighter;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.canceled {
+    background-color: light-dark(red, darkred);
+    border-color: light-dark(red, darkred);
+    color: light-dark(black, white);
+}

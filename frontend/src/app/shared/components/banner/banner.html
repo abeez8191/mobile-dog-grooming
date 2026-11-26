@@ -1,0 +1,58 @@
+@if (isVisible()) {
+    <div
+    class="app-mat-banner__animator"
+    animate.enter="app-mat-banner--entering"
+    animate.leave="app-mat-banner--leaving"
+    >
+        <div
+            class="app-mat-banner__surface"
+            [class.app-mat-banner__surface--elevated]="resolvedElevated()"
+        >
+            <div class="app-mat-banner__container">
+            <div class="app-mat-banner__content">
+                @if (resolvedIcon(); as iconName) {
+                <div class="app-mat-banner__icon-wrapper" aria-hidden="true">
+                    <mat-icon 
+                        [class.error]="resolvedError()"
+                        [class.warning]="resolvedWarning()">
+                        {{ iconName }}
+                    </mat-icon>
+                </div>
+                }
+
+                <div class="app-mat-banner__text">
+                @if (serviceBanner(); as active) {
+                    {{ active.config.message }}
+                } @else {
+                    <ng-content />
+                }
+                </div>
+            </div>
+
+            <div class="app-mat-banner__actions">
+                @if (resolvedSecondaryLabel(); as secondaryLabel) {
+                <button
+                    matButton
+                    type="button"
+                    (click)="onSecondaryAction()"
+                >
+                    {{ secondaryLabel }}
+                </button>
+                }
+
+                @if (resolvedPrimaryLabel(); as primaryLabel) {
+                <button
+                    matButton
+                    type="button"
+                    (click)="onPrimaryAction()"
+                >
+                    {{ primaryLabel }}
+                </button>
+                }
+
+                <ng-content select="[bannerActions]" />
+            </div>
+            </div>
+        </div>
+    </div>
+}

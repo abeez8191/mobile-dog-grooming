@@ -3,3 +3,4 @@ psycopg[binary,pool]
 mod_wsgi
 Pillow
 djangorestframework
+dj-rest-auth

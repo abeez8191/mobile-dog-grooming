@@ -1,8 +1,10 @@
-from rest_framework import serializers
-from .models import Service, Appointment
-from profile.models import Customer, Groomer
-
 import logging
+from profile.models import Customer, Dog, Groomer
+from profile.serializers import CustomerSerializer, DogSerializer, GroomerNameSerializer
+
+from rest_framework import serializers
+
+from .models import Appointment, Service
 
 logger = logging.getLogger(__name__)
 
@@ -12,16 +14,23 @@ class ServiceSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price', 'duration']
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    customer = serializers.PrimaryKeyRelatedField(queryset=Customer.objects.all())
-    groomer = serializers.PrimaryKeyRelatedField(queryset=Groomer.objects.all())
-    services = serializers.PrimaryKeyRelatedField(
+    dog_id = serializers.PrimaryKeyRelatedField(queryset=Dog.objects.all(), write_only=True, source='dog')
+    dog = DogSerializer(read_only=True)
+    customer_id = serializers.PrimaryKeyRelatedField(queryset=Customer.objects.all(), write_only=True, source='customer')
+    customer = CustomerSerializer(read_only=True)
+    groomer_id = serializers.PrimaryKeyRelatedField(queryset=Groomer.objects.all(), write_only=True, source='groomer')
+    groomer = GroomerNameSerializer(read_only=True)
+    service_ids = serializers.PrimaryKeyRelatedField(
         many=True,
-        queryset=Service.objects.all()
+        queryset=Service.objects.all(),
+        write_only=True,
+        source='services'
     )
+    services = ServiceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Appointment
-        fields = ['id', 'customer', 'groomer', 'datetime', 'services']
+        fields = ['id', 'dog', 'dog_id', 'customer', 'customer_id', 'groomer', 'groomer_id', 'datetime', 'services', 'service_ids', 'completed_on', 'deleted_on']
 
     def create(self, validated_data):
         logger.info(f"Inside create(): {validated_data}")
@@ -37,9 +46,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
         service_data = validated_data.pop('services', None)
 
         logger.info(f"Validated Data: {validated_data}")
-        instance.customer = validated_data.get('customer', instance.customer)
+        instance.dog = validated_data.get('dog', instance.dog)
         instance.groomer = validated_data.get('groomer', instance.groomer)
         instance.datetime = validated_data.get('datetime', instance.datetime)
+        instance.completed_on = validated_data.get('completed_on', instance.completed_on)
 
         if service_data is not None:
             instance.services.set(service_data)

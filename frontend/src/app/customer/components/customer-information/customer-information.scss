@@ -1,0 +1,27 @@
+hr {
+    width: 100%;
+    margin: 0px 16px;
+    display: inline-block;
+    height: 1px;
+}
+
+.center-items {
+    align-items: center;
+}
+
+mat-form-field.full-width {
+    width: 100%;
+}
+
+mat-form-field.half-width {
+    width: 50%;
+
+}
+
+.row {
+    gap: 8px;
+}
+
+.space-between {
+    justify-content: space-between;
+}

@@ -1,0 +1,76 @@
+<form [formGroup]="customerForm">
+    <div class="row">
+        <mat-form-field class="half-width">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" formControlName="firstName"/>
+        </mat-form-field>
+        <mat-form-field class="half-width">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" formControlName="lastName"/>
+        </mat-form-field>
+    </div>
+    <div class="row center-items">
+        <hr /><h2>Address</h2><hr />
+    </div>
+    <div class="row">
+        <mat-form-field class="full-width">
+            <mat-label>Street</mat-label>
+            <input matInput type="text" formControlName="street" />
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="full-width">
+            <mat-label>Street 2</mat-label>
+            <input matInput type="text" formControlName="street2" />
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field>
+            <mat-label>City</mat-label>
+            <input matInput type="text" formControlName="city" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>State</mat-label>
+            <input matInput type="text" formControlName="state" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Zip Code</mat-label>
+            <input matInput type="text" formControlName="zipCode" />
+            @if( customerForm.get('zipCode')?.hasError('pattern') ) {
+                <mat-error>
+                    Zipcode must be 5 digits
+                </mat-error>
+            }
+        </mat-form-field>
+    </div>
+    <div class="row center-items">
+        <hr /><h2>Contact</h2><hr />
+    </div>
+    <div class="row">
+        <mat-form-field class="half-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="text" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field class="half-width">
+            <mat-label>Phone Number</mat-label>
+            <input matInput type="text" formControlName="phoneNumber" />
+            @if( customerForm.get('phoneNumber')?.hasError('pattern') ) {
+                <mat-error>
+                    Phone number must be 10 digits
+                </mat-error>
+            }
+        </mat-form-field>
+    </div>
+    @if( this.isNewCustomer() ) {
+    <div>
+        <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+    </div>
+    }
+    <div class="row space-between">
+        <button matButton="outlined" (click)="goBack()" type="button">Back</button>
+        <app-loading-button [isLoading]="isSubmitting()" (click)="createCustomer()">Next</app-loading-button>
+    </div>
+</form>

@@ -1,0 +1,35 @@
+@if( groomer(); as g) {
+    <div class="col">
+        <div class="row">
+            <img class="profile" src="{{g.photoData}},{{g.photo}}" />
+            <div class="col">
+                <div class="name">{{g.firstName}} {{g.lastName}}</div>
+                <div><a href="mailto:{{g.email}}">{{g.email}}</a></div>
+                <div class="phone">{{g.phoneNumber}}</div>
+            </div>
+        </div>
+        <div class="row gapped">
+            @for(day of getAvailableDays(); track day) {
+                <div class="col day">
+                    <div class="day-name">{{day.toUpperCase()}}</div>
+                    @if( g.availability[day] ) {
+                        <div class="avail-times">
+                            <div>{{convert24HourTo12Hour(g.availability[`${day}`]?.start!)}}</div>
+                            <div>{{convert24HourTo12Hour(g.availability[`${day}`]?.end!)}}</div>
+                        </div>
+                    }
+                    @else {
+                        <div class="no-times">
+                            <div>N/A</div>
+                        </div>
+                    }
+                    
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="half-width">{{g.biography}}</div>
+            <div class="half-width"><button matButton="filled" (click)="editGroomer()">Edit</button></div>
+        </div>
+    </div>
+}

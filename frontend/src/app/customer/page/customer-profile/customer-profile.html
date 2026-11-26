@@ -1,0 +1,31 @@
+@if( this.customer(); as c ) {
+    <div class="col">
+        <div class="row center-items">
+            <hr /><h2>Contact Information</h2><hr />
+        </div>
+        <div class="name">{{c.firstName}} {{c.lastName}}</div>
+        <div class="email">{{c.email}}</div>
+        <div class="phoneNumber">{{c.phoneNumber}}</div>
+        <div class="row center-items">
+            <hr /><h2>Address</h2><hr />
+        </div>
+        <div>{{c.street}}</div>
+        @if(c.street2) {
+        <div>{{c.street2}}</div>
+        }
+        <div>{{c.city}}, {{c.state}} {{c.zipCode}}</div>
+    </div>
+
+    <div class="row center-items">
+        <hr /><h2>Dogs</h2><hr />
+    </div>
+    <div class="row">
+    @for( dog of customer()?.dogs; track dog.id ) {
+        <div class="col dog">
+            <div>{{dog.name}}</div>
+            <div>{{dog.breed}}</div>
+        </div>
+    }
+    </div>
+    <div><button matButton="filled" (click)="edit()">Edit</button></div>
+}

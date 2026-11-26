@@ -1,0 +1,23 @@
+@if( isLoading() ) {
+    <mat-spinner></mat-spinner>
+}
+@else {
+    @for( service of services(); track service.id ) {
+        <div class="row">
+            <div class="service">{{service.name}}</div>
+            <div class="price">${{service.price}}</div>
+            <div class="action">
+                @if( selectedServices().findIndex(s => s.id === service.id) > -1 ) {
+                    <button matIconButton (click)="removeService(service)"><mat-icon>remove</mat-icon></button>
+                }
+                @else {
+                    <button matIconButton (click)="addService(service)"><mat-icon>add</mat-icon></button>
+                }
+            </div>
+        </div>
+    }
+    <div class="row space-between">
+        <button matButton="outlined" type="button" (click)="previous()">Back</button>
+        <button matButton="filled" type="submit" (click)="next()">Next</button>
+    </div>
+}

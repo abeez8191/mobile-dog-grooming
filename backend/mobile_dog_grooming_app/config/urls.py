@@ -14,22 +14,31 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from rest_framework.routers import DefaultRouter
-from django.contrib import admin
-from django.urls import path
+from profile.views import (
+    CustomerViewSet,
+    GroomerViewSet,
+    NoteViewSet,
+    PublicGroomerAvailabilityView,
+    PublicGroomerViewSet,
+)
 
-from appointment.views import ServiceViewSet, AppointmentViewSet
-from profile.views import CustomerViewSet, GroomerViewSet, PublicGroomerViewSet, PublicGroomerAvailabilityView
+from appointment.views import AppointmentViewSet, ServiceViewSet
+from authentication.views import CustomerCreateAPIView, GroomerCreateAPIView
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r'api/customer', CustomerViewSet)
+router.register(r'api/customer', CustomerViewSet, basename='customer')
 router.register(r'api/public/groomer', PublicGroomerViewSet, basename='public-groomer')
-router.register(r'api/groomer', GroomerViewSet)
-router.register(r'api/service', ServiceViewSet)
-router.register(r'api/appointment', AppointmentViewSet)
+router.register(r'api/groomer', GroomerViewSet, basename='groomer')
+router.register(r'api/service', ServiceViewSet, basename='service')
+router.register(r'api/appointment', AppointmentViewSet, basename='appointment')
+router.register(r'api/dog/(?P<dog>\d+)/note', NoteViewSet, basename='note')
 
 urlpatterns = router.urls
 urlpatterns += [
-    path('admin/', admin.site.urls),
-    path('api/public/groomer/<int:pk>/availability', PublicGroomerAvailabilityView.as_view())
+    path(r'api/auth/', include('dj_rest_auth.urls')),
+    path(r'api/public/groomer/<int:pk>/availability', PublicGroomerAvailabilityView.as_view()),
+    path(r'api/auth/create/customer/', CustomerCreateAPIView.as_view(), name="customer-create"),
+    path(r'api/auth/create/groomer/', GroomerCreateAPIView.as_view(), name="groomer-create")
 ]

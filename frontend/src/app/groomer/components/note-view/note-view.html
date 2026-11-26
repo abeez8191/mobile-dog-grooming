@@ -1,0 +1,54 @@
+<div>
+    <h2>Notes: </h2>
+    @if( notes().length > 0 ) {
+        <div class="row header">
+            <div class="groomer">Groomer</div>
+            <div class="message">Note</div>
+            <div class="updated-on">Last Updated</div>
+        </div>
+        @for(note of notes(); track note.id) {
+            @if( editingIndex() === $index && this.noteForm ) {
+            <form [formGroup]="noteForm">
+                <div class="row">
+                    <div class="groomer">
+                    </div>
+                    <div class="message">
+                        <mat-form-field>
+                            <mat-label>Note</mat-label>
+                            <textarea type="text" matInput formControlName="message"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="updated-on col">
+                    </div>
+                    <div class="actions action-buttons">
+                        <button matIconButton type="submit" (click)="saveNote(note.id)"><mat-icon>save</mat-icon></button>
+                        <button matIconButton type="button" (click)="cancelEdit(note.id)"><mat-icon>cancel</mat-icon></button>
+                    </div>
+                </div>
+            </form>
+            }
+            @else {
+            <div class="row">
+                <div class="groomer">{{note.groomer.firstName}} {{note.groomer.lastName}}</div>
+                <div class="message">{{note.message}}</div>
+                <div class="updated-on col">
+                    <div>{{getShortDate(notes()[$index].updated_on + "")}}</div>
+                    <div>{{getShortTime(notes()[$index].updated_on + "")}}</div>
+                </div>
+                <div class="actions action-buttons">
+                    @if( note.groomer.id && note.groomer.id === this.dataStore.groomerId()! ) {
+                        <button matIconButton="outlined" type="button" (click)="editNote($index)"><mat-icon>edit</mat-icon></button>
+                        <button matIconButton="outlined" type="button" (click)="deleteNote(note.id!)"><mat-icon>delete</mat-icon></button>
+                    }
+                </div>
+            </div>
+            }
+        }
+    }
+    @else {
+        <div style="text-align: center; width: 100%">No services yet. Please create one using the button below</div>
+    }
+    <div class="row right-side">
+        <button matButton="filled" (click)="addNote()">Add Note</button>
+    </div>
+</div>

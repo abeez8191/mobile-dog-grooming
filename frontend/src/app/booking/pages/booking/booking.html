@@ -1,0 +1,31 @@
+<h1>Booking</h1>
+@if( step() == 1 ) {
+    <h2>Please Choose A Groomer</h2>
+    <app-select-groomer (select)="chooseGroomer($event)"></app-select-groomer>
+}
+@else if( step() === 2 ) {
+    <h2>What Services Will Be Required?</h2>
+    <app-select-services (select)="selectServices($event)" (back)="this.previous()"></app-select-services>
+}
+@else if( step() === 3 ) {
+    <h2>Please Select a Time for Your Appointment</h2>
+    <app-select-time [groomerId]="groomerId()" [duration]="getServicesDuration()" (select)="selectTime($event)" (back)="this.previous()"></app-select-time>
+}
+@else if( step() === 4 ) {
+    @if( dataStore.isCustomer() ) {
+        <h2>Please Review Your Information and Update if Necessary</h2>
+    }
+    @else {
+        <h2>Please Provide Customer Details</h2>
+    }
+    <app-customer-details [updateCustomer]="this.dataStore.customerId() ?? undefined" (back)="this.previous()" (customer)="this.saveCustomer($event)"/>
+}
+@else if( step() === 5 ) {
+    <h2>Select a Dog for the Appointment</h2>
+    <app-select-dog [dogs]="this.customer()?.dogs || []" (dog)="selectDog($event)" (back)="this.previous()" />
+}
+@else if( step() === 6 ) {
+    <h2>Booking Confirmed</h2>
+    <p>We will see you on {{getAppointmentDateTime()}}.</p>
+    <button matButton="filled" (click)="goHome()" >Home</button>
+}

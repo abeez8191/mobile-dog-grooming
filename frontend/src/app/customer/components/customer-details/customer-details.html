@@ -1,0 +1,8 @@
+@if( step() === 1 ) {
+    @if( this.customerLoaded() ) {
+        <app-customer-information (customerUpdated)="modifyCustomer($event)" [customer]="customerOrUndefined()" (back)="goBack()"/>
+    }
+}
+@else if( step() === 2 ) {
+    <app-dog-information [dogs]="this.customerSignal()?.dogs || []" (createDogs)="this.dogsSignal.set($event); submit()" (back)="goBack()"/>
+}

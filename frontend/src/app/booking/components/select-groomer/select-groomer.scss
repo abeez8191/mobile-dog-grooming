@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+img {
+    height: 150px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    padding: 4px 0;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    padding: 0 4px;
+}
+
+.name {
+    margin: 4px 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+.biography {
+    font-style: italic;
+}

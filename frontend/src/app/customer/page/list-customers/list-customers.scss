@@ -1,0 +1,15 @@
+.dog-name {
+    font-weight: bold; 
+    font-size: 1.15rem; 
+    padding-bottom: 4px
+}
+
+.customer + .customer {
+    border-top: 1px solid grey;
+    margin-top: 16px;
+}
+
+.customer-details {
+    border-right: 1px solid;
+    padding-right: 16px;
+}

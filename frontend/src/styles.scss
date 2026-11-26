@@ -4,12 +4,25 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+@use 'angular-calendar/scss/angular-calendar';
 
 :root {
   @include mat.toolbar-overrides((
     container-background-color: var(--mat-sys-primary),
     container-text-color: var(--mat-sys-on-primary)
-  ))
+  ));
+
+  @include mat.dialog-overrides((
+    container-shape: 12px,
+  ));
+
+  @include mat.fab-overrides((
+    container-color: var(--mat-sys-tertiary),
+    foreground-color: var(--mat-sys-on-tertiary),
+    container-shape: var(--mat-sys-corner-large),
+    state-layer-color: light-dark(black, white),
+    ripple-color: color-mix(in srgb, var(--mat-sys-on-tertiary) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent)
+  ));
 }
 
 *, *::before, *::after {
@@ -18,6 +31,7 @@
 
 html {
   height: 100%;
+  color-scheme: light dark;
   @include mat.theme(
     (
       color: (
@@ -34,12 +48,11 @@ body {
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
   // user's system settings.
-  color-scheme: light;
+  color-scheme: light dark;
 
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
 
@@ -48,3 +61,53 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
+
+button {
+    width: 100px;
+
+    @include mat.button-overrides((
+      outlined-container-shape: 4px,
+      filled-container-shape: 4px,
+      text-container-shape: 4px,
+    ));
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+img.profile {
+  height: 150px;
+  width: 150px;
+}
+
+.cal-hour-odd {
+  background-color: light-dark(#f0f0f0, #333) !important;
+}
+
+.cal-week-view {
+  background-color: light-dark(#fff, #000) !important;
+}
+
+.cal-hour-segment:hover {
+  background-color: light-dark(rgba(0,0,0,0.04), rgba(256, 256, 256, 0.2)) !important;
+}
+
+
+.del {
+  @include mat.button-overrides((
+    outlined-outline-color: light-dark(#d32f2f, #CF6679),
+    outlined-label-text-color: light-dark(#d32f2f, #CF6679),
+    outlined-state-layer-color: light-dark(#d32f2f, #CF6679),
+    outlined-ripple-color: rgba(211, 47, 47, 0.2),
+    text-label-text-color: light-dark(#d32f2f, #CF6679),
+    text-state-layer-color: light-dark(#d32f2f, #CF6679),
+    text-ripple-color: rgba(211, 47, 47, 0.2),
+  ));
+}

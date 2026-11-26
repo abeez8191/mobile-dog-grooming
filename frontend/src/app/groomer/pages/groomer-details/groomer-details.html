@@ -25,6 +25,14 @@
                     <input matInput placeholder="Phone Number" type="text" formControlName="phoneNumber" autocomplete="off" data-dashlane-disabled-on-field="true"/>
                 </mat-form-field>
             </div>
+            @if( ! isEdit() ) {
+                <div class="row">
+                    <mat-form-field style="width: 100%">
+                        <mat-label>Password</mat-label>
+                        <input matInput placeholder="Password" type="password" formControlName="password" autocomplete="off" data-dashlane-disabled-on-field="true" />
+                    </mat-form-field>
+                </div>
+            }
         </div>
     </div>
     <div class="col">
@@ -47,7 +55,7 @@
         </mat-form-field>
         <div id="submit-buttons">
             <button matButton="outlined" type="button" (click)="cancelAdd()">Cancel</button>
-            <button matButton="filled" type="submit">{{isEdit() ? 'Save' : 'Add'}}</button>
+            <app-loading-button [isLoading]="isLoading()">{{isEdit() ? 'Save' : 'Add'}}</app-loading-button>
         </div>
     </div>
 </form>

@@ -1,5 +1,4 @@
 <mat-toolbar>
-  <img id="logo" src="logo.png" />
   <span class="title">Company Name</span>
   <span class="flex-grow"></span>
   @if(this.isMobile()) {
@@ -11,7 +10,13 @@
       <li><a mat-button href="#">Home</a></li>
       <li><a mat-button href="#">Services</a></li>
       <li><a mat-button href="#">FAQ</a></li>
-      <li><a class='login-button' matButton="filled" href="#">Login</a></li>
+      @if( dataStore.isLoggedIn() ) {
+        <li><a mat-button (click)="goToConsole()">Console</a></li>
+        <li><a class='login-button' matButton="filled" (click)="logout()">Logout</a></li>
+      }
+      @else {
+        <li><a class='login-button' matButton="filled" (click)="openDialog()">Login</a></li>
+      }
     </ul>
   </nav>
   }
@@ -23,12 +28,15 @@
       <a mat-button href="#">Home</a>
       <a mat-button href="#">Services</a>
       <a mat-button href="#">FAQ</a>
-      <a mat-button href="#">Login</a>
+      <a mat-button (click)="openDialog()">Login</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
+    <app-mat-banner useService />
     <div id='main-content' class="flex-grow">
-      <router-outlet />
+      <div class="width-containment">
+        <router-outlet />
+      </div>
     </div>
     <footer>
       <div id="social_media">

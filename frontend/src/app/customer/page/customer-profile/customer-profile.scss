@@ -1,0 +1,28 @@
+:host {
+    font-size: 1.05rem;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+hr {
+    width: 100%;
+    margin: 0px 16px;
+    display: inline-block;
+    height: 1px;
+}
+
+.center-items {
+    align-items: center;
+
+    h2 {
+        white-space: nowrap;
+    }
+}
+
+.dog {
+    width: 100px;
+    height: 100px;
+}

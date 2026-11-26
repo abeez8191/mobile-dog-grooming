@@ -1,0 +1,40 @@
+@use '@angular/material' as mat;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.service-info {
+    padding-left: 8px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.cal-month {
+    background: light-dark(red, darkred);
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cal-day {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cal {
+    border: 1px solid grey;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    width: 100px;
+}

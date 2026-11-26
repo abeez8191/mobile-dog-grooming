@@ -1,0 +1,64 @@
+<div class="header row">
+    <div class="name">Name</div>
+    <div class="price">Price</div>
+    <div class="duration">Duration (mins)</div>
+    <div class="actions">Actions</div>
+</div>
+
+@if( isLoading() ) {
+    <div class="row center">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+}
+@else {
+    @if( services().length > 0 ) {
+        @for(service of services(); track service.id) {
+            @if( editingIndex() === $index && this.serviceForm ) {
+            <form [formGroup]="serviceForm">
+                <div class="row">
+                    <div class="name">
+                        <mat-form-field>
+                            <mat-label>Name</mat-label>
+                            <input matInput type="text" formControlName="name" autofocus/>
+                        </mat-form-field>
+                    </div>
+                    <div class="price">
+                        <mat-form-field>
+                            <mat-label>Price</mat-label>
+                            <input matInput type="text" formControlName="price"/>
+                        </mat-form-field>
+                    </div>
+                    <div class="duration">
+                        <mat-form-field>
+                            <mat-label>Duration (mins)</mat-label>
+                            <input matInput type="text" formControlName="duration"/>
+                        </mat-form-field>
+                    </div>
+                    <div class="actions action-buttons">
+                        <button matIconButton type="submit" (click)="saveService(service.id)"><mat-icon>save</mat-icon></button>
+                        <button matIconButton type="button" (click)="cancelEdit(service.id)"><mat-icon>cancel</mat-icon></button>
+                    </div>
+                </div>
+            </form>
+            }
+            @else {
+            <div class="row">
+                <div class="name">{{service.name}}</div>
+                <div class="price">{{service.price}}</div>
+                <div class="duration">{{service.duration}}</div>
+                <div class="actions action-buttons">
+                    <button matIconButton="outlined" type="button" (click)="editService($index)"><mat-icon>edit</mat-icon></button>
+                    <button matIconButton="outlined" type="button" (click)="deleteService(service.id!)"><mat-icon>delete</mat-icon></button>
+                </div>
+            </div>
+            }
+        }
+    }
+    @else {
+        <div style="text-align: center; width: 100%">No services yet. Please create one using the button below</div>
+    }
+
+    <div class="fab-container">
+        <button id="add-service-fab" matFab (click)="addService()"><mat-icon>add</mat-icon></button>
+    </div>
+}
